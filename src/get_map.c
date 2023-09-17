@@ -1,4 +1,5 @@
 #include "../include/cub3d.h"
+#include <string.h>
 
 size_t  ft_strlcpy(char *dest, char *src, size_t size)
 {
@@ -120,6 +121,125 @@ int	open_file(char *path)
 	return (fd);
 }
 
+char *read_file(int fd, t_data *data) {
+    int read_bytes;
+	int size = 0;
+    char buff[2];
+    char *all_line = malloc(1);
+
+    all_line[0] = '\0';
+    while ((read_bytes = read(fd, buff, 1)) != 0) {
+        if (read_bytes == -1) {
+            perror("Error");
+            free(all_line);
+            return (NULL);
+        }
+		buff[1] = '\0';
+		char *tmp = all_line;
+		all_line = ft_strjoin(all_line, buff);
+		free(tmp);
+        size++;
+    }
+	all_line[size] = '\0';
+    return (all_line);
+}
+
+void get_tile(char *str, t_data *data)
+{
+	int i = -1;
+	int j = 0;
+
+	while (str[++i] && j < 2)
+	{
+		if (str[i] == '\n' && str[i + 1] == '\n')
+		{
+			j++;
+			i++;
+		}
+	printf("%c", str[i]);
+	}
+	data->i = i;
+}
+
+char **make_map(char *str, t_data *data)
+{
+	char **map;
+	get_tile(str, data);
+	int tot = data->i;
+	while (str[data->i])
+	{
+		if (str[data->i] == '\n')
+			data->height++;
+		data->i++;
+	}
+	map = malloc(sizeof(char *) * (data->height + 2));
+	printf(RED BOLD "%d\n" RESET, data->height);
+	for (int i = 0; i < data->height + 1; i++)
+	{
+		int len = -1;
+		while (str[++len + tot] != '\n');
+		// printf( RED "%d\n-", len);
+		map[i] = malloc(sizeof(char) * (len + 1));
+		for (int j = 0; j < len; j++)
+		{
+			// printf("%c", str[tot + j]);
+			if (str[tot + j] == 'N'){
+				data->player.x = j;
+				data->player.y = i;}
+			map[i][j] = str[tot + j];
+		}
+		tot += len + 1;
+		map[i][len + 1] = '\0';
+		printf("%s\n", map[i]);
+	}
+	map[data->height + 1] = NULL;
+	// printf("%s\n", map[0]);
+	return (map);
+}
+
+void play(t_data *data)
+{
+	while (1)
+	{
+		printf("\033[2J");
+		int i = -1;
+		while(data->map[++i])
+		{
+			int j = -1;
+			while (data->map[i][++j])
+				data->map[i][j] == 'N' ? printf(RED BOLD "%c" RESET, data->map[i][j]) : data->map[i][j] == '1' ? printf(GREEN "%c" RESET, data->map[i][j]) : printf("%c", data->map[i][j]);
+			printf("\n");
+		}
+		int c = getchar();
+		if (c == 'q')
+			break ;
+		else if (c == 'z' && data->map[data->player.y - 1][data->player.x] == '0')
+		{
+			data->map[data->player.y - 1][data->player.x] = 'N';
+			data->map[data->player.y][data->player.x] = '0';
+			data->player.y--;
+		}
+		else if (c == 's' && data->map[data->player.y + 1][data->player.x] == '0')
+		{
+			data->map[data->player.y + 1][data->player.x] = 'N';
+			data->map[data->player.y][data->player.x] = '0';
+			data->player.y++;
+		}
+		else if (c == 'd' && data->map[data->player.y][data->player.x + 1] == '0')
+		{
+			data->map[data->player.y][data->player.x + 1] = 'N';
+			data->map[data->player.y][data->player.x] = '0';
+			data->player.x++;
+		}
+		else if (c == 'a' && data->map[data->player.y][data->player.x - 1] == '0')
+		{
+			data->map[data->player.y][data->player.x - 1] = 'N';
+			data->map[data->player.y][data->player.x] = '0';
+			data->player.x--;
+		}
+	}
+}
+
 void	set_map_from_file(char *path, t_data *data)
 {
 	int		fd;
@@ -130,6 +250,10 @@ void	set_map_from_file(char *path, t_data *data)
 		perror(RED BOLD "Error" RESET);
 	if (fd == -2 || fd == -1)
 		exit(1);
+	all_line = read_file(fd, data);
+	data->map = make_map(all_line, data);
+	play(data);
+	free(all_line);
 	// all_line = read_file(fd, data);
 	// if (all_line)
 	// 	data->map = split_lines(all_line, data->map_width, NULL, 0);
