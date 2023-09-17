@@ -1,6 +1,6 @@
 #include "../include/cub3d.h"
-#include <string.h>
 
+// TEMPORARY
 size_t  ft_strlcpy(char *dest, char *src, size_t size)
 {
         size_t  j;
@@ -60,6 +60,13 @@ char    *ft_strjoin(char const *s1, char const *s2)
 		return (str);
 }
 
+void free_map(char **map, int height)
+{
+	for (int i = 0; i < height + 1; i++)
+		free(map[i]);
+	free(map);
+}
+
 int	find_file(char **path, char **new_path, int *free_path)
 {
 	int	i;
@@ -74,7 +81,7 @@ int	find_file(char **path, char **new_path, int *free_path)
 				break ;
 			else
 			{
-				printf("\x1b[1;31mError\x1b[0m: Map file must be a\x1b[1;35m .cub\x1b[0m file\n");
+				ft_error(RED BOLD "Error: " RESET "Map file must be a " MAGENTA ".cub " RESET "file\n");
 				return (-2);
 			}
 		}
@@ -148,7 +155,7 @@ void get_tile(char *str, t_data *data)
 {
 	int i = -1;
 	int j = 0;
-
+	// Skip for now
 	while (str[++i] && j < 2)
 	{
 		if (str[i] == '\n' && str[i + 1] == '\n')
@@ -173,27 +180,22 @@ char **make_map(char *str, t_data *data)
 		data->i++;
 	}
 	map = malloc(sizeof(char *) * (data->height + 2));
-	printf(RED BOLD "%d\n" RESET, data->height);
 	for (int i = 0; i < data->height + 1; i++)
 	{
 		int len = -1;
-		while (str[++len + tot] != '\n');
-		// printf( RED "%d\n-", len);
+		while (str[++len + tot] && str[len + tot] != '\n');
 		map[i] = malloc(sizeof(char) * (len + 1));
 		for (int j = 0; j < len; j++)
 		{
-			// printf("%c", str[tot + j]);
 			if (str[tot + j] == 'N'){
 				data->player.x = j;
 				data->player.y = i;}
 			map[i][j] = str[tot + j];
 		}
 		tot += len + 1;
-		map[i][len + 1] = '\0';
-		printf("%s\n", map[i]);
+		map[i][len] = '\0';
 	}
 	map[data->height + 1] = NULL;
-	// printf("%s\n", map[0]);
 	return (map);
 }
 
@@ -252,18 +254,7 @@ void	set_map_from_file(char *path, t_data *data)
 		exit(1);
 	all_line = read_file(fd, data);
 	data->map = make_map(all_line, data);
-	play(data);
 	free(all_line);
-	// all_line = read_file(fd, data);
-	// if (all_line)
-	// 	data->map = split_lines(all_line, data->map_width, NULL, 0);
-	// data->map_copy = new_mapcpy(data->map, data->map_height, data->map_width);
-	// data->map_cave = new_mapcpy(data->map, data->map_height, data->map_width);
-	// if (!data->map_cave || !data->map_copy || !data->map)
-	// {
-	// 	free_all(data);
-	// 	free(all_line);
-	// 	exit(1);
-	// }
-	// free(all_line);
+	play(data);
+	free_map(data->map, data->height);
 }

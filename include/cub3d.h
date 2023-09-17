@@ -6,10 +6,11 @@
 # include <stdlib.h>
 # include <fcntl.h>
 
-# define BOLD "\033[1m"
-# define RESET "\033[0m"
-# define RED "\033[0;31m"
-# define GREEN "\033[0;32m"
+# define BOLD "\x1b[1m"
+# define RESET "\x1b[0m"
+# define RED "\x1b[0;31m"
+# define GREEN "\x1b[0;32m"
+# define MAGENTA "\x1b[0;35m"
 
 typedef struct	s_player
 {
@@ -35,5 +36,6 @@ typedef struct	s_data
 
 void	set_map_from_file(char *path, t_data *data);
 int	ft_strlen(char *str);
+void	ft_error(char *str);
 
 #endif

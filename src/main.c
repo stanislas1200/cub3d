@@ -1,5 +1,6 @@
 #include "../include/cub3d.h"
 
+// TEMPORARY
 int	ft_strlen(char *str)
 {
 	int	i;
@@ -20,7 +21,6 @@ int	main(int ac, char **av)
 	t_data	data;
 
 	data.height = 0;
-
 	if (ac == 2)
 		set_map_from_file(av[1], &data);
 	else
