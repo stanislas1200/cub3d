@@ -1,70 +1,19 @@
 #include "../include/cub3d.h"
 
-// TEMPORARY
-size_t  ft_strlcpy(char *dest, char *src, size_t size)
+void	free_map(t_data *data, int height)
 {
-        size_t  j;
-
-        j = 0;
-        if (size != 0)
-        {
-                while (size - 1 > j && size != 0 && src[j])
-                {
-                        dest[j] = src[j];
-                        j++;
-                }
-                dest[j] = '\0';
-        }
-        return (ft_strlen(src));
+	while (data->map && height >= 0)
+		free(data->map[height--]);
+	if (data->map)
+		free(data->map);
+	data->map = NULL;
 }
 
-size_t  ft_strlcat(char *dest, char *src, size_t size)
+void	error(t_data *data, char *error)
 {
-        size_t  i;
-        size_t  j;
-        size_t  k;
-
-        i = 0;
-        j = 0;
-        k = 0;
-        while (dest[i] && i < size)
-                i++;
-        while (src[j])
-                j++;
-        if (i == size)
-                return (j + size);
-        while (src[k] && i + k < size - 1)
-        {
-                dest[i + k] = src[k];
-                k++;
-        }
-        dest[i + k] = '\0';
-        return (i + j);
-}
-
-char    *ft_strjoin(char const *s1, char const *s2)
-{
-		char    *str;
-		int             len1;
-		int             len2;
-
-		if (!s1 || !s2)
-				return (NULL);
-		len1 = ft_strlen((char *)s1);
-		len2 = ft_strlen((char *)s2);
-		str = (char *)malloc(sizeof(char) * (len1 + len2 + 1));
-		if (!str)
-				return (NULL);
-		ft_strlcpy(str, (char *)s1, len1 + 1);
-		ft_strlcat(str, (char *)s2, len1 + len2 + 1);
-		return (str);
-}
-
-void free_map(char **map, int height)
-{
-	for (int i = 0; i < height + 1; i++)
-		free(map[i]);
-	free(map);
+	ft_error(RED BOLD "Error" RESET ": " YELLOW "Invalid map" RESET ": ");
+	ft_error(error);
+	return (free_map(data, data->height));
 }
 
 int	find_file(char **path, char **new_path, int *free_path)
@@ -76,12 +25,12 @@ int	find_file(char **path, char **new_path, int *free_path)
 	{
 		if ((*path)[i] == '.' && !((*path)[i + 1] == '/' && !(*path)[i - 1]))
 		{
-			if ((*path)[i + 1] == 'c' && (*path)[i + 2] == 'u' && \
-			(*path)[i + 3] == 'b' && (*path)[i + 4] == '\0')
+			if (!ft_strncmp(&(*path)[i + 1], "cub", 4))
 				break ;
 			else
 			{
-				ft_error(RED BOLD "Error: " RESET "Map file must be a " MAGENTA ".cub " RESET "file\n");
+				ft_error(RED BOLD "Error" RESET ": Map file must be a " \
+				MAGENTA ".cub " RESET "file\n");
 				return (-2);
 			}
 		}
@@ -96,13 +45,6 @@ int	find_file(char **path, char **new_path, int *free_path)
 	return (0);
 }
 
-/**
- * Opens a file at the specified path or in ../data/map/ and returns its file descriptor.
- *
- * @param path The path of the file to open.
- *
- * @return Returns the file descriptor of the opened file, or -1 on error.
- */
 int	open_file(char *path)
 {
 	char	*new_path;
@@ -128,116 +70,73 @@ int	open_file(char *path)
 	return (fd);
 }
 
-char *read_file(int fd, t_data *data) {
-    int read_bytes;
-	int size = 0;
-    char buff[2];
-    char *all_line = malloc(1);
+char	*read_file(int fd, t_data *data)
+{
+	int		read_bytes;
+	int		size;
+	char	buff[2];
+	char	*tmp;
+	char	*all_line;
 
-    all_line[0] = '\0';
-    while ((read_bytes = read(fd, buff, 1)) != 0) {
-        if (read_bytes == -1) {
-            perror("Error");
-            free(all_line);
-            return (NULL);
-        }
+	all_line = malloc(1);
+	all_line[0] = '\0';
+	read_bytes = -1;
+	size = 0;
+	while (read_bytes)
+	{
+		read_bytes = read(fd, buff, 1);
+		if (read_bytes == -1)
+			return (perror("Error"), free(all_line), NULL);
 		buff[1] = '\0';
-		char *tmp = all_line;
+		tmp = all_line;
 		all_line = ft_strjoin(all_line, buff);
 		free(tmp);
-        size++;
-    }
+		size++;
+	}
 	all_line[size] = '\0';
-    return (all_line);
+	return (all_line);
 }
 
-void get_tile(char *str, t_data *data)
+void	make_floor(t_data *data)
 {
-	int i = -1;
-	int j = 0;
-	// Skip for now
-	while (str[++i] && j < 2)
+	int	i;
+	int	j;
+
+	i = -1;
+	while (data->map[++i])
 	{
-		if (str[i] == '\n' && str[i + 1] == '\n')
-		{
-			j++;
-			i++;
-		}
-	printf("%c", str[i]);
+		j = -1;
+		while (data->map[i][++j])
+			if (data->map[i][j] == 'F')
+				pg(j, i, rand() % (2), data);
 	}
-	data->i = i;
+	return ;
 }
 
-char **make_map(char *str, t_data *data)
+void	make_door(t_data *data)
 {
-	char **map;
-	get_tile(str, data);
-	int tot = data->i;
-	while (str[data->i])
-	{
-		if (str[data->i] == '\n')
-			data->height++;
-		data->i++;
-	}
-	map = malloc(sizeof(char *) * (data->height + 2));
-	for (int i = 0; i < data->height + 1; i++)
-	{
-		int len = -1;
-		while (str[++len + tot] && str[len + tot] != '\n');
-		map[i] = malloc(sizeof(char) * (len + 1));
-		for (int j = 0; j < len; j++)
-		{
-			if (str[tot + j] == 'N'){
-				data->player.x = j;
-				data->player.y = i;}
-			map[i][j] = str[tot + j];
-		}
-		tot += len + 1;
-		map[i][len] = '\0';
-	}
-	map[data->height + 1] = NULL;
-	return (map);
-}
+	int	i;
+	int	j;
 
-void play(t_data *data)
-{
-	while (1)
+	i == -1;
+	while (data->map[++i])
 	{
-		printf("\033[2J");
-		int i = -1;
-		while(data->map[++i])
+		j = -1;
+		while (data->map[i][++j])
 		{
-			int j = -1;
-			while (data->map[i][++j])
-				data->map[i][j] == 'N' ? printf(RED BOLD "%c" RESET, data->map[i][j]) : data->map[i][j] == '1' ? printf(GREEN "%c" RESET, data->map[i][j]) : printf("%c", data->map[i][j]);
-			printf("\n");
-		}
-		int c = getchar();
-		if (c == 'q')
-			break ;
-		else if (c == 'z' && data->map[data->player.y - 1][data->player.x] == '0')
-		{
-			data->map[data->player.y - 1][data->player.x] = 'N';
-			data->map[data->player.y][data->player.x] = '0';
-			data->player.y--;
-		}
-		else if (c == 's' && data->map[data->player.y + 1][data->player.x] == '0')
-		{
-			data->map[data->player.y + 1][data->player.x] = 'N';
-			data->map[data->player.y][data->player.x] = '0';
-			data->player.y++;
-		}
-		else if (c == 'd' && data->map[data->player.y][data->player.x + 1] == '0')
-		{
-			data->map[data->player.y][data->player.x + 1] = 'N';
-			data->map[data->player.y][data->player.x] = '0';
-			data->player.x++;
-		}
-		else if (c == 'a' && data->map[data->player.y][data->player.x - 1] == '0')
-		{
-			data->map[data->player.y][data->player.x - 1] = 'N';
-			data->map[data->player.y][data->player.x] = '0';
-			data->player.x--;
+			if (i > 1 && i < data->height - 1 && j > 1 && data->map[i][j] == 'X')
+			{
+				if ((data->map[i - 1][j] == 'F' && data->map[i][j + 1] == 'X' \
+				&& data->map[i + 1][j] == 'F' && data->map[i][j - 1] == 'X' \
+				&& j < ft_strlen(data->map[i + 1])) || \
+				data->map[i][j - 1] == 'F' && data->map[i][j + 1] == 'F' \
+				&& data->map[i - 1][j] == 'X' \
+				&& data->map[i + 1][j] == 'X')
+				{
+					if (rand() % (3))
+						data->map[i][j] = 'D';
+				}
+			}
 		}
 	}
 }
@@ -253,8 +152,14 @@ void	set_map_from_file(char *path, t_data *data)
 	if (fd == -2 || fd == -1)
 		exit(1);
 	all_line = read_file(fd, data);
-	data->map = make_map(all_line, data);
+	// generate_random_map(data, 10, 10);
+	make_map(all_line, data);
 	free(all_line);
+	make_door(data);
+	make_floor(data);
+	if (!data->map)
+		return ;
 	play(data);
-	free_map(data->map, data->height);
+	// print_map(data);
+	free_map(data, data->height);
 }

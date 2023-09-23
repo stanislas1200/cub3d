@@ -10,7 +10,13 @@
 #                                                                              #
 # **************************************************************************** #
 
-SRCS = src/main.c src/get_map.c
+SRCS = src/main.c\
+		src/get_map.c\
+		src/propagation.c\
+		src/stack.c\
+		src/utils.c\
+		src/parser.c\
+		src/test.c
 
 INCL = include/cub3d.h
 
