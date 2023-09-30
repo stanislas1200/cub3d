@@ -46,7 +46,6 @@ void	destroy_sprites(t_game *game)
 int	init_sprites(t_game *game)
 {
 	int		i;
-	t_img	**curr;
 
 	i = -1;
 	while (++i <= 3)

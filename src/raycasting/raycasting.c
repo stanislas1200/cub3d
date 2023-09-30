@@ -6,13 +6,13 @@
 /*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/23 14:48:01 by dspilleb          #+#    #+#             */
-/*   Updated: 2023/09/29 12:12:56 by dspilleb         ###   ########.fr       */
+/*   Updated: 2023/09/30 15:52:57 by dspilleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
 
-void	render_wall(t_game *game, t_draw *d, double x, int side);
+void	render_wall(t_game *game, t_draw *d, double x, t_ray *ray);
 void	draw(t_game *game, t_ray *ray, t_draw *d, int s_width);
 int		texture(int side, double ra);
 
@@ -38,6 +38,7 @@ void	draw_rays(t_game *game)
 void	init_drawing(t_game *game, t_draw *d, t_ray *ray, double angle)
 {
 	d->ty_offset = 0;
+	d->realdist = ray->dist;
 	ray->dist *= cos(deg_to_rad(fix_ang(game->player.pa - angle)));
 	d->lineH = (SQUARE * HEIGHT) / ray->dist;
 	d->step = (SQUARE / d->lineH);
@@ -83,11 +84,12 @@ int	texture(int side, double ra)
 		return (1);
 	else if (side == 1 && ra <= 90 || ra >= 270)
 		return (3);
+	return (0);
 }
 
 void	draw(t_game *game, t_ray *ray, t_draw *d, int s_width)
 {
 	drawstripes(game, s_width, 0, d->lineO, game->data->ceiling[2]);
-	render_wall(game, d, (s_width), ray->side);
+	render_wall(game, d, (s_width), ray);
 	drawstripes(game, s_width, d->lineH + d->lineO, HEIGHT, game->data->floor[2]);
 }

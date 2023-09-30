@@ -34,23 +34,23 @@
 // keys
 
 //linux
-# define Z 122
-# define Q 113
-# define D 100
-# define S 115
-# define ESC 65307
-# define A_U 65362
-# define A_D 65364
-# define A_E 65363
-# define A_W 65361
+// # define Z 122
+// # define Q 113
+// # define D 100
+// # define S 115
+// # define ESC 65307
+// # define A_U 65362
+// # define A_D 65364
+// # define A_E 65363
+// # define A_W 65361
 
-//MacOS
-// # define Z 13
-// # define Q 0
-// # define D 2
-// # define S 1
-// # define ESC 53
-// # define F 3
+// MacOS
+# define Z 13
+# define Q 0
+# define D 2
+# define S 1
+# define ESC 53
+# define F 3
 
 typedef struct s_img {
 	void	*image;
@@ -71,6 +71,7 @@ typedef struct drawing {
 	double	texX;
 	double	step;
 	double	tex;
+	double	realdist;
 
 }	t_draw;
 typedef struct ray
