@@ -167,6 +167,8 @@ int update_frame(t_game *game)
 		game->player.pdy = -sin(deg_to_rad(game->player.pa)) * 5.0;
 	}
 	draw_rays(game);
+	// mlx_mouse_move(game->mlx_win, WIDTH/2, HEIGHT/2);
+	// mlx_mouse_hide();
 	mlx_put_image_to_window(game->mlx_ptr, game->mlx_win, game->img.image, 0, 0);
 	return (0);
 }
