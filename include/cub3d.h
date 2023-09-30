@@ -25,28 +25,32 @@
 # define PI3 9.4247779605
 # define HEIGHT 1024
 # define WIDTH 2048
-# define FOV 90
+# define FOV 90.0
+# define NO 0
+# define SO 1
+# define WE 2
+# define EA 3
 
 // keys
 
 //linux
-// # define Z 122
-// # define Q 113
-// # define D 100
-// # define S 115
-// # define ESC 65307
-// # define A_U 65362
-// # define A_D 65364
-// # define A_E 65363
-// # define A_W 65361
+# define Z 122
+# define Q 113
+# define D 100
+# define S 115
+# define ESC 65307
+# define A_U 65362
+# define A_D 65364
+# define A_E 65363
+# define A_W 65361
 
 //MacOS
-# define Z 13
-# define Q 0
-# define D 2
-# define S 1
-# define ESC 53
-# define F 3
+// # define Z 13
+// # define Q 0
+// # define D 2
+// # define S 1
+// # define ESC 53
+// # define F 3
 
 typedef struct s_img {
 	void	*image;
@@ -56,6 +60,19 @@ typedef struct s_img {
 	int		endian;
 }				t_img;
 
+typedef struct sprites {
+	t_img	*wall[4];
+}				t_sprites;
+
+typedef struct drawing {
+	double	lineH;
+	double	lineO;
+	double	ty_offset;
+	double	texX;
+	double	step;
+	double	tex;
+
+}	t_draw;
 typedef struct ray
 {
 	double	rx;
@@ -66,7 +83,8 @@ typedef struct ray
 	int		my;
 	int		mx;
 	int		hit;
-	int		dist;
+	double	dist;
+	int		side;
 }	t_ray;
 
 typedef struct s_node
@@ -112,7 +130,7 @@ typedef struct game
 	t_img		img;
 	t_player	player;
 	t_data		*data;
-
+	t_sprites	sprites;
 }	t_game;
 
 void	set_map_from_file(char *path, t_data *data);
@@ -144,7 +162,6 @@ void	setup_vertical_ray(t_ray *ray, t_game *game);
 void	init_ray(t_ray *ray, t_game *game, double angle, char type);
 
 //render
-void	drawLine2(t_game *game, int x1, int y1, int x2, int y2, int color);
 void	drawstripes(t_game *game, int x1, int y1, int y2, int color);
 
 //movement
@@ -153,8 +170,11 @@ int		key_hook(int key, t_game *game);
 //utils 2
 void	my_mlx_pixel_put(t_img *img, int x, int y, int color);
 double	distance(double x1, double y1, double x2, double y2);
-float	deg_to_rad(int a);
-int		fix_ang(int a);
+double	deg_to_rad(double a);
+double	fix_ang(double a);
 void	*put_img(t_game *data, char *path);
+unsigned int	get_color(t_img *img, int x, int y);
+
+int	end_game(t_game *game);
 
 #endif

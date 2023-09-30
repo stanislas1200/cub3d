@@ -6,7 +6,7 @@
 /*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/23 14:59:57 by dspilleb          #+#    #+#             */
-/*   Updated: 2023/09/23 16:59:41 by dspilleb         ###   ########.fr       */
+/*   Updated: 2023/09/28 12:43:57 by dspilleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,29 +16,27 @@ void	movement(int key, t_game *game)
 {
 	if (key == Z)
 	{
-		printf(RED "%f %f\n", game->player.px, game->player.pdx);
 		game->player.px += game->player.pdx;
 		game->player.py += game->player.pdy;
 	}
 	if (key == S)
 	{
-		printf(RED "%f %f\n", game->player.px, game->player.pdx);
 		game->player.px -= game->player.pdx;
 		game->player.py -= game->player.pdy;
 	}
 	if (key == Q)
 	{
-		game->player.pa -= 5;
-		fix_ang(game->player.pa);
-		game->player.pdx = cos(deg_to_rad(game->player.pa)) * 5;
-		game->player.pdy = -sin(deg_to_rad(game->player.pa)) * 5;
+		game->player.pa -= 5.0;
+		game->player.pa = fix_ang(game->player.pa);
+		game->player.pdx = cos(deg_to_rad(game->player.pa)) * 5.0;
+		game->player.pdy = -sin(deg_to_rad(game->player.pa)) * 5.0;
 	}
 	if (key == D)
 	{
-		game->player.pa += 5;
-		fix_ang(game->player.pa);
-		game->player.pdx = cos(deg_to_rad(game->player.pa)) * 5;
-		game->player.pdy = -sin(deg_to_rad(game->player.pa)) * 5;
+		game->player.pa += 5.0;
+		game->player.pa = fix_ang(game->player.pa);
+		game->player.pdx = cos(deg_to_rad(game->player.pa)) * 5.0;
+		game->player.pdy = -sin(deg_to_rad(game->player.pa)) * 5.0;
 	}
 }
 
@@ -49,13 +47,13 @@ int	can_move(int key, t_game *game)
 
 	if (key == Z)
 	{
-		my = ((int)(game->player.px + game->player.pdx)) >> 6;
-		mx = ((int)(game->player.py + game->player.pdy)) >> 6;
+		mx = ((int)(game->player.px + game->player.pdx * 3)) >> 6;
+		my = ((int)(game->player.py + game->player.pdy * 3)) >> 6;
 	}
 	else if (key == S)
 	{
-		my = ((int)(game->player.px - game->player.pdx)) >> 6;
-		mx = ((int)(game->player.py - game->player.pdy)) >> 6;
+		mx = ((int)(game->player.px - game->player.pdx * 3)) >> 6;
+		my = ((int)(game->player.py - game->player.pdy * 3)) >> 6;
 	}
 	else
 		return (1);
@@ -64,10 +62,11 @@ int	can_move(int key, t_game *game)
 
 int	key_hook(int key, t_game *game)
 {
-	printf(YELLOW "%f %f \n", game->data->player.px,  game->data->player.py);
 	if (can_move(key, game))
 		movement(key, game);
 	draw_rays(game);
 	mlx_put_image_to_window(game->mlx_ptr, game->mlx_win, game->img.image, 0, 0);
+	if (key == ESC)
+		end_game(game);
 	return (0);
 }
