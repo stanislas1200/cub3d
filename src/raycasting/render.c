@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/23 15:01:59 by dspilleb          #+#    #+#             */
-/*   Updated: 2023/09/30 15:53:15 by dspilleb         ###   ########.fr       */
+/*   Updated: 2023/09/30 18:30:26 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,14 @@ void	render_wall(t_game *game, t_draw *d, double x, t_ray *ray)
 		(int)d->texX, (int)texy);
 		if (ray->side)
 			color /= 2;
-		if (d->realdist > 500)
-		{
-			color += 0xFF000000;
-		}
-		else if (d->realdist > 300)
-		{
-			color += 0xFF000000;
-		}
+		// if (d->realdist > 500)
+		// {
+		// 	color += 0xFF000000;
+		// }
+		// else if (d->realdist > 300)
+		// {
+		// 	color += 0xFF000000;
+		// }
 		my_mlx_pixel_put(&game->img, x, start, color);
 		start++;
 	}

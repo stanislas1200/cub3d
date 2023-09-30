@@ -114,6 +114,6 @@ void	make_map(char *str, t_data *data)
 		data->map[i][len] = '\0';
 	}
 	data->map[data->height] = NULL;
-	if (data->player_nb++ == 0)
+	if (data->player_nb == 0)
 		error(data, "No player found\n");
 }
