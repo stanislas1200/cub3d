@@ -9,6 +9,7 @@
 # include <math.h>
 # include <mlx.h>
 # include <limits.h>
+#include <pthread.h>
 
 # define BOLD "\x1b[1m"
 # define RESET "\x1b[0m"
@@ -105,6 +106,7 @@ typedef struct s_player
 	double	pdy;
 	double	pa;
 	int		fov;
+	float		speed;
 }	t_player;
 
 typedef struct s_data
@@ -132,6 +134,9 @@ typedef struct game
 	t_player	player;
 	t_data		*data;
 	t_sprites	sprites;
+	float		old_x;
+	int			keys[4];
+	pthread_t Tid;
 }	t_game;
 
 void	set_map_from_file(char *path, t_data *data);
@@ -164,9 +169,11 @@ void	init_ray(t_ray *ray, t_game *game, double angle, char type);
 
 //render
 void	drawstripes(t_game *game, int x1, int y1, int y2, int color);
+int		update_frame(t_game *game);
 
 //movement
 int		key_hook(int key, t_game *game);
+int		can_move(int key, t_game *game);
 
 //utils 2
 void	my_mlx_pixel_put(t_img *img, int x, int y, int color);

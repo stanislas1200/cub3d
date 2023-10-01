@@ -82,8 +82,16 @@ void	init_player(t_data *data, t_game *game)
 	data->player.py *= SQUARE;
 	data->player.pdx = cos(deg_to_rad(data->player.pa)) * 5;
 	data->player.pdy = -sin(deg_to_rad(data->player.pa)) * 5;
+	data->player.speed = 1.5;
+	game->old_x = WIDTH/2;
+	game->keys[0] = 0;
+	game->keys[1] = 0;
+	game->keys[2] = 0;
+	game->keys[3] = 0;
 	game->player = data->player;
 	game->data = data;
+	data->player.px += (SQUARE/2);
+	data->player.py += (SQUARE/2);
 }
 
 int	end_game(t_game *game)
@@ -91,6 +99,83 @@ int	end_game(t_game *game)
 	destroy_sprites(game);
 	printf(GREEN "----------------\nEXITING GAME\n----------------\n");
 	return(exit(0), 0);
+}
+
+int	event_hook(int x, int y, t_game *game)
+{
+	game->player.pa += (x - game->old_x) / 4;
+	game->player.pa = fix_ang(game->player.pa);
+	game->player.pdx = cos(deg_to_rad(game->player.pa)) * 5.0;
+	game->player.pdy = -sin(deg_to_rad(game->player.pa)) * 5.0;
+	game->old_x = x;
+	return (0);
+}
+
+int keyPressed(int key, t_game *game)
+{
+	if (key == Z)
+		game->keys[0] = 1;
+	if (key == S)
+		game->keys[1] = 1;
+	if (key == Q)
+		game->keys[2] = 1;
+	if (key == D)
+		game->keys[3] = 1;
+	if (key == ESC)
+		end_game(game);
+	return (0);
+}
+
+int keyReleased(int key, t_game *game)
+{
+	if (key == Z)
+		game->keys[0] = 0;
+	if (key == S)
+		game->keys[1] = 0;
+	if (key == Q)
+		game->keys[2] = 0;
+	if (key == D)
+		game->keys[3] = 0;
+	return (0);
+}
+
+int update_frame(t_game *game)
+{
+	if (game->keys[0] && can_move(Z, game))
+	{
+		if (can_move(Z, game))
+		game->player.px += game->player.pdx * game->player.speed;
+		game->player.py += game->player.pdy * game->player.speed;
+	}
+	if (game->keys[1] && can_move(S, game))
+	{
+		game->player.px -= game->player.pdx * game->player.speed;
+		game->player.py -= game->player.pdy * game->player.speed;
+	}
+	if (game->keys[2])
+	{
+		game->player.pa -= 5.0 * game->player.speed / 2;
+		game->player.pa = fix_ang(game->player.pa);
+		game->player.pdx = cos(deg_to_rad(game->player.pa)) * 5.0;
+		game->player.pdy = -sin(deg_to_rad(game->player.pa)) * 5.0;
+	}
+	if (game->keys[3])
+	{
+		game->player.pa += 5.0 * game->player.speed / 2;
+		game->player.pa = fix_ang(game->player.pa);
+		game->player.pdx = cos(deg_to_rad(game->player.pa)) * 5.0;
+		game->player.pdy = -sin(deg_to_rad(game->player.pa)) * 5.0;
+	}
+	draw_rays(game);
+	// mlx_mouse_move(game->mlx_win, WIDTH/2, HEIGHT/2);
+	// mlx_mouse_hide();
+	mlx_put_image_to_window(game->mlx_ptr, game->mlx_win, game->img.image, 0, 0);
+	return (0);
+}
+
+void* play_sound()
+{
+	system("afplay data/sound/test.wav ");
 }
 
 int	main(int ac, char **av)
@@ -113,9 +198,23 @@ int	main(int ac, char **av)
 		return (ft_error(RED BOLD "Error: " RESET "Sprites\n"), 1);
 	draw_rays(&game);
 	mlx_put_image_to_window(game.mlx_ptr, game.mlx_win, game.img.image, 0, 0);
-	mlx_do_key_autorepeaton(game.mlx_ptr);
-	mlx_hook(game.mlx_win, 2, 1L << 0, key_hook, &game);
+	// mlx_do_key_autorepeaton(game.mlx_ptr);
+	mlx_hook(game.mlx_win, 2, 0, keyPressed, &game);
+	mlx_hook(game.mlx_win, 3, 1L << 1, keyReleased, &game);
+	mlx_hook(game.mlx_win, 6, 0L, event_hook, &game);
+	// mlx_hook(game.mlx_win, 2, 1L << 0, key_hook, &game);
+	mlx_loop_hook(game.mlx_ptr, update_frame, &game);
 	mlx_hook(game.mlx_win, 17, 1L << 2, end_game, &game);
+	pthread_create(&game.Tid, NULL, play_sound, NULL);
 	mlx_loop(game.mlx_ptr);
+	// pthread_join(id, NULL);
+	// pid_t pid;
+	// pid = fork();
+	// if (pid)
+	// 	system("afplay data/sound/test.wav ");
+	// else
+	// {
+		
+	// }
 	return (0);
 }
