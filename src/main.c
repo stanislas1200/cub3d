@@ -94,9 +94,26 @@ void	init_player(t_data *data, t_game *game)
 	data->player.py += (SQUARE/2);
 }
 
+void stop_sound()
+{
+	pid_t pid;
+	pid = fork();
+	if (pid == 0)
+	{
+		execlp("pkill", "pkill", "afplay", NULL);
+		exit(0);
+	} else if (pid > 0)
+	{
+		waitpid(pid, NULL, 0);
+	}
+}
+
 int	end_game(t_game *game)
 {
 	destroy_sprites(game);
+    pthread_cancel(game->Tid);
+    stop_sound();
+    pthread_join(game->Tid, NULL);
 	printf(GREEN "----------------\nEXITING GAME\n----------------\n");
 	return(exit(0), 0);
 }
