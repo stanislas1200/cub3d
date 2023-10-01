@@ -9,6 +9,7 @@
 # include <math.h>
 # include <mlx.h>
 # include <limits.h>
+#include <pthread.h>
 
 # define BOLD "\x1b[1m"
 # define RESET "\x1b[0m"
@@ -135,6 +136,7 @@ typedef struct game
 	t_sprites	sprites;
 	float		old_x;
 	int			keys[4];
+	pthread_t Tid;
 }	t_game;
 
 void	set_map_from_file(char *path, t_data *data);

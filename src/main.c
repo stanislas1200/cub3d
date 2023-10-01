@@ -173,9 +173,9 @@ int update_frame(t_game *game)
 	return (0);
 }
 
-int test(t_data *data)
+void* play_sound()
 {
-	return 0;
+	system("afplay data/sound/test.wav ");
 }
 
 int	main(int ac, char **av)
@@ -205,6 +205,16 @@ int	main(int ac, char **av)
 	// mlx_hook(game.mlx_win, 2, 1L << 0, key_hook, &game);
 	mlx_loop_hook(game.mlx_ptr, update_frame, &game);
 	mlx_hook(game.mlx_win, 17, 1L << 2, end_game, &game);
+	pthread_create(&game.Tid, NULL, play_sound, NULL);
 	mlx_loop(game.mlx_ptr);
+	// pthread_join(id, NULL);
+	// pid_t pid;
+	// pid = fork();
+	// if (pid)
+	// 	system("afplay data/sound/test.wav ");
+	// else
+	// {
+		
+	// }
 	return (0);
 }
