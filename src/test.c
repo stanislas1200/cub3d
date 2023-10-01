@@ -12,7 +12,7 @@ void play(t_data *data) // DEV
 		{
 			int j = -1;
 			while (data->map[i][++j])
-				if (i == data->player.y && j == data->player.x)
+				if (i == data->player.py && j == data->player.px)
 					printf(RED BOLD "%c" RESET, data->map[i][j]);
 				else if (data->map[i][j] == 'X')
 					printf(GREEN BOLD "%c" RESET, data->map[i][j]);
@@ -23,14 +23,14 @@ void play(t_data *data) // DEV
 		int c = getchar();
 		if (c == 'q')
 			break ;
-		else if (c == 'z' && data->map[data->player.y - 1][data->player.x] != 'X')
-			data->player.y--;
-		else if (c == 's' && data->map[data->player.y + 1][data->player.x] != 'X')
-			data->player.y++;
-		else if (c == 'd' && data->map[data->player.y][data->player.x + 1] != 'X')
-			data->player.x++;
-		else if (c == 'a' && data->map[data->player.y][data->player.x - 1] != 'X')
-			data->player.x--;
+		else if (c == 'z' && data->map[(int)data->player.py - 1][(int)data->player.px] != 'X')
+			data->player.py--;
+		else if (c == 's' && data->map[(int)data->player.py + 1][(int)data->player.px] != 'X')
+			data->player.py++;
+		else if (c == 'd' && data->map[(int)data->player.py][(int)data->player.px + 1] != 'X')
+			data->player.px++;
+		else if (c == 'a' && data->map[(int)data->player.py][(int)data->player.px - 1] != 'X')
+			data->player.px--;
 	}
 }
 
@@ -47,16 +47,16 @@ void generate_random_map(t_data *data, int height, int width) {
             }
         }
     }
-    data->player.y = rand() % (height - 2) + 1;
-    data->player.x = rand() % (width - 2) + 1;
-    data->map[data->player.y][data->player.x] = 'P';
+    data->player.py = rand() % (height - 2) + 1;
+    data->player.px = rand() % (width - 2) + 1;
+    data->map[(int)data->player.py][(int)data->player.px] = 'P';
 }
 
 void	print_map(t_data *data)
 {
 	
 	printf("Map:\n");
-	printf("Player: %d %d\n", data->player.x, data->player.y);
+	printf("Player: %f %f\n", data->player.px, data->player.py);
 	printf("Player dir: %c\n", data->player.dir);
 	printf("NO: %s\n", data->no);
 	printf("SO: %s\n", data->so);

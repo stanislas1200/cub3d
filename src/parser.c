@@ -27,6 +27,7 @@ void get_wall_texture_path(char **dest, char *str, char *str2, t_data *data)
 void	get_RGB(int dest[3], char c, char *str, t_data *data)
 {
 	if (str[data->i] == c)
+	{
 		if (str[data->i + 1] == ' ' && str[data->i + 2] >= '0' && str[data->i + 2] <= '9')
 		{
 			dest[0] = ft_atoi(&str[data->i + 2]);
@@ -44,6 +45,7 @@ void	get_RGB(int dest[3], char c, char *str, t_data *data)
 		}
 		else
 			return (error(data, "Invalid floor color\n"));
+	}
 }
 
 void get_element(char *str, t_data *data)
@@ -96,8 +98,8 @@ void	make_map(char *str, t_data *data)
 			data->map[i][j] = str[tot + j];
 			if (str[tot + j] == 'N' || str[tot + j] == 'S' || str[tot + j] == 'E' || str[tot + j] == 'W')
 			{
-				data->player.x = j;
-				data->player.y = i;
+				data->player.px = j;
+				data->player.py = i;
 				data->player.dir = str[tot + j];
 				data->map[i][j] = '0';
 				if (data->player_nb++ >= 1)

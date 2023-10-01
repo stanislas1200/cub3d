@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+         #
+#    By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/13 14:39:47 by sgodin            #+#    #+#              #
-#    Updated: 2023/08/23 15:47:47 by sgodin           ###   ########.fr        #
+#    Updated: 2023/09/30 19:59:32 by dspilleb         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,14 +15,19 @@ SRCS = src/main.c\
 		src/propagation.c\
 		src/stack.c\
 		src/utils.c\
+		src/utils2.c\
 		src/parser.c\
-		src/test.c
+		src/test.c\
+		src/movement.c\
+			src/raycasting/raycasting.c\
+			src/raycasting/rays.c\
+			src/raycasting/render.c
 
 INCL = include/cub3d.h
 
 NAME =  cub3d
 
-GCC = gcc #-Wall -Wextra -Werror
+GCC = gcc  -fsanitize=address -g -finline-functions -fvectorize -fslp-vectorize -ffast-math -falign-functions -funroll-loops -fstrict-aliasing -fomit-frame-pointer -flto -Ofast -O1 -O2 -Os -O3 #-Wall -Wextra -Werror
 
 OBJS_DIR = ./objects/
 OBJS = $(addprefix $(OBJS_DIR), $(SRCS:.c=.o))
@@ -36,7 +41,7 @@ RESET = \033[0m
 all: ${NAME}
 
 ${NAME}: ${OBJS} ${INCL}
-	@${GCC} ${OBJS} -o ${NAME} && echo -ne "\r${BLUE}Compiling ${NAME} ${GREEN}Done${RESET}\n" || echo -ne "\r${BLUE}Compiling ${NAME} ${RED}Error${RESET}\n"
+	@${GCC} ${OBJS} -lmlx -framework OpenGL -framework AppKit -o ${NAME} && echo -ne "\r${BLUE}Compiling ${NAME} ${GREEN}Done${RESET}\n" || echo -ne "\r${BLUE}Compiling ${NAME} ${RED}Error${RESET}\n"
 
 $(OBJS_DIR)%.o: %.c
 	@mkdir -p $(dir $@)

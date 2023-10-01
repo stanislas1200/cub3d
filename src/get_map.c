@@ -118,7 +118,7 @@ void	make_door(t_data *data)
 	int	i;
 	int	j;
 
-	i == -1;
+	i = -1;
 	while (data->map[++i])
 	{
 		j = -1;
@@ -155,11 +155,11 @@ void	set_map_from_file(char *path, t_data *data)
 	// generate_random_map(data, 10, 10);
 	make_map(all_line, data);
 	free(all_line);
-	make_door(data);
-	make_floor(data);
+	// make_door(data);
+	// make_floor(data);
 	if (!data->map)
 		return ;
-	play(data);
-	// print_map(data);
-	free_map(data, data->height);
+	// play(data);
+	print_map(data);
+	// free_map(data, data->height);
 }

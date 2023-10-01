@@ -6,6 +6,9 @@
 # include <stdlib.h>
 # include <fcntl.h>
 # include <time.h>
+# include <math.h>
+# include <mlx.h>
+# include <limits.h>
 
 # define BOLD "\x1b[1m"
 # define RESET "\x1b[0m"
@@ -13,6 +16,77 @@
 # define GREEN "\x1b[0;32m"
 # define MAGENTA "\x1b[0;35m"
 # define YELLOW "\x1b[0;33m"
+
+# define SQUARE 64
+# define PLAYER 30
+# define PI 3.1415926535
+# define RD 0.0174533
+# define PI2 6.283185307
+# define PI3 9.4247779605
+# define HEIGHT 1024
+# define WIDTH 2048
+# define FOV 90.0
+# define NO 0
+# define SO 1
+# define WE 2
+# define EA 3
+
+// keys
+
+//linux
+// # define Z 122
+// # define Q 113
+// # define D 100
+// # define S 115
+// # define ESC 65307
+// # define A_U 65362
+// # define A_D 65364
+// # define A_E 65363
+// # define A_W 65361
+
+// MacOS
+# define Z 13
+# define Q 0
+# define D 2
+# define S 1
+# define ESC 53
+# define F 3
+
+typedef struct s_img {
+	void	*image;
+	char	*addr;
+	int		bits_per_pixel;
+	int		line_length;
+	int		endian;
+}				t_img;
+
+typedef struct sprites {
+	t_img	*wall[4];
+}				t_sprites;
+
+typedef struct drawing {
+	double	lineH;
+	double	lineO;
+	double	ty_offset;
+	double	texX;
+	double	step;
+	double	tex;
+	double	realdist;
+
+}	t_draw;
+typedef struct ray
+{
+	double	rx;
+	double	ry;
+	double	ra;
+	double	xo;
+	double	yo;
+	int		my;
+	int		mx;
+	int		hit;
+	double	dist;
+	int		side;
+}	t_ray;
 
 typedef struct s_node
 {
@@ -23,10 +97,14 @@ typedef struct s_node
 
 typedef struct s_player
 {
-	int		x;
-	int		y;
+	double	px;
+	double	py;
 	int		floor;
 	char	dir;
+	double	pdx;
+	double	pdy;
+	double	pa;
+	int		fov;
 }	t_player;
 
 typedef struct s_data
@@ -46,6 +124,16 @@ typedef struct s_data
 	t_player	player;
 }	t_data;
 
+typedef struct game
+{
+	void		*mlx_ptr;
+	void		*mlx_win;
+	t_img		img;
+	t_player	player;
+	t_data		*data;
+	t_sprites	sprites;
+}	t_game;
+
 void	set_map_from_file(char *path, t_data *data);
 int		ft_strlen(char *str);
 void	ft_error(char *str);
@@ -63,5 +151,31 @@ int		ft_strncmp(const char *s1, const char *s2, size_t n);
 
 void	print_map(t_data *data);
 void	play(t_data *data);
+
+//raycasting
+void	draw_rays(t_game *game);
+void	ray_cast(t_game *game, double angle, int s_width);
+
+//rays
+void	check_for_hit(t_game *game, t_ray *ray);
+void	setup_horizontal_ray(t_ray *ray, t_game *game);
+void	setup_vertical_ray(t_ray *ray, t_game *game);
+void	init_ray(t_ray *ray, t_game *game, double angle, char type);
+
+//render
+void	drawstripes(t_game *game, int x1, int y1, int y2, int color);
+
+//movement
+int		key_hook(int key, t_game *game);
+
+//utils 2
+void	my_mlx_pixel_put(t_img *img, int x, int y, int color);
+double	distance(double x1, double y1, double x2, double y2);
+double	deg_to_rad(double a);
+double	fix_ang(double a);
+void	*put_img(t_game *data, char *path);
+unsigned int	get_color(t_img *img, int x, int y);
+
+int	end_game(t_game *game);
 
 #endif
