@@ -6,12 +6,23 @@
 /*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/23 15:01:59 by dspilleb          #+#    #+#             */
-/*   Updated: 2023/09/30 20:13:14 by dspilleb         ###   ########.fr       */
+/*   Updated: 2023/10/01 18:12:44 by dspilleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
 
+double	in_circle(double x, double y)
+{
+	double radius;
+	double dist;
+	double light;
+
+	radius = 230.0;
+	dist = distance(x,y, WIDTH/2, HEIGHT/2);
+	light = (dist - radius);
+	return(light * 0.01);
+}
 unsigned int	darken_color(unsigned int color, double fog)
 {
 	int	r;
@@ -59,6 +70,8 @@ void	drawstripes(t_game *game, int x1, int y1, int y2, int color)
 			fog = 1 - fog;
 		}
 		color2 = darken_color(color, fog);
+		if (y1 > HEIGHT/2)
+			color2 = darken_color(color2, (in_circle(x1, y1) * 5));
 		my_mlx_pixel_put(&game->img, x1, y1, color2);
 		y1++;
 	}
@@ -73,7 +86,7 @@ void	render_wall(t_game *game, t_draw *d, double x, t_ray *ray)
 
 	start = d->lineO;
 	texy = d->ty_offset * d->step;
-	fog = (d->realdist * 4) / sqrt(pow(HEIGHT, 2) + pow(WIDTH, 2));
+	fog = d->realdist / 400;
 	while (start < (d->lineO + d->lineH) && start < HEIGHT)
 	{
 		texy += d->step;
@@ -81,9 +94,8 @@ void	render_wall(t_game *game, t_draw *d, double x, t_ray *ray)
 			texy = 0;
 		color = get_color(game->sprites.wall[(int)d->tex], \
 		(int)d->texX, (int)texy);
-		if (ray->side)
-			color = darken_color(color, 0.5);
 		color = darken_color(color, fog);
+		color = darken_color(color, in_circle(x, start));
 		my_mlx_pixel_put(&game->img, x, start, color);
 		start++;
 	}
