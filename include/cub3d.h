@@ -135,7 +135,7 @@ typedef struct game
 	t_data		*data;
 	t_sprites	sprites;
 	float		old_x;
-	int			keys[4];
+	int			keys[6];
 	pthread_t Tid;
 }	t_game;
 

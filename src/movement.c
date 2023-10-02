@@ -6,7 +6,7 @@
 /*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/23 14:59:57 by dspilleb          #+#    #+#             */
-/*   Updated: 2023/09/30 19:09:23 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/02 18:15:47 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,16 @@ int	can_move(int key, t_game *game)
 	{
 		mx = ((int)(game->player.px - game->player.pdx  * game->player.speed)) >> 6;
 		my = ((int)(game->player.py - game->player.pdy  * game->player.speed)) >> 6;
+	}
+	else if (key == Q)
+	{
+		mx = ((int)(game->player.px - game->player.pdy  * game->player.speed)) >> 6;
+		my = ((int)(game->player.py + game->player.pdx  * game->player.speed)) >> 6;
+	}
+	else if (key == D)
+	{
+		mx = ((int)(game->player.px + game->player.pdy  * game->player.speed)) >> 6;
+		my = ((int)(game->player.py - game->player.pdx  * game->player.speed)) >> 6;
 	}
 	else
 		return (1);

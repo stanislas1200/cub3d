@@ -6,7 +6,7 @@
 /*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 15:17:11 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/02 17:09:46 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/02 18:12:33 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,8 @@ void	init_player(t_data *data, t_game *game)
 	game->keys[1] = 0;
 	game->keys[2] = 0;
 	game->keys[3] = 0;
+	game->keys[4] = 0;
+	game->keys[5] = 0;
 	data->player.px += (SQUARE/2);
 	data->player.py += (SQUARE/2);
 	game->player = data->player;
@@ -132,7 +134,7 @@ int	end_game(t_game *game)
 
 int	event_hook(int x, int y, t_game *game)
 {
-	game->player.pa += (x - game->old_x) / 4;
+	game->player.pa += (x - game->old_x);
 	game->player.pa = fix_ang(game->player.pa);
 	game->player.pdx = cos(deg_to_rad(game->player.pa)) * 5.0;
 	game->player.pdy = -sin(deg_to_rad(game->player.pa)) * 5.0;
@@ -146,10 +148,14 @@ int keyPressed(int key, t_game *game)
 		game->keys[0] = 1;
 	if (key == S)
 		game->keys[1] = 1;
-	if (key == Q)
+	if (key == 123)
 		game->keys[2] = 1;
-	if (key == D)
+	if (key == 124)
 		game->keys[3] = 1;
+	if (key == Q)
+		game->keys[4] = 1;
+	if (key == D)
+		game->keys[5] = 1;
 	if (key == ESC)
 		end_game(game);
 	return (0);
@@ -161,10 +167,14 @@ int keyReleased(int key, t_game *game)
 		game->keys[0] = 0;
 	if (key == S)
 		game->keys[1] = 0;
-	if (key == Q)
+	if (key == 123)
 		game->keys[2] = 0;
-	if (key == D)
+	if (key == 124)
 		game->keys[3] = 0;
+	if (key == Q)
+		game->keys[4] = 0;
+	if (key == D)
+		game->keys[5] = 0;
 	return (0);
 }
 
@@ -178,8 +188,18 @@ int update_frame(t_game *game)
 	}
 	if (game->keys[1] && can_move(S, game))
 	{
-		game->player.px -= game->player.pdx * game->player.speed;
-		game->player.py -= game->player.pdy * game->player.speed;
+		game->player.px -= game->player.pdx * game->player.speed / 2;
+		game->player.py -= game->player.pdy * game->player.speed / 2;
+	}
+	if (game->keys[4] && can_move(Q, game))
+	{
+		game->player.px -= game->player.pdy * game->player.speed / 5;
+		game->player.py += game->player.pdx * game->player.speed / 5;
+	}
+	if (game->keys[5] && can_move(D, game))
+	{
+		game->player.px += game->player.pdy * game->player.speed / 5;
+		game->player.py -= game->player.pdx * game->player.speed / 5;
 	}
 	if (game->keys[2])
 	{
