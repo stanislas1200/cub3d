@@ -20,8 +20,11 @@ void get_wall_texture_path(char **dest, char *str, char *str2, t_data *data)
 	{
 		if (*dest)
 			return (error(data, "Duplicate wall texture path\n"));
-		if (str[data->i + 2] != ' ')
+		if (str[data->i + 2] != ' ' && str[data->i + 2] != '\t') // stricly so also tab ? and can more ?
 			return (error(data, "Invalid wall texture path\n"));
+		while (str[data->i + 2] == ' ' || str[data->i + 2] == '\t')
+			data->i++;
+		data->i--;
 		while (str[data->i + data->j + 2] && str[data->i + data->j + 2] != '\n' && str[data->i + data->j + 2] != '\r')
 			data->j++;
 		*dest = malloc(sizeof(char) * (data->j + 1));
@@ -31,7 +34,7 @@ void get_wall_texture_path(char **dest, char *str, char *str2, t_data *data)
 		(*dest)[data->j] = '\0';
 		data->i += data->j + 2;
 		// SKIP space and \n ?
-		while (str[data->i] == ' ' || str[data->i] == '\n' || str[data->i] == '\r')
+		while (str[data->i] == ' ' || str[data->i] == '\t' || str[data->i] == '\n' || str[data->i] == '\r')
 			data->i++;
 	}
 }
@@ -60,7 +63,7 @@ void	get_RGB(int dest[3], char c, char *str, t_data *data)
 	}
 }
 
-void get_element(char *str, t_data *data)
+void get_element(char *str, t_data *data) // any order // space and \n accepted
 {
 	data->i = -1;
 	while (str[++data->i]) //  followed by all specific informations for each object in a strict order such as 
