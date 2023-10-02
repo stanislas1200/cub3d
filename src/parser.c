@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/02 17:38:39 by sgodin            #+#    #+#             */
+/*   Updated: 2023/10/02 17:38:39 by sgodin           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/cub3d.h"
 
 
@@ -10,7 +22,7 @@ void get_wall_texture_path(char **dest, char *str, char *str2, t_data *data)
 			return (error(data, "Duplicate wall texture path\n"));
 		if (str[data->i + 2] != ' ')
 			return (error(data, "Invalid wall texture path\n"));
-		while (str[data->i + data->j + 2] && str[data->i + data->j + 2] != '\n')
+		while (str[data->i + data->j + 2] && str[data->i + data->j + 2] != '\n' && str[data->i + data->j + 2] != '\r')
 			data->j++;
 		*dest = malloc(sizeof(char) * (data->j + 1));
 		if (!*dest)
@@ -19,7 +31,7 @@ void get_wall_texture_path(char **dest, char *str, char *str2, t_data *data)
 		(*dest)[data->j] = '\0';
 		data->i += data->j + 2;
 		// SKIP space and \n ?
-		while (str[data->i] == ' ' || str[data->i] == '\n')
+		while (str[data->i] == ' ' || str[data->i] == '\n' || str[data->i] == '\r')
 			data->i++;
 	}
 }
@@ -59,7 +71,7 @@ void get_element(char *str, t_data *data)
 		get_wall_texture_path(&data->ea, str, "EA", data);
 		get_RGB(data->floor, 'F', str, data);
 		get_RGB(data->ceiling,'C', str, data);
-		if (str[data->i] == '\n' && (str[data->i + 1] == ' ' || str[data->i + 1] == '1'))
+		if ((str[data->i] == '\n') && (str[data->i + 1] == ' ' || str[data->i + 1] == '1'))
 			break ;
 	}
 }
@@ -83,10 +95,11 @@ void	make_map(char *str, t_data *data)
 	data->map = malloc(sizeof(char *) * (++data->height + 1));
 	if (!data->map)
 		return (ft_error(RED BOLD "Error" RESET ": Malloc failed\n"));
+	printf(RED "line : %s\n" RESET, str + tot);
 	for (int i = 0; i < data->height; i++)
 	{
 		int len = -1;
-		while (str[++len + tot] && str[len + tot] != '\n');
+		while (str[++len + tot] && str[len + tot] != '\n' && str[len + tot] != '\r');
 		data->map[i] = malloc(sizeof(char) * (len + 1));
 		if (!data->map[i])
 		{
@@ -110,7 +123,9 @@ void	make_map(char *str, t_data *data)
 			else if (str[tot + j] == '0')
 				data->map[i][j] = 'F';
 		}
-		tot += len + 1;
+		while (str[len + tot] == '\n' || str[len + tot] == '\r')
+			tot++;
+		tot += len;
 		data->map[i][len] = '\0';
 	}
 	data->map[data->height] = NULL;

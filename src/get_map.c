@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_map.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/02 15:17:14 by sgodin            #+#    #+#             */
+/*   Updated: 2023/10/02 15:17:14 by sgodin           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/cub3d.h"
 
 void	free_map(t_data *data, int height)
@@ -13,7 +25,8 @@ void	error(t_data *data, char *error)
 {
 	ft_error(RED BOLD "Error" RESET ": " YELLOW "Invalid map" RESET ": ");
 	ft_error(error);
-	return (free_map(data, data->height));
+	free_map(data, data->height);
+	exit(1);
 }
 
 int	find_file(char **path, char **new_path, int *free_path)
@@ -141,6 +154,33 @@ void	make_door(t_data *data)
 	}
 }
 
+void	check_map(t_data *data)
+{
+	int	i;
+	int j;
+
+	i = -1;
+	while (data->map[++i])
+	{
+		j = -1;
+		while (data->map[i][++j])
+		{
+			if (data->map[i][j] == 'F')
+			{ // left right top down
+				if (j == 0 || data->map[i][j - 1] == ' ' \
+				|| !data->map[i][j + 1] || data->map[i][j + 1] == ' ' \
+				|| i == 0 || j >= ft_strlen(data->map[i - 1]) || data->map[i - 1][j] == ' ' \
+				|| !data->map[i + 1] || j >= ft_strlen(data->map[i + 1]) || data->map[i + 1][j] == ' '
+				)
+				{
+					printf(RED "ERROR: " RESET "x: " MAGENTA "%d, " RESET "y: " MAGENTA "%d\n" RESET, j, i);
+					exit(1);
+				}
+			}
+		}
+	}
+}
+
 void	set_map_from_file(char *path, t_data *data)
 {
 	int		fd;
@@ -155,6 +195,7 @@ void	set_map_from_file(char *path, t_data *data)
 	// generate_random_map(data, 10, 10);
 	make_map(all_line, data);
 	free(all_line);
+	check_map(data);
 	// make_door(data);
 	// make_floor(data);
 	if (!data->map)

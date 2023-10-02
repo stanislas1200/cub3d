@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/02 15:17:11 by sgodin            #+#    #+#             */
+/*   Updated: 2023/10/02 17:09:46 by sgodin           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/cub3d.h"
 
 // TEMPORARY
@@ -88,10 +100,10 @@ void	init_player(t_data *data, t_game *game)
 	game->keys[1] = 0;
 	game->keys[2] = 0;
 	game->keys[3] = 0;
-	game->player = data->player;
-	game->data = data;
 	data->player.px += (SQUARE/2);
 	data->player.py += (SQUARE/2);
+	game->player = data->player;
+	game->data = data;
 }
 
 void stop_sound()
@@ -190,9 +202,30 @@ int update_frame(t_game *game)
 	return (0);
 }
 
-void* play_sound()
+void* embient_sound()
 {
-	system("afplay data/sound/test.wav ");
+	while (1)
+		system("afplay -v 0.5 data/sound/test.wav ");
+	return (NULL);
+}
+
+void play_sound(char *sound)
+{
+	pid_t pid;
+	pid = fork();
+	if (pid == 0)
+	{
+		printf(RED "FIRE\n" RESET);
+		execlp("afplay", "afplay", sound, NULL);
+		printf(GREEN "FIRE\n" RESET);
+		exit(0);
+	}
+}
+
+int	gun_fire()
+{
+	play_sound("data/sound/gun.wav");
+	return (0);
 }
 
 int	main(int ac, char **av)
@@ -219,19 +252,11 @@ int	main(int ac, char **av)
 	mlx_hook(game.mlx_win, 2, 0, keyPressed, &game);
 	mlx_hook(game.mlx_win, 3, 1L << 1, keyReleased, &game);
 	mlx_hook(game.mlx_win, 6, 0L, event_hook, &game);
+	mlx_hook(game.mlx_win, 4, 0L, gun_fire, &game);
 	// mlx_hook(game.mlx_win, 2, 1L << 0, key_hook, &game);
 	mlx_loop_hook(game.mlx_ptr, update_frame, &game);
 	mlx_hook(game.mlx_win, 17, 1L << 2, end_game, &game);
-	pthread_create(&game.Tid, NULL, play_sound, NULL);
+	pthread_create(&game.Tid, NULL, embient_sound, NULL);
 	mlx_loop(game.mlx_ptr);
-	// pthread_join(id, NULL);
-	// pid_t pid;
-	// pid = fork();
-	// if (pid)
-	// 	system("afplay data/sound/test.wav ");
-	// else
-	// {
-		
-	// }
 	return (0);
 }
