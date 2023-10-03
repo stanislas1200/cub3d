@@ -15,17 +15,33 @@
 void	free_map(t_data *data, int height)
 {
 	while (data->map && height >= 0)
+	{
 		free(data->map[height--]);
-	if (data->map)
-		free(data->map);
+		data->map[height + 1] = NULL;	
+	}
+	free(data->map);
 	data->map = NULL;
 }
 
-void	error(t_data *data, char *error)
+
+void	free_all(t_data *data)
 {
-	ft_error(RED BOLD "Error" RESET ": " YELLOW "Invalid map" RESET ": ");
-	ft_error(error);
+	free(data->all_line);
 	free_map(data, data->height);
+	free(data->no);
+	free(data->so);
+	free(data->we);
+	free(data->ea);
+}
+
+void	error(t_data *data, char *str, char *error)
+{
+	ft_error(RED BOLD "Error" RESET ": " YELLOW);
+	if (str)
+		ft_error(str);
+	if (error)
+		ft_error(error);
+	free_all(data);
 	exit(1);
 }
 
@@ -83,31 +99,33 @@ int	open_file(char *path)
 	return (fd);
 }
 
-char	*read_file(int fd, t_data *data)
+void	read_file(int fd, t_data *data)
 {
 	int		read_bytes;
-	int		size;
+	// int		size;
 	char	buff[2];
 	char	*tmp;
-	char	*all_line;
 
-	all_line = malloc(1);
-	all_line[0] = '\0';
+	data->all_line = malloc(1);
+	if (!data->all_line)
+		return (error(data, "Malloc error\n" RESET, NULL));
+	data->all_line[0] = '\0';
 	read_bytes = -1;
-	size = 0;
+	// size = 0;
 	while (read_bytes)
 	{
 		read_bytes = read(fd, buff, 1);
 		if (read_bytes == -1)
-			return (perror("Error"), free(all_line), NULL);
-		buff[1] = '\0';
-		tmp = all_line;
-		all_line = ft_strjoin(all_line, buff);
+			return (perror("Error"), free_all(data)); // exit ?
+		buff[read_bytes] = '\0';
+		tmp = data->all_line;
+		data->all_line = ft_strjoin(data->all_line, buff);
 		free(tmp);
-		size++;
+		if (!data->all_line)
+			return (error(data, "Malloc error\n" RESET, NULL));
+		// size += read_bytes;
 	}
-	all_line[size] = '\0';
-	return (all_line);
+	// data->all_line[size] = '\0';
 }
 
 void	make_floor(t_data *data)
@@ -173,7 +191,8 @@ void	check_map(t_data *data)
 				|| !data->map[i + 1] || j >= ft_strlen(data->map[i + 1]) || data->map[i + 1][j] == ' '
 				)
 				{
-					printf(RED "ERROR: " RESET "x: " MAGENTA "%d, " RESET "y: " MAGENTA "%d\n" RESET, j, i);
+					printf(RED "ERROR: " RESET "x: " MAGENTA "%d, " RESET "y: " MAGENTA "%d\n" RESET, j, i); // norm
+					free_all(data);
 					exit(1);
 				}
 			}
@@ -184,23 +203,20 @@ void	check_map(t_data *data)
 void	set_map_from_file(char *path, t_data *data)
 {
 	int		fd;
-	char	*all_line;
 
 	fd = open_file(path);
 	if (fd == -1)
 		perror(RED BOLD "Error" RESET);
 	if (fd == -2 || fd == -1)
 		exit(1);
-	all_line = read_file(fd, data);
-	// generate_random_map(data, 10, 10);
-	make_map(all_line, data);
-	free(all_line);
+	read_file(fd, data);
+	make_map(data->all_line, data);
+	free(data->all_line);
+	data->all_line = NULL;
 	check_map(data);
-	// make_door(data);
-	// make_floor(data);
-	if (!data->map)
-		return ;
-	// play(data);
+	// // make_door(data);
+	// // make_floor(data);
+	// if (!data->map)
+	// 	return ;
 	print_map(data);
-	// free_map(data, data->height);
 }

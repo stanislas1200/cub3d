@@ -122,6 +122,7 @@ typedef struct s_data
 	int			floor[3];
 	int			ceiling[3];
 	char		**map;
+	char		*all_line;
 	t_node		*stack;
 	t_player	player;
 }	t_data;
@@ -146,16 +147,16 @@ void	pg(int x, int y, int f, t_data *data);
 void	push(t_node	**top, int x, int y);
 void	pop(t_node	**top);
 void	cleanup_stack(t_data *data);
-void	error(t_data *data, char *error);
+void	error(t_data *data, char *str, char *error);
 void	make_map(char *str, t_data *data);
 char	*ft_strjoin(char const *s1, char const *s2);
 void	free_map(t_data *data, int height);
 int		ft_atoi(const char *str);
 size_t	ft_strlcpy(char *dest, char *src, size_t size);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
+void	free_all(t_data *data);
 
 void	print_map(t_data *data);
-void	play(t_data *data);
 
 //raycasting
 void	draw_rays(t_game *game);

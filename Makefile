@@ -10,24 +10,31 @@
 #                                                                              #
 # **************************************************************************** #
 
+# SRCS = src/main.c\
+# 		src/get_map.c\
+# 		src/propagation.c\
+# 		src/stack.c\
+# 		src/utils.c\
+# 		src/utils2.c\
+# 		src/parser.c\
+# 		src/test.c\
+# 		src/movement.c\
+# 			src/raycasting/raycasting.c\
+# 			src/raycasting/rays.c\
+# 			src/raycasting/render.c
 SRCS = src/main.c\
 		src/get_map.c\
 		src/propagation.c\
 		src/stack.c\
-		src/utils.c\
-		src/utils2.c\
 		src/parser.c\
 		src/test.c\
-		src/movement.c\
-			src/raycasting/raycasting.c\
-			src/raycasting/rays.c\
-			src/raycasting/render.c
+		src/utils.c
 
 INCL = include/cub3d.h
 
 NAME =  cub3d
 
-GCC = gcc  -fsanitize=address -g -finline-functions -fvectorize -fslp-vectorize -ffast-math -falign-functions -funroll-loops -fstrict-aliasing -fomit-frame-pointer -flto -Ofast -O1 -O2 -Os -O3
+GCC = gcc #-fsanitize=address -g -finline-functions -fvectorize -fslp-vectorize -ffast-math -falign-functions -funroll-loops -fstrict-aliasing -fomit-frame-pointer -flto -Ofast -O1 -O2 -Os -O3
 
 OBJS_DIR = ./objects/
 OBJS = $(addprefix $(OBJS_DIR), $(SRCS:.c=.o))
@@ -41,7 +48,8 @@ RESET = \033[0m
 all: ${NAME}
 
 ${NAME}: ${OBJS} ${INCL}
-	@${GCC} ${OBJS} -lmlx -framework OpenGL -framework AppKit -o ${NAME} && echo -ne "\r${BLUE}Compiling ${NAME} ${GREEN}Done${RESET}\n" || echo -ne "\r${BLUE}Compiling ${NAME} ${RED}Error${RESET}\n"
+	# @${GCC} ${OBJS} -lmlx -framework OpenGL -framework AppKit -o ${NAME} && echo -ne "\r${BLUE}Compiling ${NAME} ${GREEN}Done${RESET}\n" || echo -ne "\r${BLUE}Compiling ${NAME} ${RED}Error${RESET}\n"
+	@${GCC} ${OBJS} -o ${NAME} && echo -ne "\r${BLUE}Compiling ${NAME} ${GREEN}Done${RESET}\n" || echo -ne "\r${BLUE}Compiling ${NAME} ${RED}Error${RESET}\n"
 
 $(OBJS_DIR)%.o: %.c
 	@mkdir -p $(dir $@)
