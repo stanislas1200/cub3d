@@ -9,7 +9,8 @@
 # include <math.h>
 # include <mlx.h>
 # include <limits.h>
-#include <pthread.h>
+# include <pthread.h>
+# include <sys/wait.h>
 
 # define BOLD "\x1b[1m"
 # define RESET "\x1b[0m"

@@ -34,13 +34,13 @@ void	free_all(t_data *data)
 	free(data->ea);
 }
 
-void	error(t_data *data, char *str, char *error)
+void	error(t_data *data, char *error, char *info)
 {
 	ft_error(RED BOLD "Error" RESET ": " YELLOW);
-	if (str)
-		ft_error(str);
 	if (error)
 		ft_error(error);
+	if (info)
+		ft_error(info);
 	free_all(data);
 	exit(1);
 }

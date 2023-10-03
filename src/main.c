@@ -108,27 +108,27 @@ void	init_data(t_data *data)
 // 	game->data = data;
 // }
 
-// void stop_sound()
+// void stop_sound() // make a function to execute a function in a child ? void exec_func(void (*func)())
 // {
-// 	pid_t pid;
-// 	pid = fork();
+// 	pid_t	pid;
+
+// 	pid = fork(); // check -1 ? send error exit 1 ? FOR ALL FORK
 // 	if (pid == 0)
 // 	{
 // 		execlp("pkill", "pkill", "afplay", NULL);
 // 		exit(0);
-// 	} else if (pid > 0)
-// 	{
-// 		waitpid(pid, NULL, 0);
 // 	}
+// 	waitpid(pid, NULL, 0);
 // }
 
 // int	end_game(t_game *game)
 // {
-// 	destroy_sprites(game);
-//     pthread_cancel(game->Tid);
-//     stop_sound();
-//     pthread_join(game->Tid, NULL);
 // 	printf(GREEN "----------------\nEXITING GAME\n----------------\n");
+// 	destroy_sprites(game);
+//     pthread_cancel(game->Tid); // Give error message ? exit 1 ?
+//     stop_sound();
+//     if (pthread_join(game->Tid, NULL))
+// 		return (error(game->data, "thread join failed\n", ), exit(1), 1); // Give error message ? exit 1 ?
 // 	return(exit(0), 0);
 // }
 
@@ -277,7 +277,8 @@ int	main(int ac, char **av)
 	// // mlx_hook(game.mlx_win, 2, 1L << 0, key_hook, &game);
 	// mlx_loop_hook(game.mlx_ptr, update_frame, &game);
 	// mlx_hook(game.mlx_win, 17, 1L << 2, end_game, &game);
-	// pthread_create(&game.Tid, NULL, embient_sound, NULL);
+	// if (pthread_create(&game.Tid, NULL, embient_sound, NULL))
+	// 	return (ft_error(RED BOLD "Error: " RESET "Thread\n"), 1); // exit ? use errno to specify error ?
 	// mlx_loop(game.mlx_ptr);
 	free_all(&data);
 	return (0);
