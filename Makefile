@@ -16,8 +16,11 @@ SRCS = src/main.c\
 		src/stack.c\
 		src/utils.c\
 		src/utils2.c\
+		src/utils3.c\
 		src/parser.c\
 		src/test.c\
+		src/end.c\
+		src/init.c\
 		src/movement.c\
 			src/raycasting/raycasting.c\
 			src/raycasting/rays.c\

@@ -148,7 +148,7 @@ void	pg(int x, int y, int f, t_data *data);
 void	push(t_node	**top, int x, int y);
 void	pop(t_node	**top);
 void	cleanup_stack(t_data *data);
-void	error(t_data *data, char *str, char *error);
+void	e(t_data *data, char *str, char *error);
 void	make_map(char *str, t_data *data);
 char	*ft_strjoin(char const *s1, char const *s2);
 void	free_map(t_data *data, int height);
@@ -175,7 +175,8 @@ int		update_frame(t_game *game);
 
 //movement
 int		key_hook(int key, t_game *game);
-int		can_move(int key, t_game *game);
+void	movement(t_game *game);
+int	can_move(t_game *game, double fx, double fy, int side);
 
 //utils 2
 void	my_mlx_pixel_put(t_img *img, int x, int y, int color);
@@ -185,6 +186,14 @@ double	fix_ang(double a);
 void	*put_img(t_game *data, char *path);
 unsigned int	get_color(t_img *img, int x, int y);
 
+//end
+void	destroy_sprites(t_game *game);
 int	end_game(t_game *game);
+
+//init
+int		init_mlx(t_game *game);
+void	init_player(t_data *data, t_game *game);
+int		init_sprites(t_game *game);
+void	init_data(t_data *data);
 
 #endif

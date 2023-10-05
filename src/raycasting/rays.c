@@ -90,8 +90,10 @@ void	setup_vertical_ray(t_ray *ray, t_game *game)
 	}
 	else
 	{
+		ray->rx = game->player.px;
 		ray->ry = game->player.py;
-		ray->ra = game->player.py;
+		// ray->ry = game->player.py;
+		// ray->ra = game->player.py;
 		ray->hit = -1;
 	}
 }
@@ -104,8 +106,8 @@ void	init_ray(t_ray *ray, t_game *game, double angle, char type)
 	ray->xo = 0;
 	ray->yo = 0;
 	ray->hit = 0;
-	ray->mx = (int)game->player.px;
-	ray->my = (int)game->player.py;
+	ray->mx = (int)game->player.px >> 6;
+	ray->my = (int)game->player.py >> 6;
 	ray->dist = INT_MAX;
 	if (type == 'H')
 	{

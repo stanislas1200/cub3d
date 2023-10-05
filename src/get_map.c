@@ -34,7 +34,7 @@ void	free_all(t_data *data)
 	free(data->ea);
 }
 
-void	error(t_data *data, char *error, char *info)
+void	e(t_data *data, char *error, char *info)
 {
 	ft_error(RED BOLD "Error" RESET ": " YELLOW);
 	if (error)
@@ -108,7 +108,7 @@ void	read_file(int fd, t_data *data)
 
 	data->all_line = malloc(1);
 	if (!data->all_line)
-		return (error(data, "Malloc error\n" RESET, NULL));
+		return (e(data, "Malloc error\n" RESET, NULL));
 	data->all_line[0] = '\0';
 	read_bytes = -1;
 	// size = 0;
@@ -122,7 +122,7 @@ void	read_file(int fd, t_data *data)
 		data->all_line = ft_strjoin(data->all_line, buff);
 		free(tmp);
 		if (!data->all_line)
-			return (error(data, "Malloc error\n" RESET, NULL));
+			return (e(data, "Malloc error\n" RESET, NULL));
 		// size += read_bytes;
 	}
 	// data->all_line[size] = '\0';

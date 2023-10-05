@@ -18,27 +18,24 @@ int		texture(int side, double ra);
 
 void	draw_rays(t_game *game)
 {
-	double	i;
+	int		i;
 	double	fov;
 	double	angle;
 
 	i = 0;
 	fov = game->player.pa - (FOV / 2);
-	angle = fov;
-	while (angle < game->player.pa + (FOV / 2))
+	angle = 0;
+	while (angle < FOV)
 	{
-		fov = fix_ang(fov);
-		ray_cast(game, fov, (i));
-		fov += FOV / WIDTH;
-		angle += FOV / WIDTH;
-		i++;
+		ray_cast(game, fix_ang(fov), i++);
+		angle += (FOV / WIDTH);
+		fov += (FOV / WIDTH);
 	}
 }
 
 void	init_drawing(t_game *game, t_draw *d, t_ray *ray, double angle)
 {
 	d->ty_offset = 0;
-	d->realdist = ray->dist;
 	ray->dist *= cos(deg_to_rad(fix_ang(game->player.pa - angle)));
 	d->lineH = (SQUARE * HEIGHT) / ray->dist;
 	d->step = (SQUARE / d->lineH);
