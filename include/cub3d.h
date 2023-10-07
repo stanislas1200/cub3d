@@ -41,8 +41,6 @@
 // # define D 100
 // # define S 115
 // # define ESC 65307
-// # define A_U 65362
-// # define A_D 65364
 // # define A_E 65363
 // # define A_W 65361
 
@@ -53,6 +51,8 @@
 # define S 1
 # define ESC 53
 # define F 3
+# define A_E 124
+# define A_W 123
 
 typedef struct s_img {
 	void	*image;

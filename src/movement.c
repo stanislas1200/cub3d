@@ -15,6 +15,7 @@
 void	movement(t_game *game)
 {
 	double fx, fy;
+
 	if (game->keys[0])
 	{
 		fx = game->player.px + game->player.pdx + game->player.speed;
@@ -79,4 +80,4 @@ int	can_move(t_game *game, double fx, double fy, int side)
 	if (ray->dist > distance(game->player.px, game->player.py, fx, fy) + 10)
 		return (1);
 	return (0);
-};
+}
