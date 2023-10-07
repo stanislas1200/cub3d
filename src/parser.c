@@ -73,10 +73,13 @@ void	get_element(char *str, t_data *d)
 	d->i = -1;
 	while (d->i < ft_strlen(str) && str[++d->i])
 	{
-		get_wall_texture_path(&d->no, str, "NO", d);
-		get_wall_texture_path(&d->so, str, "SO", d);
-		get_wall_texture_path(&d->we, str, "WE", d);
-		get_wall_texture_path(&d->ea, str, "EA", d);
+		while (!ft_strncmp(&str[data->i], "NO", 2) || !ft_strncmp(&str[data->i], "SO", 2) || !ft_strncmp(&str[data->i], "WE", 2) || !ft_strncmp(&str[data->i], "EA", 2))
+		{
+			get_wall_texture_path(&data->no, str, "NO", data);
+			get_wall_texture_path(&data->so, str, "SO", data);
+			get_wall_texture_path(&data->we, str, "WE", data);
+			get_wall_texture_path(&data->ea, str, "EA", data);
+		}
 		get_rgb(d->floor, 'F', str, d);
 		get_rgb(d->ceiling, 'C', str, d);
 		if (str[d->i] && (str[d->i] == '\n') \
