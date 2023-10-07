@@ -12,7 +12,6 @@
 
 #include "../include/cub3d.h"
 
-
 void get_wall_texture_path(char **dest, char *str, char *str2, t_data *data)
 {
 	data->j = 0;
@@ -68,10 +67,13 @@ void get_element(char *str, t_data *data) // any order // space and \n accepted
 	data->i = -1;
 	while (data->i < ft_strlen(str) && str[++data->i]) //  followed by all specific informations for each object in a strict order such as 
 	{
-		get_wall_texture_path(&data->no, str, "NO", data);
-		get_wall_texture_path(&data->so, str, "SO", data);
-		get_wall_texture_path(&data->we, str, "WE", data);
-		get_wall_texture_path(&data->ea, str, "EA", data);
+		while (!ft_strncmp(&str[data->i], "NO", 2) || !ft_strncmp(&str[data->i], "SO", 2) || !ft_strncmp(&str[data->i], "WE", 2) || !ft_strncmp(&str[data->i], "EA", 2))
+		{
+			get_wall_texture_path(&data->no, str, "NO", data);
+			get_wall_texture_path(&data->so, str, "SO", data);
+			get_wall_texture_path(&data->we, str, "WE", data);
+			get_wall_texture_path(&data->ea, str, "EA", data);
+		}
 		get_RGB(data->floor, 'F', str, data);
 		get_RGB(data->ceiling,'C', str, data);
 		if (str[data->i] && (str[data->i] == '\n') && (str[data->i + 1] == ' ' || str[data->i + 1] == '1'))
