@@ -95,15 +95,15 @@ void	init_player(t_data *data, t_game *game)
 	data->player.pdx = cos(deg_to_rad(data->player.pa)) * 5;
 	data->player.pdy = -sin(deg_to_rad(data->player.pa)) * 5;
 	data->player.speed = 1.5;
-	game->old_x = WIDTH/2;
+	game->old_x = WIDTH / 2;
 	game->keys[0] = 0;
 	game->keys[1] = 0;
 	game->keys[2] = 0;
 	game->keys[3] = 0;
 	game->keys[4] = 0;
 	game->keys[5] = 0;
-	data->player.px += (SQUARE/2);
-	data->player.py += (SQUARE/2);
+	data->player.px += (SQUARE / 2);
+	data->player.py += (SQUARE / 2);
 	game->player = data->player;
 	game->data = data;
 }
@@ -125,10 +125,10 @@ int	end_game(t_game *game)
 {
 	printf(GREEN "----------------\nEXITING GAME\n----------------\n");
 	destroy_sprites(game);
-    pthread_cancel(game->Tid); // Give error message ? exit 1 ?
+    pthread_cancel(game->t_id); // Give error message ? exit 1 ?
     stop_sound();
-    if (pthread_join(game->Tid, NULL))
-		return (error(game->data, "thread join failed\n", NULL), exit(1), 1); // Give error message ? exit 1 ?
+    if (pthread_join(game->t_id, NULL))
+		return (e(game->data, "thread join failed\n", NULL), exit(1), 1); // Give error message ? exit 1 ?
 	return(exit(0), 0);
 }
 
@@ -180,41 +180,7 @@ int keyReleased(int key, t_game *game)
 
 int update_frame(t_game *game)
 {
-	if (game->keys[0] && can_move(Z, game))
-	{
-		if (can_move(Z, game))
-		game->player.px += game->player.pdx * game->player.speed;
-		game->player.py += game->player.pdy * game->player.speed;
-	}
-	if (game->keys[1] && can_move(S, game))
-	{
-		game->player.px -= game->player.pdx * game->player.speed / 2;
-		game->player.py -= game->player.pdy * game->player.speed / 2;
-	}
-	if (game->keys[4] && can_move(Q, game))
-	{
-		game->player.px -= game->player.pdy * game->player.speed / 5;
-		game->player.py += game->player.pdx * game->player.speed / 5;
-	}
-	if (game->keys[5] && can_move(D, game))
-	{
-		game->player.px += game->player.pdy * game->player.speed / 5;
-		game->player.py -= game->player.pdx * game->player.speed / 5;
-	}
-	if (game->keys[2])
-	{
-		game->player.pa -= 5.0 * game->player.speed / 2;
-		game->player.pa = fix_ang(game->player.pa);
-		game->player.pdx = cos(deg_to_rad(game->player.pa)) * 5.0;
-		game->player.pdy = -sin(deg_to_rad(game->player.pa)) * 5.0;
-	}
-	if (game->keys[3])
-	{
-		game->player.pa += 5.0 * game->player.speed / 2;
-		game->player.pa = fix_ang(game->player.pa);
-		game->player.pdx = cos(deg_to_rad(game->player.pa)) * 5.0;
-		game->player.pdy = -sin(deg_to_rad(game->player.pa)) * 5.0;
-	}
+	movement(game);
 	draw_rays(game);
 	// mlx_mouse_move(game->mlx_win, WIDTH/2, HEIGHT/2);
 	// mlx_mouse_hide();
@@ -277,7 +243,7 @@ int	main(int ac, char **av)
 	// mlx_hook(game.mlx_win, 2, 1L << 0, key_hook, &game);
 	mlx_loop_hook(game.mlx_ptr, update_frame, &game);
 	mlx_hook(game.mlx_win, 17, 1L << 2, end_game, &game);
-	if (pthread_create(&game.Tid, NULL, embient_sound, NULL))
+	if (pthread_create(&game.t_id, NULL, embient_sound, NULL))
 		return (ft_error(RED BOLD "Error: " RESET "Thread\n"), 1); // exit ? use errno to specify error ?
 	mlx_loop(game.mlx_ptr);
 	free_all(&data);

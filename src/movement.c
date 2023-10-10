@@ -12,74 +12,46 @@
 
 #include "../include/cub3d.h"
 
-void	movement(int key, t_game *game)
+void	movement(t_game *g)
 {
-	if (key == Z)
+	if (g->keys[0])
+		can_move(g, g->player.px + g->player.pdx * g->player.speed, \
+		g->player.py + g->player.pdy * g->player.speed, 0);
+	if (g->keys[1])
 	{
-		game->player.px += game->player.pdx * game->player.speed;
-		game->player.py += game->player.pdy * game->player.speed;
+		can_move(g, g->player.px - g->player.pdx * g->player.speed / 2, \
+		g->player.py - g->player.pdy * g->player.speed / 2, 180);
 	}
-	if (key == S)
-	{
-		game->player.px -= game->player.pdx * game->player.speed;
-		game->player.py -= game->player.pdy * game->player.speed;
-	}
-	if (key == Q)
-	{
-		game->player.pa -= 5.0 * game->player.speed / 2;
-		game->player.pa = fix_ang(game->player.pa);
-		game->player.pdx = cos(deg_to_rad(game->player.pa)) * 5.0;
-		game->player.pdy = -sin(deg_to_rad(game->player.pa)) * 5.0;
-	}
-	if (key == D)
-	{
-		game->player.pa += 5.0 * game->player.speed / 2;
-		game->player.pa = fix_ang(game->player.pa);
-		game->player.pdx = cos(deg_to_rad(game->player.pa)) * 5.0;
-		game->player.pdy = -sin(deg_to_rad(game->player.pa)) * 5.0;
-	}
+	if (g->keys[4])
+		can_move(g, g->player.px - g->player.pdy * g->player.speed / 5, \
+		g->player.py + g->player.pdx * g->player.speed / 5, -90);
+	if (g->keys[5])
+		can_move(g, g->player.px + g->player.pdy * g->player.speed / 5, \
+		g->player.py - g->player.pdx * g->player.speed / 5, 90);
+	if (g->keys[2])
+		g->player.pa -= 5.0 * g->player.speed / 2;
+	if (g->keys[3])
+		g->player.pa += 5.0 * g->player.speed / 2;
+	g->player.pa = fix_ang(g->player.pa);
+	g->player.pdx = cos(deg_to_rad(g->player.pa)) * 5.0;
+	g->player.pdy = -sin(deg_to_rad(g->player.pa)) * 5.0;
 }
 
-int	can_move(int key, t_game *game)
+void	can_move(t_game *game, double fx, double fy, int side)
 {
-	int	mx;
-	int	my;
+	t_ray	hray;
+	t_ray	vray;
+	t_ray	*ray;
 
-	if (key == Z)
-	{
-		mx = ((int)(game->player.px + game->player.pdx  * game->player.speed)) >> 6;
-		my = ((int)(game->player.py + game->player.pdy * 6)) >> 6;
-	}
-	else if (key == S)
-	{
-		mx = ((int)(game->player.px - game->player.pdx  * game->player.speed)) >> 6;
-		my = ((int)(game->player.py - game->player.pdy  * game->player.speed)) >> 6;
-	}
-	else if (key == Q)
-	{
-		mx = ((int)(game->player.px - game->player.pdy  * game->player.speed)) >> 6;
-		my = ((int)(game->player.py + game->player.pdx  * game->player.speed)) >> 6;
-	}
-	else if (key == D)
-	{
-		mx = ((int)(game->player.px + game->player.pdy  * game->player.speed)) >> 6;
-		my = ((int)(game->player.py - game->player.pdx  * game->player.speed)) >> 6;
-	}
+	init_ray(&hray, game, game->player.pa + side, 'H');
+	init_ray(&vray, game, game->player.pa + side, 'V');
+	if (hray.dist < vray.dist)
+		ray = &hray;
 	else
-		return (1);
-	return ((my >=0 && mx >=0) && my < game->data->height && mx < ft_strlen(game->data->map[my]) && game->data->map[my][mx] != 'X');
-}
-
-int	key_hook(int key, t_game *game)
-{
-	if (can_move(key, game))
+		ray = &vray;
+	if (ray->dist > distance(game->player.px, game->player.py, fx, fy) + 10)
 	{
-		movement(key, game);
-		update_frame(game);
-		// draw_rays(game);
-		// mlx_put_image_to_window(game->mlx_ptr, game->mlx_win, game->img.image, 0, 0);
+		game->player.px = fx;
+		game->player.py = fy;
 	}
-	if (key == ESC)
-		end_game(game);
-	return (0);
 }

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/10 18:23:42 by sgodin            #+#    #+#             */
+/*   Updated: 2023/10/10 18:23:42 by sgodin           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef CUB3D_H
 # define CUB3D_H
 
@@ -67,10 +79,10 @@ typedef struct sprites {
 }				t_sprites;
 
 typedef struct drawing {
-	double	lineH;
-	double	lineO;
+	double	line_h;
+	double	line_o;
 	double	ty_offset;
-	double	texX;
+	double	tex_x;
 	double	step;
 	double	tex;
 	double	realdist;
@@ -107,7 +119,7 @@ typedef struct s_player
 	double	pdy;
 	double	pa;
 	int		fov;
-	float		speed;
+	float	speed;
 }	t_player;
 
 typedef struct s_data
@@ -138,7 +150,7 @@ typedef struct game
 	t_sprites	sprites;
 	float		old_x;
 	int			keys[6];
-	pthread_t Tid;
+	pthread_t	t_id;
 }	t_game;
 
 void	set_map_from_file(char *path, t_data *data);
@@ -148,7 +160,7 @@ void	pg(int x, int y, int f, t_data *data);
 void	push(t_node	**top, int x, int y);
 void	pop(t_node	**top);
 void	cleanup_stack(t_data *data);
-void	error(t_data *data, char *str, char *error);
+void	e(t_data *data, char *str, char *error);
 void	make_map(char *str, t_data *data);
 char	*ft_strjoin(char const *s1, char const *s2);
 void	free_map(t_data *data, int height);
@@ -174,8 +186,8 @@ void	drawstripes(t_game *game, int x1, int y1, int y2, int color);
 int		update_frame(t_game *game);
 
 //movement
-int		key_hook(int key, t_game *game);
-int		can_move(int key, t_game *game);
+void	movement(t_game *game);
+void	can_move(t_game *game, double fx, double fy, int side);
 
 //utils 2
 void	my_mlx_pixel_put(t_img *img, int x, int y, int color);
@@ -185,6 +197,8 @@ double	fix_ang(double a);
 void	*put_img(t_game *data, char *path);
 unsigned int	get_color(t_img *img, int x, int y);
 
-int	end_game(t_game *game);
+//end
+void	destroy_sprites(t_game *game);
+int		end_game(t_game *game);
 
 #endif

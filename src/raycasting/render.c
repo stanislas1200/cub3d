@@ -14,15 +14,16 @@
 
 double	in_circle(double x, double y)
 {
-	double radius;
-	double dist;
-	double light;
+	double	radius;
+	double	dist;
+	double	light;
 
 	radius = 230.0;
-	dist = distance(x,y, WIDTH/2, HEIGHT/2);
+	dist = distance(x, y, WIDTH / 2, HEIGHT / 2);
 	light = (dist - radius);
-	return(light * 0.01);
+	return (light * 0.01);
 }
+
 unsigned int	darken_color(unsigned int color, double fog)
 {
 	int	r;
@@ -70,7 +71,7 @@ void	drawstripes(t_game *game, int x1, int y1, int y2, int color)
 			fog = 1 - fog;
 		}
 		color2 = darken_color(color, fog);
-		if (y1 > HEIGHT/2)
+		if (y1 > HEIGHT / 2)
 			color2 = darken_color(color2, (in_circle(x1, y1) * 5));
 		my_mlx_pixel_put(&game->img, x1, y1, color2);
 		y1++;
@@ -84,16 +85,16 @@ void	render_wall(t_game *game, t_draw *d, double x, t_ray *ray)
 	double			start;
 	double			fog;
 
-	start = d->lineO;
+	start = d->line_o;
 	texy = d->ty_offset * d->step;
 	fog = d->realdist / 400;
-	while (start < (d->lineO + d->lineH) && start < HEIGHT)
+	while (start < (d->line_o + d->line_h) && start < HEIGHT)
 	{
 		texy += d->step;
 		if (texy >= 64)
 			texy = 0;
 		color = get_color(game->sprites.wall[(int)d->tex], \
-		(int)d->texX, (int)texy);
+		(int)d->tex_x, (int)texy);
 		color = darken_color(color, fog);
 		color = darken_color(color, in_circle(x, start));
 		my_mlx_pixel_put(&game->img, x, start, color);
