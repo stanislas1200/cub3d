@@ -11,18 +11,19 @@
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
+#include <string.h>
+#include <errno.h> // DEV
 
 void	free_map(t_data *data, int height)
 {
 	while (data->map && height >= 0)
 	{
 		free(data->map[height--]);
-		data->map[height + 1] = NULL;	
+		data->map[height + 1] = NULL;
 	}
 	free(data->map);
 	data->map = NULL;
 }
-
 
 void	free_all(t_data *data)
 {
@@ -102,7 +103,6 @@ int	open_file(char *path)
 void	read_file(int fd, t_data *data)
 {
 	int		read_bytes;
-	// int		size;
 	char	buff[2];
 	char	*tmp;
 
@@ -111,90 +111,41 @@ void	read_file(int fd, t_data *data)
 		return (e(data, "Malloc error\n" RESET, NULL));
 	data->all_line[0] = '\0';
 	read_bytes = -1;
-	// size = 0;
 	while (read_bytes)
 	{
 		read_bytes = read(fd, buff, 1);
 		if (read_bytes == -1)
-			return (perror("Error"), free_all(data)); // exit ?
+			return (e(data, strerror(errno), NULL));
 		buff[read_bytes] = '\0';
 		tmp = data->all_line;
 		data->all_line = ft_strjoin(data->all_line, buff);
 		free(tmp);
 		if (!data->all_line)
 			return (e(data, "Malloc error\n" RESET, NULL));
-		// size += read_bytes;
 	}
-	// data->all_line[size] = '\0';
 }
 
-void	make_floor(t_data *data)
+void	check_map(t_data *d)
 {
 	int	i;
 	int	j;
 
 	i = -1;
-	while (data->map[++i])
+	while (d->map[++i])
 	{
 		j = -1;
-		while (data->map[i][++j])
-			if (data->map[i][j] == 'F')
-				pg(j, i, rand() % (2), data);
-	}
-	return ;
-}
-
-void	make_door(t_data *data)
-{
-	int	i;
-	int	j;
-
-	i = -1;
-	while (data->map[++i])
-	{
-		j = -1;
-		while (data->map[i][++j])
+		while (d->map[i][++j])
 		{
-			if (i > 1 && i < data->height - 1 && j > 1 && data->map[i][j] == 'X')
+			if (d->map[i][j] == 'F')
 			{
-				if ((data->map[i - 1][j] == 'F' && data->map[i][j + 1] == 'X' \
-				&& data->map[i + 1][j] == 'F' && data->map[i][j - 1] == 'X' \
-				&& j < ft_strlen(data->map[i + 1])) || \
-				data->map[i][j - 1] == 'F' && data->map[i][j + 1] == 'F' \
-				&& data->map[i - 1][j] == 'X' \
-				&& data->map[i + 1][j] == 'X')
-				{
-					if (rand() % (3))
-						data->map[i][j] = 'D';
-				}
-			}
-		}
-	}
-}
-
-void	check_map(t_data *data)
-{
-	int	i;
-	int j;
-
-	i = -1;
-	while (data->map[++i])
-	{
-		j = -1;
-		while (data->map[i][++j])
-		{
-			if (data->map[i][j] == 'F')
-			{ // left right top down
-				if (j == 0 || data->map[i][j - 1] == ' ' \
-				|| !data->map[i][j + 1] || data->map[i][j + 1] == ' ' \
-				|| i == 0 || j >= ft_strlen(data->map[i - 1]) || data->map[i - 1][j] == ' ' \
-				|| !data->map[i + 1] || j >= ft_strlen(data->map[i + 1]) || data->map[i + 1][j] == ' '
+				if (j == 0 || d->map[i][j - 1] == ' ' \
+				|| !d->map[i][j + 1] || d->map[i][j + 1] == ' ' \
+				|| i == 0 || j >= ft_strlen(d->map[i - 1]) \
+				|| d->map[i - 1][j] == ' ' \
+				|| !d->map[i + 1] || j >= ft_strlen(d->map[i + 1]) \
+				|| d->map[i + 1][j] == ' '
 				)
-				{
-					printf(RED "ERROR: " RESET "x: " MAGENTA "%d, " RESET "y: " MAGENTA "%d\n" RESET, j, i); // norm
-					free_all(data);
-					exit(1);
-				}
+					return (e(d, "Map error : ", "map not close"));
 			}
 		}
 	}
@@ -214,9 +165,5 @@ void	set_map_from_file(char *path, t_data *data)
 	free(data->all_line);
 	data->all_line = NULL;
 	check_map(data);
-	// // make_door(data);
-	// // make_floor(data);
-	// if (!data->map)
-	// 	return ;
 	print_map(data);
 }

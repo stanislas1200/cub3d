@@ -37,21 +37,22 @@ void	init_drawing(t_game *game, t_draw *d, t_ray *ray, double angle)
 {
 	d->ty_offset = 0;
 	ray->dist *= cos(deg_to_rad(fix_ang(game->player.pa - angle)));
-	d->lineH = (SQUARE * HEIGHT) / ray->dist;
-	d->step = (SQUARE / d->lineH);
-	if (d->lineH > HEIGHT)
+	d->line_h = (SQUARE * HEIGHT) / ray->dist;
+	d->step = (SQUARE / d->line_h);
+	if (d->line_h > HEIGHT)
 	{
-		d->ty_offset = (d->lineH - HEIGHT) / 2.0;
-		d->lineH = HEIGHT;
+		d->ty_offset = (d->line_h - HEIGHT) / 2.0;
+		d->line_h = HEIGHT;
 	}
 	if (ray->side == 0)
-		d->texX = ray->rx - (((int)ray->rx >> 6)<<6);
+		d->tex_x = ray->rx - (((int)ray->rx >> 6) << 6);
 	else if (ray->side == 1)
-		d->texX = ray->ry - (((int)ray->ry >> 6)<<6);
-	if((ray->side == 0 && ray->ra > 180) || (ray->side == 1 &&(ray->ra > 90 && ray->ra < 270)))
-		d->texX = 64 - d->texX;
+		d->tex_x = ray->ry - (((int)ray->ry >> 6) << 6);
+	if ((ray->side == 0 && ray->ra > 180) || \
+	(ray->side == 1 && (ray->ra > 90 && ray->ra < 270)))
+		d->tex_x = 64 - d->tex_x;
 	d->tex = texture(ray->side, ray->ra);
-	d->lineO = (HEIGHT / 2) - ((int)d->lineH >> 1);
+	d->line_o = (HEIGHT / 2) - ((int)d->line_h >> 1);
 }
 
 void	ray_cast(t_game *game, double angle, int s_width)
@@ -86,7 +87,8 @@ int	texture(int side, double ra)
 
 void	draw(t_game *game, t_ray *ray, t_draw *d, int s_width)
 {
-	drawstripes(game, s_width, 0, d->lineO, game->data->ceiling[2]);
+	drawstripes(game, s_width, 0, d->line_o, game->data->ceiling[2]);
 	render_wall(game, d, (s_width), ray);
-	drawstripes(game, s_width, d->lineH + d->lineO, HEIGHT, game->data->floor[2]);
+	drawstripes(game, s_width, d->line_h + d->line_o, \
+	HEIGHT, game->data->floor[2]);
 }

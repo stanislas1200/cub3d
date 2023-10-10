@@ -78,7 +78,6 @@ int	main(int ac, char **av)
 	mlx_loop_hook(game.mlx_ptr, update_frame, &game);
 	mlx_hook(game.mlx_win, 17, 1L << 2, end_game, &game);
 	mlx_loop(game.mlx_ptr);
-
 	free_all(&data);
 	return (0);
 }

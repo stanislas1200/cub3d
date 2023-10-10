@@ -12,60 +12,32 @@
 
 #include "../include/cub3d.h"
 
-void	movement(t_game *game)
+void	movement(t_game *g)
 {
-	double fx, fy;
-
-	if (game->keys[0])
+	if (g->keys[0])
+		can_move(g, g->player.px + g->player.pdx * g->player.speed, \
+		g->player.py + g->player.pdy * g->player.speed, 0);
+	if (g->keys[1])
 	{
-		fx = game->player.px + game->player.pdx + game->player.speed;
-		fy = game->player.py + game->player.pdy + game->player.speed;
-		if (can_move(game, fx, fy, 0))
-		{
-			game->player.px += game->player.pdx * game->player.speed;
-			game->player.py += game->player.pdy * game->player.speed;
-		}
+		can_move(g, g->player.px - g->player.pdx * g->player.speed / 2, \
+		g->player.py - g->player.pdy * g->player.speed / 2, 180);
 	}
-	if (game->keys[1])
-	{
-		fx = game->player.px - game->player.pdx * game->player.speed / 2;
-		fy = game->player.py - game->player.pdy * game->player.speed / 2;
-		if (can_move(game, fx, fy, 180))
-		{
-			game->player.px -= game->player.pdx * game->player.speed / 2;
-			game->player.py -= game->player.pdy * game->player.speed / 2;
-		}
-	}
-	if (game->keys[4])
-	{
-		fx = game->player.px - game->player.pdy * game->player.speed / 5;
-		fy = game->player.py + game->player.pdx * game->player.speed / 5;
-		if (can_move(game, fx, fy, -90))
-		{
-			game->player.px -= game->player.pdy * game->player.speed / 5;
-			game->player.py += game->player.pdx * game->player.speed / 5;
-		}
-	}
-	if (game->keys[5])
-	{
-		fx = game->player.px + game->player.pdy * game->player.speed / 5;
-		fy = game->player.py - game->player.pdx * game->player.speed / 5;
-		if (can_move(game, fx, fy, 90))
-		{
-			game->player.px += game->player.pdy * game->player.speed / 5;
-			game->player.py -= game->player.pdx * game->player.speed / 5;
-		}
-	}
-	if (game->keys[2])
-		game->player.pa -= 5.0 * game->player.speed / 2;
-	if (game->keys[3])
-		game->player.pa += 5.0 * game->player.speed / 2;
-	game->player.pa = fix_ang(game->player.pa);
-	game->player.pdx = cos(deg_to_rad(game->player.pa)) * 5.0;
-	game->player.pdy = -sin(deg_to_rad(game->player.pa)) * 5.0;
+	if (g->keys[4])
+		can_move(g, g->player.px - g->player.pdy * g->player.speed / 5, \
+		g->player.py + g->player.pdx * g->player.speed / 5, -90);
+	if (g->keys[5])
+		can_move(g, g->player.px + g->player.pdy * g->player.speed / 5, \
+		g->player.py - g->player.pdx * g->player.speed / 5, 90);
+	if (g->keys[2])
+		g->player.pa -= 5.0 * g->player.speed / 2;
+	if (g->keys[3])
+		g->player.pa += 5.0 * g->player.speed / 2;
+	g->player.pa = fix_ang(g->player.pa);
+	g->player.pdx = cos(deg_to_rad(g->player.pa)) * 5.0;
+	g->player.pdy = -sin(deg_to_rad(g->player.pa)) * 5.0;
 }
 
-int	can_move(t_game *game, double fx, double fy, int side)
+void	can_move(t_game *game, double fx, double fy, int side)
 {
 	t_ray	hray;
 	t_ray	vray;
@@ -78,6 +50,8 @@ int	can_move(t_game *game, double fx, double fy, int side)
 	else
 		ray = &vray;
 	if (ray->dist > distance(game->player.px, game->player.py, fx, fy) + 10)
-		return (1);
-	return (0);
+	{
+		game->player.px = fx;
+		game->player.py = fy;
+	}
 }

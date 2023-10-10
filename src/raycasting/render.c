@@ -27,15 +27,15 @@ void	render_wall(t_game *game, t_draw *d, double x, t_ray *ray)
 	double			texy;
 	double			start;
 
-	start = d->lineO;
+	start = d->line_o;
 	texy = d->ty_offset * d->step;
-	while (start < (d->lineO + d->lineH) && start < HEIGHT)
+	while (start < (d->line_o + d->line_h) && start < HEIGHT)
 	{
 		texy += d->step;
 		if (texy >= 64)
 			texy = 0;
 		color = get_color(game->sprites.wall[(int)d->tex], \
-		(int)d->texX, (int)texy);
+		(int)d->tex_x, (int)texy);
 		my_mlx_pixel_put(&game->img, x, start, color);
 		start++;
 	}
