@@ -167,8 +167,7 @@ int		ft_atoi(const char *str);
 size_t	ft_strlcpy(char *dest, char *src, size_t size);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 void	free_all(t_data *data);
-
-void	print_map(t_data *data);
+void	get_wall_texture_path(char **dest, char *str, char *str2, t_data *d);
 
 //raycasting
 void	draw_rays(t_game *game);

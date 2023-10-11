@@ -14,38 +14,6 @@
 #include <string.h>
 #include <errno.h> // DEV
 
-void	free_map(t_data *data, int height)
-{
-	while (data->map && height >= 0)
-	{
-		free(data->map[height--]);
-		data->map[height + 1] = NULL;
-	}
-	free(data->map);
-	data->map = NULL;
-}
-
-void	free_all(t_data *data)
-{
-	free(data->all_line);
-	free_map(data, data->height);
-	free(data->no);
-	free(data->so);
-	free(data->we);
-	free(data->ea);
-}
-
-void	e(t_data *data, char *error, char *info)
-{
-	ft_error(RED BOLD "Error" RESET ": " YELLOW);
-	if (error)
-		ft_error(error);
-	if (info)
-		ft_error(info);
-	free_all(data);
-	exit(1);
-}
-
 int	find_file(char **path, char **new_path, int *free_path)
 {
 	int	i;
@@ -165,5 +133,4 @@ void	set_map_from_file(char *path, t_data *data)
 	free(data->all_line);
 	data->all_line = NULL;
 	check_map(data);
-	print_map(data);
 }

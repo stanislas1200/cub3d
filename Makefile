@@ -18,7 +18,7 @@ SRCS = src/main.c\
 		src/utils2.c\
 		src/utils3.c\
 		src/parser.c\
-		src/test.c\
+		src/cleaner.c\
 		src/end.c\
 		src/init.c\
 		src/movement.c\
