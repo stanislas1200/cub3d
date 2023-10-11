@@ -14,38 +14,6 @@
 #include <string.h>
 #include <errno.h> // DEV
 
-void	free_map(t_data *data, int height)
-{
-	while (data->map && height >= 0)
-	{
-		free(data->map[height--]);
-		data->map[height + 1] = NULL;
-	}
-	free(data->map);
-	data->map = NULL;
-}
-
-void	free_all(t_data *data)
-{
-	free(data->all_line);
-	free_map(data, data->height);
-	free(data->no);
-	free(data->so);
-	free(data->we);
-	free(data->ea);
-}
-
-void	e(t_data *data, char *error, char *info)
-{
-	ft_error(RED BOLD "Error" RESET ": " YELLOW);
-	if (error)
-		ft_error(error);
-	if (info)
-		ft_error(info);
-	free_all(data);
-	exit(1);
-}
-
 int	find_file(char **path, char **new_path, int *free_path)
 {
 	int	i;
@@ -152,7 +120,8 @@ void	make_door(t_data *data)
 		j = -1;
 		while (data->map[i][++j])
 		{
-			if (i > 1 && i < data->height - 1 && j > 1 && data->map[i][j] == 'X')
+			if (i > 1 && i < data->height - 1 && j > 1 \
+			&& data->map[i][j] == 'X')
 			{
 				if ((data->map[i - 1][j] == 'F' && data->map[i][j + 1] == 'X' \
 				&& data->map[i + 1][j] == 'F' && data->map[i][j - 1] == 'X' \
@@ -213,5 +182,4 @@ void	set_map_from_file(char *path, t_data *data)
 	// // make_floor(data);
 	// if (!data->map)
 	// 	return ;
-	print_map(data);
 }

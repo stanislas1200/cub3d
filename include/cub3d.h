@@ -168,8 +168,7 @@ int		ft_atoi(const char *str);
 size_t	ft_strlcpy(char *dest, char *src, size_t size);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 void	free_all(t_data *data);
-
-void	print_map(t_data *data);
+void	get_wall_texture_path(char **dest, char *str, char *str2, t_data *d);
 
 //raycasting
 void	draw_rays(t_game *game);
@@ -200,5 +199,11 @@ unsigned int	get_color(t_img *img, int x, int y);
 //end
 void	destroy_sprites(t_game *game);
 int		end_game(t_game *game);
+
+//init
+int		init_mlx(t_game *game);
+void	init_player(t_data *data, t_game *game);
+int		init_sprites(t_game *game);
+void	init_data(t_data *data);
 
 #endif

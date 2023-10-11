@@ -12,6 +12,22 @@
 
 #include "../include/cub3d.h"
 
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < n && s1[i] && s2[i])
+	{
+		if (s1[i] != s2[i])
+			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+		i++;
+	}
+	if (i == n)
+		return (0);
+	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+}
+
 void	my_mlx_pixel_put(t_img *img, int x, int y, int color)
 {
 	char	*dst;
@@ -37,18 +53,4 @@ double	fix_ang(double a)
 	if (a < 0)
 		a += 360;
 	return (a);
-}
-
-void	*put_img(t_game *data, char *path)
-{
-	int	img_width;
-	int	img_height;
-
-	return (mlx_xpm_file_to_image(data->mlx_ptr, \
-				path, &img_width, &img_height));
-}
-
-unsigned int	get_color(t_img *img, int x, int y)
-{
-	return (*(unsigned int *)(img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8))));
 }

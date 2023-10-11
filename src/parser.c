@@ -12,34 +12,6 @@
 
 #include "../include/cub3d.h"
 
-
-void	get_wall_texture_path(char **dest, char *str, char *str2, t_data *d)
-{
-	d->j = 0;
-	if (!ft_strncmp(&str[d->i], str2, 2))
-	{
-		if (*dest)
-			return (e(d, "Invalid map" RESET ": ", "Duplicate wall path\n"));
-		if (str[d->i + 2] != ' ' && str[d->i + 2] != '\t')
-			return (e(d, "Invalid map" RESET ": ", "Invalid wall path\n"));
-		while (str[d->i + 2] == ' ' || str[d->i + 2] == '\t')
-			d->i++;
-		d->i--;
-		while (str[d->i + d->j + 2] && str[d->i + d->j + 2] \
-		!= '\n' && str[d->i + d->j + 2] != '\r')
-			d->j++;
-		*dest = malloc(sizeof(char) * (d->j + 1));
-		if (!*dest)
-			return (e(d, "Malloc error\n" RESET, NULL));
-		ft_strlcpy(*dest, &str[d->i + 3], d->j);
-		(*dest)[d->j] = '\0';
-		d->i += d->j + 2;
-		while (str[d->i] == ' ' || str[d->i] == '\t' \
-		|| str[d->i] == '\n' || str[d->i] == '\r')
-			d->i++;
-	}
-}
-
 void	get_rgb(int dest[3], char c, char *str, t_data *data)
 {
 	if (str[data->i] == c)

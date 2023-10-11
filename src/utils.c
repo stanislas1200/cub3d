@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/11 16:25:48 by sgodin            #+#    #+#             */
+/*   Updated: 2023/10/11 16:25:48 by sgodin           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/cub3d.h"
 
 int	ft_overfloaw(int neg)
@@ -22,9 +34,9 @@ int	ft_atoi(const char *str)
 		|| str[i] == '\f' || str[i] == '\r')
 		i++;
 	if (str[i] == '-')
-			neg = -1;
+		neg = -1;
 	if (str[i] == '-' || str[i] == '+')
-			i++;
+		i++;
 	while (str[i] >= '0' && str[i] <= '9')
 	{
 		nb = str[i++] - '0' + nb * 10;
@@ -33,22 +45,6 @@ int	ft_atoi(const char *str)
 		temp = nb;
 	}
 	return (nb * neg);
-}
-
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
-{
-	size_t	i;
-
-	i = 0;
-	while (i < n && s1[i] && s2[i])
-	{
-		if (s1[i] != s2[i])
-			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
-		i++;
-	}
-	if (i == n)
-		return (0);
-	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }
 
 size_t	ft_strlcpy(char *dest, char *src, size_t size)
