@@ -37,9 +37,9 @@
 # define RD 0.0174533
 # define PI2 6.283185307
 # define PI3 9.4247779605
-# define HEIGHT 1024
-# define WIDTH 2048
-# define FOV 90.0
+# define HEIGHT 512
+# define WIDTH 1024
+# define FOV 45.0
 # define NO 0
 # define SO 1
 # define WE 2
@@ -48,7 +48,7 @@
 // keys
 
 //linux
-// # define Z 122
+// # define Z 122 
 // # define Q 113
 // # define D 100
 // # define S 115

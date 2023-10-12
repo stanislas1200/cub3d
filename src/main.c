@@ -16,17 +16,17 @@ int	key_pressed(int key, t_game *game)
 {
 	if (key == Z)
 		game->keys[0] = 1;
-	if (key == S)
+	else if (key == S)
 		game->keys[1] = 1;
-	if (key == A_W)
+	else if (key == A_W)
 		game->keys[2] = 1;
-	if (key == A_E)
+	else if (key == A_E)
 		game->keys[3] = 1;
-	if (key == Q)
+	else if (key == Q)
 		game->keys[4] = 1;
-	if (key == D)
+	else if (key == D)
 		game->keys[5] = 1;
-	if (key == ESC)
+	else if (key == ESC)
 		end_game(game);
 	return (0);
 }
@@ -35,15 +35,15 @@ int	key_released(int key, t_game *game)
 {
 	if (key == Z)
 		game->keys[0] = 0;
-	if (key == S)
+	else if (key == S)
 		game->keys[1] = 0;
-	if (key == A_W)
+	else if (key == A_W)
 		game->keys[2] = 0;
-	if (key == A_E)
+	else if (key == A_E)
 		game->keys[3] = 0;
-	if (key == Q)
+	else if (key == Q)
 		game->keys[4] = 0;
-	if (key == D)
+	else if (key == D)
 		game->keys[5] = 0;
 	return (0);
 }
