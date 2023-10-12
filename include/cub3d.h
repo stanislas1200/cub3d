@@ -88,6 +88,7 @@ typedef struct drawing {
 	double	realdist;
 
 }	t_draw;
+
 typedef struct ray
 {
 	double	rx;
@@ -136,6 +137,7 @@ typedef struct s_data
 	int			ceiling[3];
 	char		**map;
 	char		*all_line;
+	int			time;
 	t_node		*stack;
 	t_player	player;
 }	t_data;

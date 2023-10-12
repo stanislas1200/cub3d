@@ -6,7 +6,7 @@
 /*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 16:11:38 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/11 16:13:11 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/12 14:03:27 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	init_data(t_data *data)
 	data->ceiling[0] = -1;
 	data->ceiling[1] = -1;
 	data->ceiling[2] = -1;
+	data->time = 0;
 }
 
 int	init_sprites(t_game *game)

@@ -25,11 +25,20 @@ void	check_for_hit(t_game *game, t_ray *ray)
 		ray->mx < ft_strlen(game->data->map[ray->my]) \
 		&& game->data->map[ray->my][ray->mx])
 		{
-			if (game->data->map[ray->my][ray->mx] == 'X')
+			if (game->data->map[ray->my][ray->mx] == '0') // auto door exemple no animation
+			{
+				ray->dist = distance(game->player.px, \
+				game->player.py, ray->rx, ray->ry);
+				if (ray->dist > 200)
+					game->data->map[ray->my][ray->mx] = 'D';
+			}
+			if (game->data->map[ray->my][ray->mx] == 'X' || game->data->map[ray->my][ray->mx] == 'D')
 			{
 				ray->hit = 1;
 				ray->dist = distance(game->player.px, \
 				game->player.py, ray->rx, ray->ry);
+				if (game->data->map[ray->my][ray->mx] == 'D' && ray->dist <= 75) // auto door exemple no animation
+					game->data->map[ray->my][ray->mx] = '0';
 			}
 			else
 			{

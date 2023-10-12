@@ -94,12 +94,15 @@ int	key_released(int key, t_game *game)
 
 int	update_frame(t_game *game)
 {
+	if (game->data->time >= 1000)
+		game->data->time = 0;
 	movement(game);
 	draw_rays(game);
 	// mlx_mouse_move(game->mlx_win, WIDTH/2, HEIGHT/2);
 	// mlx_mouse_hide();
 	mlx_put_image_to_window(game->mlx_ptr, \
 	game->mlx_win, game->img.image, 0, 0);
+	game->data->time++;
 	return (0);
 }
 
