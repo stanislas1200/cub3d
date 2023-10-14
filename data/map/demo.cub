@@ -1,7 +1,7 @@
-NO ./Sprites/bluestone.xpm
-SO ./Sprites/eagle.xpm
-WE ./Sprites/greystone.xpm
-EA ./Sprites/redbrick.xpm
+NO ./Sprites/wall/wall1.xpm
+SO ./Sprites/wall/wall1.1.xpm
+WE ./Sprites/wall/wall1.2.xpm
+EA ./Sprites/wall/wall1.3.xpm
 
 F 13,8,41
 C 255,255,255

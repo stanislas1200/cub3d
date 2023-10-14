@@ -29,7 +29,7 @@ void	check_for_hit(t_game *game, t_ray *ray)
 			{
 				ray->dist = distance(game->player.px, \
 				game->player.py, ray->rx, ray->ry);
-				if (ray->dist > 200)
+				if (ray->dist > 100)
 					game->data->map[ray->my][ray->mx] = 'D';
 			}
 			if (game->data->map[ray->my][ray->mx] == 'X' || game->data->map[ray->my][ray->mx] == 'D')

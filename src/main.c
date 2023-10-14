@@ -103,6 +103,11 @@ int	update_frame(t_game *game)
 	mlx_put_image_to_window(game->mlx_ptr, \
 	game->mlx_win, game->img.image, 0, 0);
 	game->data->time++;
+	if (game->data->g_time > 4)
+		game->data->g_time = 0;
+	mlx_put_image_to_window(game->mlx_ptr, game->mlx_win, game->sprites.gun[(game->data->g_time) % 4], WIDTH / 1.3 - GUN_W, HEIGHT - GUN_H);
+	if (game->data->g_time > 0) 
+		game->data->g_time++;
 	return (0);
 }
 
@@ -114,7 +119,7 @@ void	*embient_sound(void *nop)
 	return (NULL);
 }
 
-void	play_sound(char *sound)
+void	play_sound(char *sound, t_game *game)
 {
 	pid_t	pid;
 
@@ -128,9 +133,12 @@ void	play_sound(char *sound)
 	}
 }
 
-int	gun_fire(void)
+int	gun_fire(int button, int x, int y, t_game *game)
 {
-	play_sound("data/sound/gun.wav");
+	if (game->data->g_time > 1)
+		return (0);
+	game->data->g_time = 1;
+	play_sound("data/sound/gun.wav", game);
 	return (0);
 }
 

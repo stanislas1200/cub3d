@@ -6,7 +6,7 @@
 /*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 16:11:38 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/12 14:03:27 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/14 18:22:12 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	init_data(t_data *data)
 	data->ceiling[1] = -1;
 	data->ceiling[2] = -1;
 	data->time = 0;
+	data->g_time = 0;
 }
 
 int	init_sprites(t_game *game)
@@ -36,13 +37,21 @@ int	init_sprites(t_game *game)
 
 	i = -1;
 	while (++i <= 3)
+	{
 		game->sprites.wall[i] = NULL;
+		game->sprites.gun[i] = NULL;
+	}
+	game->sprites.gun[0] = put_img(game, "./Sprites/gun/0.xpm");
+	game->sprites.gun[1] = put_img(game, "./Sprites/gun/1.xpm");
+	game->sprites.gun[2] = put_img(game, "./Sprites/gun/2.xpm");
+	game->sprites.gun[3] = put_img(game, "./Sprites/gun/3.xpm");
 	game->sprites.wall[NO] = put_img(game, game->data->no);
 	game->sprites.wall[SO] = put_img(game, game->data->so);
 	game->sprites.wall[WE] = put_img(game, game->data->we);
 	game->sprites.wall[EA] = put_img(game, game->data->ea);
 	if (!game->sprites.wall[NO] || !game->sprites.wall[SO] \
-	|| !game->sprites.wall[WE] || !game->sprites.wall[EA])
+	|| !game->sprites.wall[WE] || !game->sprites.wall[EA] \
+	|| !game->sprites.gun[0])
 		return (destroy_sprites(game), 1);
 	i = -1;
 	while (++i <= 3)

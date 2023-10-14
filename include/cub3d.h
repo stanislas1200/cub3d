@@ -45,6 +45,9 @@
 # define WE 2
 # define EA 3
 
+# define GUN_H 360
+# define GUN_W 300
+
 // keys
 
 //linux
@@ -76,6 +79,7 @@ typedef struct s_img {
 
 typedef struct sprites {
 	t_img	*wall[4];
+	t_img	*gun[4];
 }				t_sprites;
 
 typedef struct drawing {
@@ -138,6 +142,7 @@ typedef struct s_data
 	char		**map;
 	char		*all_line;
 	int			time;
+	int			g_time;
 	t_node		*stack;
 	t_player	player;
 }	t_data;
