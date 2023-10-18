@@ -108,6 +108,7 @@ int	update_frame(t_game *game)
 	mlx_put_image_to_window(game->mlx_ptr, game->mlx_win, game->sprites.gun[(game->data->g_time) % 4], WIDTH / 1.3 - GUN_W, HEIGHT - GUN_H);
 	if (game->data->g_time > 0) 
 		game->data->g_time++;
+	render_minimap(game);
 	return (0);
 }
 
@@ -158,7 +159,7 @@ int	main(int ac, char **av)
 	init_player(&data, &game);
 	if (init_sprites(&game) != 0)
 		return (e(&data, "Sprites\n", NULL), 1);
-	mlx_hook(game.mlx_win, 2, 0, key_pressed, &game);
+	mlx_hook(game.mlx_win, 2, 1L << 0, key_pressed, &game);
 	mlx_hook(game.mlx_win, 3, 1L << 1, key_released, &game);
 	mlx_hook(game.mlx_win, 6, 0L, event_hook, &game);
 	mlx_hook(game.mlx_win, 4, 0L, gun_fire, &game);

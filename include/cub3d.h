@@ -48,6 +48,14 @@
 # define GUN_H 360
 # define GUN_W 300
 
+# define MAP_W 200
+# define MAP_C 5
+# define MAP_CENTER MAP_W / 2
+# define map_size MAP_W / (MAP_C * 2)
+# define MAP_GROUND 0x002d75
+# define MAP_PLAYER 0x0063ff
+# define MAP_WALL 0x004abf
+
 // keys
 
 //linux
@@ -68,6 +76,14 @@
 # define S 1
 # define ESC 53
 # define F 3
+
+typedef struct square
+{
+	double			x;
+	double			y;
+	int				size;
+	unsigned int	color;
+}	t_square;
 
 typedef struct s_img {
 	void	*image;
@@ -158,6 +174,7 @@ typedef struct game
 	float		old_x;
 	int			keys[6];
 	pthread_t	t_id;
+	t_img		map;
 }	t_game;
 
 void	set_map_from_file(char *path, t_data *data);
@@ -212,5 +229,8 @@ int		init_mlx(t_game *game);
 void	init_player(t_data *data, t_game *game);
 int		init_sprites(t_game *game);
 void	init_data(t_data *data);
+
+//minimap
+void	render_minimap(t_game *game);
 
 #endif
