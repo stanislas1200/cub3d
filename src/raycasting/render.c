@@ -12,11 +12,11 @@
 
 #include "../../include/cub3d.h"
 
-void	drawstripes(t_game *game, int x1, int y1, int y2, int color)
+void	drawstripes(t_game *game, int x1, int y1, int y2)
 {
 	while ((y1 >= 0 && y1 < y2) && y1 < HEIGHT)
 	{
-		my_mlx_pixel_put(&game->img, x1, y1, color);
+		my_mlx_pixel_put(&game->img, x1, y1, game->color);
 		y1++;
 	}
 }

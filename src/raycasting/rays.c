@@ -14,10 +14,8 @@
 
 void	check_for_hit(t_game *game, t_ray *ray)
 {
-	int	stop;
-
-	stop = 0;
-	while (ray->hit == 0 && !stop)
+	game->data->i = 0;
+	while (ray->hit == 0 && !game->data->i)
 	{
 		ray->mx = ((int)ray->rx) >> 6;
 		ray->my = ((int)ray->ry) >> 6;
@@ -38,7 +36,7 @@ void	check_for_hit(t_game *game, t_ray *ray)
 			}
 		}
 		else
-			stop++;
+			game->data->i++;
 	}
 }
 
@@ -92,8 +90,6 @@ void	setup_vertical_ray(t_ray *ray, t_game *game)
 	{
 		ray->rx = game->player.px;
 		ray->ry = game->player.py;
-		// ray->ry = game->player.py;
-		// ray->ra = game->player.py;
 		ray->hit = -1;
 	}
 }

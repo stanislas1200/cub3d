@@ -6,7 +6,7 @@
 /*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 16:05:40 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/05 16:09:08 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/21 16:24:17 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ void	*put_img(t_game *data, char *path)
 				path, &img_width, &img_height));
 }
 
-unsigned int	get_color(t_img *img, int x, int y)
+int	get_color(t_img *img, int x, int y)
 {
-	return (*(unsigned int *)(img->addr + \
+	return (*(int *)(img->addr + \
 	(y * img->line_length + x * (img->bits_per_pixel / 8))));
 }
 

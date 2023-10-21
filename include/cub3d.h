@@ -150,6 +150,7 @@ typedef struct game
 	t_sprites	sprites;
 	float		old_x;
 	int			keys[6];
+	int			color;
 }	t_game;
 
 void	set_map_from_file(char *path, t_data *data);
@@ -180,7 +181,7 @@ void	setup_vertical_ray(t_ray *ray, t_game *game);
 void	init_ray(t_ray *ray, t_game *game, double angle, char type);
 
 //render
-void	drawstripes(t_game *game, int x1, int y1, int y2, int color);
+void	drawstripes(t_game *game, int x1, int y1, int y2);
 int		update_frame(t_game *game);
 
 //movement
@@ -193,7 +194,7 @@ double	distance(double x1, double y1, double x2, double y2);
 double	deg_to_rad(double a);
 double	fix_ang(double a);
 void	*put_img(t_game *data, char *path);
-unsigned int	get_color(t_img *img, int x, int y);
+int		get_color(t_img *img, int x, int y);
 
 //end
 void	destroy_sprites(t_game *game);

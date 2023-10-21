@@ -87,8 +87,9 @@ int	texture(int side, double ra)
 
 void	draw(t_game *game, t_ray *ray, t_draw *d, int s_width)
 {
-	drawstripes(game, s_width, 0, d->line_o, game->data->ceiling[2]);
+	game->color = game->data->ceiling[2];
+	drawstripes(game, s_width, 0, d->line_o);
 	render_wall(game, d, (s_width), ray);
-	drawstripes(game, s_width, d->line_h + d->line_o, \
-	HEIGHT, game->data->floor[2]);
+	game->color = game->data->floor[2];
+	drawstripes(game, s_width, d->line_h + d->line_o, HEIGHT);
 }
