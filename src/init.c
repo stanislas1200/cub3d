@@ -6,7 +6,7 @@
 /*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 16:11:38 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/21 16:44:23 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/21 16:46:28 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,13 @@ int	init_mlx(t_game *game)
 	game->img.addr = mlx_get_data_addr(game->img.image, \
 	&game->img.bits_per_pixel, &game->img.line_length, &game->img.endian);
 	if (!game->img.addr)
+		return (1);
+	game->map.image = mlx_new_image(game->mlx_ptr, MAP_W, MAP_W);
+	if (!game->map.image)
+		return (1);
+	game->map.addr = mlx_get_data_addr(game->map.image, \
+	&game->map.bits_per_pixel, &game->map.line_length, &game->map.endian);
+	if (!game->map.addr)
 		return (1);
 	return (0);
 }
