@@ -79,6 +79,8 @@ typedef struct s_img {
 
 typedef struct sprites {
 	t_img	*wall[4];
+	// t_img	*wallI[4];
+	// t_img	*wallM[4];
 	t_img	*gun[4];
 }				t_sprites;
 
