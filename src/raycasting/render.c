@@ -51,7 +51,7 @@ unsigned int	darken_color(unsigned int color, double fog)
 	return ((r * 256 * 256) + (g * 256) + b);
 }
 
-void	drawstripes(t_game *game, int x1, int y1, int y2, int color)
+void	drawstripes(t_game *game, int x1, int y1, int y2)
 {
 	double			fog;
 	double			y3;
@@ -60,7 +60,7 @@ void	drawstripes(t_game *game, int x1, int y1, int y2, int color)
 	while ((y1 >= 0 && y1 < y2) && y1 < HEIGHT)
 	{
 		y3 = y1;
-		color2 = color;
+		color2 = game->color;
 		if (y3 <= HEIGHT / 2)
 			fog = y3 / ((HEIGHT / 2));
 		else
@@ -70,9 +70,9 @@ void	drawstripes(t_game *game, int x1, int y1, int y2, int color)
 				fog -= 1;
 			fog = 1 - fog;
 		}
-		color2 = darken_color(color, fog);
+		color2 = darken_color(game->color, fog);
 		if (y1 > HEIGHT / 2)
-			color2 = darken_color(color2, (in_circle(x1, y1) * 5));
+			color2 = darken_color(color2, (in_circle(x1, y1)) * 1);
 		my_mlx_pixel_put(&game->img, x1, y1, color2);
 		y1++;
 	}

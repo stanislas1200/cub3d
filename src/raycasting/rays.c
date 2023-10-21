@@ -30,7 +30,10 @@ void	check_for_hit(t_game *game, t_ray *ray)
 				ray->dist = distance(game->player.px, \
 				game->player.py, ray->rx, ray->ry);
 				if (ray->dist > 100)
+				{
+					play_sound("data/sound/door.mp3", game);
 					game->data->map[ray->my][ray->mx] = 'D';
+				}
 			}
 			if (game->data->map[ray->my][ray->mx] == 'X' || game->data->map[ray->my][ray->mx] == 'D')
 			{
@@ -38,7 +41,10 @@ void	check_for_hit(t_game *game, t_ray *ray)
 				ray->dist = distance(game->player.px, \
 				game->player.py, ray->rx, ray->ry);
 				if (game->data->map[ray->my][ray->mx] == 'D' && ray->dist <= 75) // auto door exemple no animation
+				{
 					game->data->map[ray->my][ray->mx] = '0';
+					play_sound("data/sound/door.mp3", game);
+				}
 			}
 			else
 			{

@@ -15,6 +15,7 @@
 void	render_wall(t_game *game, t_draw *d, double x, t_ray *ray);
 void	draw(t_game *game, t_ray *ray, t_draw *d, int s_width);
 int		texture(int side, double ra);
+int		create_trgb(int t, int r, int g, int b);
 
 void	draw_rays(t_game *game)
 {
@@ -90,8 +91,11 @@ int	texture(int side, double ra)
 
 void	draw(t_game *game, t_ray *ray, t_draw *d, int s_width)
 {
-	drawstripes(game, s_width, 0, d->line_o, game->data->ceiling[2]);
+	game->color = create_trgb(0, game->data->ceiling[0], \
+	game->data->ceiling[1], game->data->ceiling[2]);
+	drawstripes(game, s_width, 0, d->line_o);
 	render_wall(game, d, (s_width), ray);
-	drawstripes(game, s_width, d->line_h + d->line_o, \
-	HEIGHT, game->data->floor[2]);
+	game->color = create_trgb(0, game->data->floor[0], game->data->floor[1], \
+	game->data->floor[2]);
+	drawstripes(game, s_width, d->line_h + d->line_o, HEIGHT);
 }
