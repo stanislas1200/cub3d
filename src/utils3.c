@@ -6,7 +6,7 @@
 /*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 16:05:40 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/21 16:24:17 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/21 16:39:03 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,9 @@ int	ft_strlen(char *str)
 void	ft_error(char *str)
 {
 	write(2, str, ft_strlen(str));
+}
+
+int	create_trgb(int t, int r, int g, int b)
+{
+	return (t << 24 | r << 16 | g << 8 | b);
 }

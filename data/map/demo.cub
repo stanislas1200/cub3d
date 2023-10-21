@@ -3,8 +3,8 @@ SO ./Sprites/eagle.xpm
 WE ./Sprites/greystone.xpm
 EA ./Sprites/redbrick.xpm
 
-F 13,8,41
-C 255,255,255
+F 220,100,0
+C 225,30,0
 
         1111111111111111111111111
         1000000000100000000000001
