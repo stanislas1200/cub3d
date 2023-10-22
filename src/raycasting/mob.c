@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mob.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 15:09:09 by dspilleb          #+#    #+#             */
-/*   Updated: 2023/10/22 17:03:16 by dspilleb         ###   ########.fr       */
+/*   Updated: 2023/10/22 17:17:46 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,6 @@ int	in_view(t_game *game)
 	angle *= 180/PI;
 	if (angle <= 45.0 && c < ray->dist)
 		return (printf(RED "je le vois\n"), 1);
-	printf(MAG "je le vois\n")
+	printf(MAGENTA "je le vois pas\n");
 	return (0);
 }
