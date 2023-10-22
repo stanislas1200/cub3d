@@ -88,10 +88,12 @@ void	render_wall(t_game *game, t_draw *d, double x, t_ray *ray)
 	start = d->line_o;
 	texy = d->ty_offset * d->step;
 	fog = d->realdist / 400;
+	if(d->tex_x < 0)
+		d->tex_x = 0;
 	while (start < (d->line_o + d->line_h) && start < HEIGHT)
 	{
 		texy += d->step;
-		if (texy >= 64)
+		if ((int)texy >= 64)
 			texy = 0;
 		// color = get_color(game->sprites.wall[(int)d->tex], \
 		// (int)d->tex_x, (int)texy);
@@ -100,7 +102,7 @@ void	render_wall(t_game *game, t_draw *d, double x, t_ray *ray)
 		// else if (ray->my == game->data->height / 3)
 		// 	color = get_color(game->sprites.wallM[(game->data->time / 10 + (int)d->tex) % 4],  (int)d->tex_x, (int)texy); // animated wall exemple
 		// else
-			color = get_color(game->sprites.wall[(game->data->time / 10 + (int)d->tex) % 4],  (int)d->tex_x, (int)texy); // animated wall exemple
+		color = get_color(game->sprites.wall[(game->data->time / 10 + (int)d->tex) % 4],  (int)d->tex_x, (int)texy); // animated wall exemple
 		color = darken_color(color, fog);
 		color = darken_color(color, in_circle(x, start));
 		my_mlx_pixel_put(&game->img, x, start, color);
