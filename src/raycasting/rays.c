@@ -29,7 +29,7 @@ void	check_for_hit(t_game *game, t_ray *ray)
 			{
 				ray->dist = distance(game->player.px, \
 				game->player.py, ray->rx, ray->ry);
-				if ((ray->dist * cos(deg_to_rad(fix_ang(game->player.pa - ray->ra)))) > 100.0)
+				if ((ray->dist * cos(deg_to_rad(fix_ang(game->player.pa - ray->ra)))) > 175.0)
 				{
 					play_sound("data/sound/door.mp3", game);
 					game->data->map[ray->my][ray->mx] = 'D';
