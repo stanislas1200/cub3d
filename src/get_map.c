@@ -131,7 +131,7 @@ void	make_door(t_data *data)
 				&& data->map[i - 1][j] == 'X' \
 				&& data->map[i + 1][j] == 'X')
 				{
-					if (rand() % (3))
+					if (rand() * 10 <= 1)
 						data->map[i][j] = 'D';
 				}
 			}

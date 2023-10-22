@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minimap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 13:32:10 by dspilleb          #+#    #+#             */
-/*   Updated: 2023/10/18 14:01:11 by dspilleb         ###   ########.fr       */
+/*   Updated: 2023/10/22 13:24:39 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,12 @@ void	fill_map_bg(t_game *game)
 	{
 		j = -1;
 		while (++j < MAP_W)
+		{
 			if (in_minimap(i, j))
 				my_mlx_pixel_put(&game->map, i, j, 0x001a42);
+			else
+				my_mlx_pixel_put(&game->map, i, j, 0xFF000000);
+		}
 	}
 }
 

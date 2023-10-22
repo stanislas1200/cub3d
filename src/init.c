@@ -6,7 +6,7 @@
 /*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 16:11:38 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/21 16:46:28 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/22 14:30:48 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ int	init_sprites(t_game *game)
 	while (++i <= 3)
 	{
 		game->sprites.wall[i] = NULL;
-		// game->sprites.wallI[i] = NULL;
-		// game->sprites.wallM[i] = NULL;
+		game->sprites.wallI[i] = NULL;
+		game->sprites.wallM[i] = NULL;
 		game->sprites.gun[i] = NULL;
 	}
 	game->sprites.gun[0] = put_img(game, "./Sprites/gun/0.xpm");
@@ -51,14 +51,14 @@ int	init_sprites(t_game *game)
 	game->sprites.wall[SO] = put_img(game, game->data->so);
 	game->sprites.wall[WE] = put_img(game, game->data->we);
 	game->sprites.wall[EA] = put_img(game, game->data->ea);
-	// game->sprites.wallI[0] = put_img(game, "./Sprites/walls/wallR0.xpm");
-	// game->sprites.wallI[1] = put_img(game, "./Sprites/walls/wallR1.xpm");
-	// game->sprites.wallI[2] = put_img(game, "./Sprites/walls/wallR2.xpm");
-	// game->sprites.wallI[3] = put_img(game, "./Sprites/walls/wallR1.xpm");
-	// game->sprites.wallM[0] = put_img(game, "./Sprites/walls/wallM0.1.xpm");
-	// game->sprites.wallM[1] = put_img(game, "./Sprites/walls/wallM0.1.xpm");
-	// game->sprites.wallM[2] = put_img(game, "./Sprites/walls/wallM0.1.xpm");
-	// game->sprites.wallM[3] = put_img(game, "./Sprites/walls/wallM0.1.xpm");
+	game->sprites.wallI[0] = put_img(game, "./Sprites/walls/wallR0.xpm");
+	game->sprites.wallI[1] = put_img(game, "./Sprites/walls/wallR1.xpm");
+	game->sprites.wallI[2] = put_img(game, "./Sprites/walls/wallR2.xpm");
+	game->sprites.wallI[3] = put_img(game, "./Sprites/walls/wallR1.xpm");
+	game->sprites.wallM[0] = put_img(game, "./Sprites/walls/wallM0.1.xpm");
+	game->sprites.wallM[1] = put_img(game, "./Sprites/walls/wallM0.2.xpm");
+	game->sprites.wallM[2] = put_img(game, "./Sprites/walls/wallM0.3.xpm");
+	game->sprites.wallM[3] = put_img(game, "./Sprites/walls/wallM0.4.xpm");
 	if (!game->sprites.wall[NO] || !game->sprites.wall[SO] \
 	|| !game->sprites.wall[WE] || !game->sprites.wall[EA] \
 	|| !game->sprites.gun[0])
@@ -68,16 +68,16 @@ int	init_sprites(t_game *game)
 		game->sprites.wall[i]->addr = mlx_get_data_addr(game->sprites.wall[i], \
 &game->sprites.wall[i]->bits_per_pixel, &game->sprites.wall[i]->line_length, \
 &game->sprites.wall[i]->endian);
-// i = -1;
-// 	while (++i <= 3)
-// 		game->sprites.wallI[i]->addr = mlx_get_data_addr(game->sprites.wallI[i], \
-// &game->sprites.wallI[i]->bits_per_pixel, &game->sprites.wallI[i]->line_length, \
-// &game->sprites.wallI[i]->endian);
-// i = -1;
-// 	while (++i <= 3)
-// 		game->sprites.wallM[i]->addr = mlx_get_data_addr(game->sprites.wallM[i], \
-// &game->sprites.wallM[i]->bits_per_pixel, &game->sprites.wallM[i]->line_length, \
-// &game->sprites.wallM[i]->endian);
+i = -1;
+	while (++i <= 3)
+		game->sprites.wallI[i]->addr = mlx_get_data_addr(game->sprites.wallI[i], \
+&game->sprites.wallI[i]->bits_per_pixel, &game->sprites.wallI[i]->line_length, \
+&game->sprites.wallI[i]->endian);
+i = -1;
+	while (++i <= 3)
+		game->sprites.wallM[i]->addr = mlx_get_data_addr(game->sprites.wallM[i], \
+&game->sprites.wallM[i]->bits_per_pixel, &game->sprites.wallM[i]->line_length, \
+&game->sprites.wallM[i]->endian);
 	if (!(game->sprites.wall[NO]->addr || game->sprites.wall[SO]->addr \
 	|| game->sprites.wall[WE]->addr || game->sprites.wall[EA]->addr))
 		return (destroy_sprites(game), 1);
