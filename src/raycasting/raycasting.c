@@ -20,17 +20,14 @@ void	draw_rays(t_game *game)
 {
 	double	i;
 	double	fov;
-	double	angle;
 
 	i = 0;
 	fov = game->player.pa - (FOV / 2);
-	angle = fov;
-	while (angle < game->player.pa + (FOV / 2))
+	while (i < WIDTH)
 	{
 		fov = fix_ang(fov);
 		ray_cast(game, fov, (i));
 		fov += FOV / WIDTH;
-		angle += FOV / WIDTH;
 		i++;
 	}
 }
@@ -48,12 +45,12 @@ void	init_drawing(t_game *game, t_draw *d, t_ray *ray, double angle)
 		d->line_h = HEIGHT;
 	}
 	if (ray->side == 0)
-		d->tex_x = ray->rx - (((int)ray->rx >> 6) << 6);
+		d->tex_x = (int)ray->rx % SQUARE;
 	else if (ray->side == 1)
-		d->tex_x = ray->ry - (((int)ray->ry >> 6) << 6);
+		d->tex_x = (int)ray->ry % SQUARE;
 	if ((ray->side == 0 && ray->ra > 180) || \
 	(ray->side == 1 && (ray->ra > 90 && ray->ra < 270)))
-		d->tex_x = 64 - d->tex_x;
+		d->tex_x = (SQUARE - 1) - d->tex_x;
 	d->tex = texture(ray->side, ray->ra);
 	d->line_o = (HEIGHT / 2) - ((int)d->line_h >> 1);
 }

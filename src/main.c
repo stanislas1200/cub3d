@@ -62,9 +62,9 @@ int	key_pressed(int key, t_game *game)
 		game->keys[0] = 1;
 	if (key == S)
 		game->keys[1] = 1;
-	if (key == 123)
+	if (key == A_E)
 		game->keys[2] = 1;
-	if (key == 124)
+	if (key == A_W)
 		game->keys[3] = 1;
 	if (key == Q)
 		game->keys[4] = 1;
@@ -81,9 +81,9 @@ int	key_released(int key, t_game *game)
 		game->keys[0] = 0;
 	if (key == S)
 		game->keys[1] = 0;
-	if (key == 123)
+	if (key == A_E)
 		game->keys[2] = 0;
-	if (key == 124)
+	if (key == A_W)
 		game->keys[3] = 0;
 	if (key == Q)
 		game->keys[4] = 0;
@@ -161,8 +161,8 @@ int	main(int ac, char **av)
 		return (e(&data, "Sprites\n", NULL), 1);
 	mlx_hook(game.mlx_win, 2, 1L << 0, key_pressed, &game);
 	mlx_hook(game.mlx_win, 3, 1L << 1, key_released, &game);
-	mlx_hook(game.mlx_win, 6, 0L, event_hook, &game);
-	mlx_hook(game.mlx_win, 4, 0L, gun_fire, &game);
+	mlx_hook(game.mlx_win, 6, 1L << 0, event_hook, &game);
+	mlx_hook(game.mlx_win, 4, 1L << 0, gun_fire, &game);
 	mlx_loop_hook(game.mlx_ptr, update_frame, &game);
 	mlx_hook(game.mlx_win, 17, 1L << 2, end_game, &game);
 	if (pthread_create(&game.t_id, NULL, embient_sound, NULL))
