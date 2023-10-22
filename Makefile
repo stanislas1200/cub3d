@@ -24,6 +24,7 @@ SRCS = src/main.c\
 		src/minimap.c\
 			src/raycasting/raycasting.c\
 			src/raycasting/rays.c\
+			src/raycasting/mob.c\
 			src/raycasting/render.c
 
 INCL = include/cub3d.h

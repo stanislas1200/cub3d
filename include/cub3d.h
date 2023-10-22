@@ -79,6 +79,14 @@
 # define A_E 123
 # define A_W 124
 
+typedef struct line
+{
+	int	x1;
+	int	y1;
+	int	x2;
+	int	y2;
+}	t_line;
+
 typedef struct square
 {
 	double			x;
@@ -166,6 +174,12 @@ typedef struct s_data
 	t_node		*stack;
 	t_player	player;
 }	t_data;
+typedef struct monster
+{
+	int		HP;
+	double	x;
+	double	y;
+} t_mob;
 
 typedef struct game
 {
@@ -180,6 +194,8 @@ typedef struct game
 	pthread_t	t_id;
 	t_img		map;
 	int			color;
+	t_img		*mob;
+	t_mob		monster;
 }	t_game;
 
 void	set_map_from_file(char *path, t_data *data);
@@ -239,4 +255,5 @@ void	init_data(t_data *data);
 //minimap
 void	render_minimap(t_game *game);
 
+int	in_view(t_game *game);
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 16:11:38 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/21 16:46:28 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/22 14:58:34 by dspilleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ int	init_sprites(t_game *game)
 	game->sprites.wall[SO] = put_img(game, game->data->so);
 	game->sprites.wall[WE] = put_img(game, game->data->we);
 	game->sprites.wall[EA] = put_img(game, game->data->ea);
+	game->mob = put_img(game, "./Sprites/barrel.xpm");
 	// game->sprites.wallI[0] = put_img(game, "./Sprites/walls/wallR0.xpm");
 	// game->sprites.wallI[1] = put_img(game, "./Sprites/walls/wallR1.xpm");
 	// game->sprites.wallI[2] = put_img(game, "./Sprites/walls/wallR2.xpm");
@@ -68,6 +69,9 @@ int	init_sprites(t_game *game)
 		game->sprites.wall[i]->addr = mlx_get_data_addr(game->sprites.wall[i], \
 &game->sprites.wall[i]->bits_per_pixel, &game->sprites.wall[i]->line_length, \
 &game->sprites.wall[i]->endian);
+		game->mob->addr = mlx_get_data_addr(game->mob, \
+&game->mob->bits_per_pixel, &game->mob->line_length, \
+&game->mob->endian);
 // i = -1;
 // 	while (++i <= 3)
 // 		game->sprites.wallI[i]->addr = mlx_get_data_addr(game->sprites.wallI[i], \

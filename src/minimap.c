@@ -6,7 +6,7 @@
 /*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 13:32:10 by dspilleb          #+#    #+#             */
-/*   Updated: 2023/10/18 14:01:11 by dspilleb         ###   ########.fr       */
+/*   Updated: 2023/10/22 16:48:16 by dspilleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,35 @@
 int	in_minimap(double x1, double y1)
 {
 	return (distance(x1, y1, MAP_CENTER, MAP_CENTER) <= MAP_CENTER);
+}
+
+void drawLine2(t_game *game, t_line l)
+{
+    int dx = abs(l.x2 - l.x1);
+    int dy = abs(l.y2 - l.y1);
+
+    int sx = (l.x1 < l.x2) ? 1 : -1;
+    int sy = (l.y1 < l.y2) ? 1 : -1;
+
+    int err = dx - dy;
+
+    while((l.x1 >= 0 && l.x1 < MAP_W - 1) && (l.y1 >= 0 && l.y1 < MAP_W - 1)) {
+		my_mlx_pixel_put(&game->map, l.x1, l.y1, MAP_PLAYER);
+		my_mlx_pixel_put(&game->map, l.x1 + 1, l.y1 + 1, MAP_PLAYER);
+		my_mlx_pixel_put(&game->map, l.x1, l.y1 + 1, MAP_PLAYER);
+		my_mlx_pixel_put(&game->map, l.x1 + 1, l.y1, MAP_PLAYER);
+        if(l.x1 == l.x2 && l.y1 == l.y2)
+            break;
+        int e2 = 2 * err;
+        if(e2 > -dy) {
+            err -= dy;
+            l.x1 += sx;
+        }
+        if(e2 < dx) {
+            err += dx;
+            l.y1 += sy;
+        }
+    }
 }
 
 void	draw_square(t_game *game, t_square square)
@@ -63,6 +92,8 @@ void	fill_map(t_game *game, int px, int py)
 			{
 				if (game->data->map[game->data->j][game->data->i] == 'X')
 					s.color = MAP_WALL;
+				else if (game->data->map[game->data->j][game->data->i] == 'D')
+					s.color = 0xFF0000;
 				else
 					s.color = MAP_GROUND;
 				s.size = map_size;
@@ -80,6 +111,7 @@ void	render_minimap(t_game *game)
 	int			px;
 	int			py;
 	t_square	s;
+	t_line		l;
 
 	px = ((int)game->player.px) >> 6;
 	py = ((int)game->player.py) >> 6;
@@ -89,6 +121,19 @@ void	render_minimap(t_game *game)
 	s.size = map_size;
 	s.x = (px - (px - MAP_C)) * map_size;
 	s.y = (py - (py - MAP_C)) * map_size;
+	draw_square(game, s);
+	l.x1 = s.x + s.size/ 2;
+	l.y1 = s.y + s.size/ 2;
+	l.x2 = s.x + s.size/ 2 + game->player.pdx * 6;
+	l.y2 = s.y + + s.size/ 2 + game->player.pdy * 6;
+	drawLine2(game, l);
+
+	int mx = ((int)game->monster.x) >> 6;
+	int my = ((int)game->monster.y) >> 6;
+	s.color = 0xFFFFFF;
+	s.size = map_size;
+	s.x = (mx - (px - MAP_C)) * map_size;
+	s.y = (my - (py - MAP_C)) * map_size;
 	draw_square(game, s);
 	mlx_put_image_to_window(game->mlx_ptr, game->mlx_win, \
 	game->map.image, WIDTH - MAP_W, HEIGHT - MAP_W);

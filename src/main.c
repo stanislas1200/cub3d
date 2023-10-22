@@ -111,6 +111,7 @@ int	update_frame(t_game *game)
 	render_minimap(game);
 	if (rand() % 300 <= 0)
 		play_sound("data/sound/scream.mp3", game);
+	in_view(game);
 	return (0);
 }
 
@@ -163,6 +164,8 @@ int	main(int ac, char **av)
 	mlx_hook(game.mlx_win, 3, 1L << 1, key_released, &game);
 	mlx_hook(game.mlx_win, 6, 1L << 0, event_hook, &game);
 	mlx_hook(game.mlx_win, 4, 1L << 0, gun_fire, &game);
+	game.monster.x = game.player.px + SQUARE;
+	game.monster.y = game.player.py;
 	mlx_loop_hook(game.mlx_ptr, update_frame, &game);
 	mlx_hook(game.mlx_win, 17, 1L << 2, end_game, &game);
 	if (pthread_create(&game.t_id, NULL, embient_sound, NULL))
