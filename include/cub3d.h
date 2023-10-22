@@ -177,6 +177,7 @@ typedef struct game
 	int			keys[6];
 	pthread_t	t_id;
 	t_img		map;
+	int			color;
 }	t_game;
 
 void	set_map_from_file(char *path, t_data *data);
@@ -195,6 +196,7 @@ size_t	ft_strlcpy(char *dest, char *src, size_t size);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 void	free_all(t_data *data);
 void	get_wall_texture_path(char **dest, char *str, char *str2, t_data *d);
+void	play_sound(char *sound, t_game *game);
 
 //raycasting
 void	draw_rays(t_game *game);
@@ -207,7 +209,7 @@ void	setup_vertical_ray(t_ray *ray, t_game *game);
 void	init_ray(t_ray *ray, t_game *game, double angle, char type);
 
 //render
-void	drawstripes(t_game *game, int x1, int y1, int y2, int color);
+void	drawstripes(t_game *game, int x1, int y1, int y2);
 int		update_frame(t_game *game);
 
 //movement

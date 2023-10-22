@@ -3,8 +3,8 @@ SO ./Sprites/wall/wall1.1.xpm
 WE ./Sprites/wall/wall1.2.xpm
 EA ./Sprites/wall/wall1.3.xpm
 
-F 13,8,41
-C 255,255,255
+F 60,39,41
+C 142,28,28
 
         1111111111111111111111111
         1000000000100000000000001

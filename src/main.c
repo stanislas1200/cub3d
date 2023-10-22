@@ -109,6 +109,8 @@ int	update_frame(t_game *game)
 	if (game->data->g_time > 0) 
 		game->data->g_time++;
 	render_minimap(game);
+	if (rand() % 300 <= 0)
+		play_sound("data/sound/scream.mp3", game);
 	return (0);
 }
 
@@ -127,9 +129,7 @@ void	play_sound(char *sound, t_game *game)
 	pid = fork();
 	if (pid == 0)
 	{
-		printf(RED "FIRE\n" RESET);
 		execlp("afplay", "afplay", sound, NULL);
-		printf(GREEN "FIRE\n" RESET);
 		exit(0);
 	}
 }
