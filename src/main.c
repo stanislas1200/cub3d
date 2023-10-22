@@ -111,6 +111,7 @@ int	update_frame(t_game *game)
 	render_minimap(game);
 	if (rand() % 300 <= 0)
 		play_sound("data/sound/scream.mp3", game);
+	Astar(game->data, (int)game->player.px << 6, (int)game->player.py << 6, (((int)game->player.px >> 6) << 6) + 1, (((int)game->player.px >> 6) << 6) + 1);
 	return (0);
 }
 

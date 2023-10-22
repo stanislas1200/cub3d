@@ -21,6 +21,7 @@ SRCS = src/main.c\
 		src/cleaner.c\
 		src/init.c\
 		src/movement.c\
+		src/Astar.c\
 		src/minimap.c\
 			src/raycasting/raycasting.c\
 			src/raycasting/rays.c\
