@@ -1,7 +1,7 @@
-NO ./Sprites/wall/wall1.xpm
-SO ./Sprites/wall/wall1.1.xpm
-WE ./Sprites/wall/wall1.2.xpm
-EA ./Sprites/wall/wall1.3.xpm
+NO ./Sprites/walls/wallG0.xpm
+SO ./Sprites/walls/wallG0.xpm
+WE ./Sprites/walls/wallG1.xpm
+EA ./Sprites/walls/wallG1.xpm
 
 F 60,39,41
 C 142,28,28

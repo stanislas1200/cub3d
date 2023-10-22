@@ -93,16 +93,14 @@ void	render_wall(t_game *game, t_draw *d, double x, t_ray *ray)
 	while (start < (d->line_o + d->line_h) && start < HEIGHT)
 	{
 		texy += d->step;
-		if ((int)texy >= 64)
-			texy = 0;
-		// color = get_color(game->sprites.wall[(int)d->tex], \
-		// (int)d->tex_x, (int)texy);
-		// if (ray->my > game->data->height / 3)
-		// 	color = get_color(game->sprites.wallI[(game->data->time / 10 + (int)d->tex) % 4], (int)d->tex_x, (int)texy); // animated wall exemple
-		// else if (ray->my == game->data->height / 3)
-		// 	color = get_color(game->sprites.wallM[(game->data->time / 10 + (int)d->tex) % 4],  (int)d->tex_x, (int)texy); // animated wall exemple
-		// else
-		color = get_color(game->sprites.wall[(game->data->time / 10 + (int)d->tex) % 4],  (int)d->tex_x, (int)texy); // animated wall exemple
+		color = get_color(game->sprites.wall[(int)d->tex], \
+		(int)d->tex_x, (int)texy);
+		if (ray->my > game->data->height / 3) // red propagation
+			color = get_color(game->sprites.wallI[(game->data->time / 10 + (int)d->tex) % 4], (int)d->tex_x, (int)texy); // animated wall exemple
+		else if (ray->my <= game->data->height / 3 && ray->my >= game->data->height / 3 - 1)
+			color = get_color(game->sprites.wallM[(game->data->time / 10 + (int)d->tex) % 4],  (int)d->tex_x, (int)texy); // animated wall exemple
+		else
+			color = get_color(game->sprites.wall[(game->data->time / 10 + (int)d->tex) % 4],  (int)d->tex_x, (int)texy); // animated wall exemple
 		color = darken_color(color, fog);
 		color = darken_color(color, in_circle(x, start));
 		my_mlx_pixel_put(&game->img, x, start, color);
