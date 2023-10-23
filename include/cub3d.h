@@ -183,6 +183,28 @@ typedef struct game
 	int			color;
 }	t_game;
 
+typedef struct s_anode {
+	float g;
+	float f;
+	int x;
+	int y;
+	struct s_anode *previous;
+} t_anode;
+
+typedef struct s_astar {
+	t_anode **open;
+	t_anode **closed;
+	t_anode **path;
+	int openCount;
+	int closedCount;
+	int pathCount;
+	t_anode *start;
+	t_anode *end;
+	t_anode *current;
+	t_anode ***nodes;
+	
+}t_astar;
+
 void	set_map_from_file(char *path, t_data *data);
 int		ft_strlen(char *str);
 void	ft_error(char *str);
@@ -200,7 +222,7 @@ int		ft_strncmp(const char *s1, const char *s2, size_t n);
 void	free_all(t_data *data);
 void	get_wall_texture_path(char **dest, char *str, char *str2, t_data *d);
 void	play_sound(char *sound, t_game *game);
-void	Astar(t_data *data, int start_i, int start_j, int end_i, int end_j);
+void	Astar(t_data *data, t_astar *a, int start_i, int start_j, int end_i, int end_j);
 
 //raycasting
 void	draw_rays(t_game *game);
