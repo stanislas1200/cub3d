@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 16:11:38 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/22 17:14:56 by dspilleb         ###   ########.fr       */
+/*   Updated: 2023/10/24 14:47:12 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	init_data(t_data *data)
 	data->ceiling[2] = -1;
 	data->time = 0;
 	data->g_time = 0;
+	data->biggest_w = 0;
 }
 
 int	init_sprites(t_game *game)

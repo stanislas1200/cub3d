@@ -155,11 +155,34 @@ typedef struct s_player
 	float	speed;
 }	t_player;
 
+typedef struct s_anode {
+	float			g;
+	float			f;
+	int				x;
+	int				y;
+	struct s_anode	*previous;
+}	t_anode;
+
+typedef struct s_astar {
+	t_anode	**open;
+	t_anode	**closed;
+	t_anode	**path;
+	int		openCount;
+	int		closedCount;
+	int		pathCount;
+	t_anode	*start;
+	t_anode	*end;
+	t_anode	*current;
+	t_anode	***nodes;
+	int size;
+}	t_astar;
+
 typedef struct s_data
 {
 	int			i;
 	int			j;
 	int			height;
+	int			biggest_w;
 	int			player_nb;
 	char		*no;
 	char		*so;
@@ -173,13 +196,26 @@ typedef struct s_data
 	int			g_time;
 	t_node		*stack;
 	t_player	player;
+	t_astar		*a;
 }	t_data;
+
+enum e_state {
+	FOLLOW,
+	IDLE,
+	ATTACK,
+	HIDE,
+	MOVE,
+};
+
 typedef struct monster
 {
-	int		HP;
-	double	x;
-	double	y;
-} t_mob;
+	int				hp;
+	double			x;
+	double			y;
+	int				speed;
+	enum e_state	state;
+	// double			pa;
+}	t_mob;
 
 typedef struct game
 {
@@ -215,6 +251,14 @@ int		ft_strncmp(const char *s1, const char *s2, size_t n);
 void	free_all(t_data *data);
 void	get_wall_texture_path(char **dest, char *str, char *str2, t_data *d);
 void	play_sound(char *sound, t_game *game);
+
+//A*
+void init_astar(t_data *data, t_astar *a);
+void setup_astar(t_data *data, t_astar *a);
+void Astar(t_data *data, t_astar *a, int start_i, int start_j, int end_i, int end_j);
+
+//Monster
+void	execute_mob(t_game *game);
 
 //raycasting
 void	draw_rays(t_game *game);

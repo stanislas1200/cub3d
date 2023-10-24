@@ -106,6 +106,8 @@ void	read_map(t_data *d, char *str, int tot)
 		d->j = -1;
 		while (str[++l + tot] && str[l + tot] != '\n' && str[l + tot] != '\r')
 			;
+		if (d->biggest_w < l)
+			d->biggest_w = l;
 		d->map[d->i] = malloc(sizeof(char) * (l + 1));
 		if (!d->map[d->i])
 		{

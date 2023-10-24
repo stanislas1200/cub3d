@@ -112,6 +112,8 @@ int	update_frame(t_game *game)
 	if (rand() % 300 <= 0)
 		play_sound("data/sound/scream.mp3", game);
 	in_view(game);
+	// A*
+	execute_mob(game);
 	return (0);
 }
 
@@ -148,6 +150,8 @@ int	main(int ac, char **av)
 {
 	t_data	data;
 	t_game	game;
+	t_astar a;
+	data.a = &a;
 
 	init_data(&data);
 	if (ac == 2)
@@ -160,11 +164,15 @@ int	main(int ac, char **av)
 	init_player(&data, &game);
 	if (init_sprites(&game) != 0)
 		return (e(&data, "Sprites\n", NULL), 1);
+	// A*
+	setup_astar(&data, data.a);
+	// init_astar(&data, data.a);
+
 	mlx_hook(game.mlx_win, 2, 1L << 0, key_pressed, &game);
 	mlx_hook(game.mlx_win, 3, 1L << 1, key_released, &game);
 	mlx_hook(game.mlx_win, 6, 1L << 0, event_hook, &game);
 	mlx_hook(game.mlx_win, 4, 1L << 0, gun_fire, &game);
-	game.monster.x = game.player.px + SQUARE;
+	game.monster.x = game.player.px + SQUARE * 2;
 	game.monster.y = game.player.py;
 	mlx_loop_hook(game.mlx_ptr, update_frame, &game);
 	mlx_hook(game.mlx_win, 17, 1L << 2, end_game, &game);
