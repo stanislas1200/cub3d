@@ -6,7 +6,7 @@
 /*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 16:11:38 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/24 14:47:12 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/25 13:53:34 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,8 @@ void	init_player(t_data *data, t_game *game)
 	data->player.py += (SQUARE / 2);
 	game->player = data->player;
 	game->data = data;
+	game->monster.max_hp = 10;
+	game->monster.hp = game->monster.max_hp;
 }
 
 int	init_mlx(t_game *game)

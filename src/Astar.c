@@ -6,7 +6,7 @@
 /*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 15:14:10 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/24 18:55:04 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/25 13:54:56 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 t_anode *new_node(t_astar *a, int x, int y) {
 	t_anode *node;
-	if (a->nodes[x][y] != NULL) { // NEVER HAPPENS ?
-		printf("node already exist\n");
-		return a->nodes[x][y];
-	}
+	// if (a->nodes[x][y] != NULL) { // NEVER HAPPENS ?
+	// 	printf("node already exist\n");
+	// 	return a->nodes[x][y];
+	// }
 	node = malloc(sizeof(t_anode));
 	if (!node) {
 		printf("malloc error\n"); // CHANGE
@@ -36,7 +36,7 @@ void add_arr(t_anode **arr, t_anode *node, int i) {
 }
 
 int isLegal(t_data *data, int x, int y) {
-	return (x > 0 && y > 0 && x < data->biggest_w && y < data->height);
+	return (x >= 0 && y >= 0 && x < data->biggest_w && y < data->height);
 }
 
 float Heuristic(t_anode a, t_anode b) {
@@ -83,6 +83,14 @@ int is_open(t_astar *a, t_anode* node) {
 	return 0;
 }
 
+int is_in(t_astar *a, int y, int x) {
+	for (int i = 0; i < a->pathCount; i++) {
+		if (a->path[i]->x == x && a->path[i]->y == y)
+			return 1;
+	}
+	return 0;
+}
+
 t_anode *copy_node(t_anode *node) {
 	t_anode *new_node = malloc(sizeof(t_anode));
 	if (!new_node) {
@@ -113,10 +121,9 @@ void make_path(t_anode *node, t_astar *a) {
 }
 
 void find_path(t_data *data, t_astar *a) {
-	while (a->openCount > 0 && a->openCount < 1000) { //limited
+	while (a->openCount > 0 && a->openCount < 5000) { //limited
 		int winner = get_lowest_f_node(a);
 		a->current = a->open[winner];
-		
 		if (a->current->x == a->end->x && a->current->y == a->end->y) { // END
 			make_path(a->current, a);
 			printf("FIND ONE %d, %d\n", a->current->x, a->current->y);
@@ -130,11 +137,11 @@ void find_path(t_data *data, t_astar *a) {
 			for (int j = -1; j <= 1; j++) {
 				if (i == 0 && j == 0) continue;
 				if (abs(i) + abs(j) == 2) continue; // Skip diagonals
-				int newRow = a->current->x + i;
-				int newCol = a->current->y + j;
-				if (isLegal(data, newRow, newCol) && a->nodes[newRow][newCol] == NULL)
+				int new_x = a->current->x + i;
+				int new_y = a->current->y + j;
+				if (isLegal(data, new_x, new_y) && a->nodes[new_y][new_x] == NULL)
 				{
-					t_anode* neighbor = new_node(a, newRow, newCol);
+					t_anode* neighbor = new_node(a, new_x, new_y);
 					if (!neighbor) {
 						printf("malloc error\n");
 						return ; // HANDLE ERROR // Make path to here or restart ?
@@ -154,14 +161,10 @@ void find_path(t_data *data, t_astar *a) {
 						neighbor->previous = a->current;
 
 						if (!is_open(a, neighbor)) {
-		// printf(MAGENTA " CHECK 2\n" RESET);
 							add_arr(a->open, neighbor, a->openCount++);
-		// printf(YELLOW " CHECK 1\n" RESET);
 						}
 					}
 				}
-				else
-					printf(RED "KO\n");
 			}
 		}
 	}
@@ -190,6 +193,44 @@ void free_list(t_anode *arr[], int size) {
 	}
 }
 
+void print_astar_map(t_data * data) {
+	printf("\x1b[H\x1b[2J");
+	for (int i = 0; i < data->height; i++) {
+		for (int j = 0; j < ft_strlen(data->map[i]); j++) {
+			if (data->map[i][j] == 'X')
+				printf(RED);
+			else
+			{
+				if (i == (int)data->player.py >> 6 && j == (int)data->player.px >> 6)
+					printf(GREEN);
+				else
+					printf(BOLD);
+			}
+			printf("0" RESET);
+		}
+		printf(" %d\n", i);
+	}
+	for (int i = 0; i < data->a->size; i++) {
+		for (int j = 0; j < data->a->size; j++) {
+			if (data->a->nodes[i][j])
+				printf(RED);
+			else
+			{
+				if (i > 0 && i < data->height && j > 0 && j < ft_strlen(data->map[i]) && i == (int)data->player.py >> 6 && j == (int)data->player.px >> 6)
+					printf(GREEN);
+				else if (data->a->path && is_in(data->a, i, j))
+				{
+						printf(MAGENTA);
+				}
+				else
+					printf(RESET BOLD);
+			}
+			printf("0" RESET);
+		}
+		printf(" %d\n", i);
+	}
+}
+
 void setup_astar(t_data *data, t_astar *a)
 {
 	a->size = data->height > data->biggest_w ? data->height : data->biggest_w; // DEV CHECK SIZE!!!
@@ -197,7 +238,8 @@ void setup_astar(t_data *data, t_astar *a)
 	a->closed = malloc(sizeof(t_anode) * a->size * a->size * a->size);
 	a->path = malloc(sizeof(t_anode) * a->size * a->size * a->size);
 	a->nodes = malloc(sizeof(t_anode **) * a->size);
-	if (!a->open || !a->closed || !a->path || !a->nodes) {
+	if (!a->open || !a->closed || !a->path || !a->nodes)
+	{
 		printf("malloc error\n");
 		exit(1); // HANDLE ERROR // FREE
 	}
@@ -206,6 +248,25 @@ void setup_astar(t_data *data, t_astar *a)
 		if (!a->nodes[i]) {
 			printf("malloc error\n");
 			exit(1); // HANDLE ERROR // FREE
+		}
+	}
+	// Initialize the grid (set NULL for walkable cells)
+	for (int i = 0; i < a->size; i++) {
+		for (int j = 0; j < a->size; j++) {
+			// if (i > 0 && i < data->height && j > 0 && j < ft_strlen(data->map[i]) && data->map[i][j] == 'X')
+			//     a->nodes[i][j] = new_node(a, i, j);
+			// else
+				a->nodes[i][j] = NULL;
+		}
+	}
+	for (int i = 0; i < a->size; i++) {
+		for (int j = 0; j < a->size; j++) {
+			if (i >= 0 && i < data->height && j >= 0 && j < ft_strlen(data->map[i]) && data->map[i][j] == 'X')
+			{
+				a->nodes[i][j] = new_node(a, i, j);
+			}
+			else
+				a->nodes[i][j] = NULL;
 		}
 	}
 	printf(GREEN "SETUP DONE : %d\n", a->size);
@@ -222,38 +283,16 @@ void init_astar(t_data *data, t_astar *a)
 		a->closed[i] = NULL;
 		a->path[i] = NULL;
 	}
-	// Initialize the grid (set NULL for walkable cells)
-	for (int i = 0; i < a->size; i++) {
-		for (int j = 0; j < a->size; j++) {
-			// if (i > 0 && i < data->height && j > 0 && j < ft_strlen(data->map[i]) && data->map[i][j] == 'X')
-			//     a->nodes[i][j] = new_node(a, i, j);
-			// else
-				a->nodes[i][j] = NULL;
-		}
-	}
-	for (int i = 0; i < a->size; i++) {
-		for (int j = 0; j < a->size; j++) {
-			if (i > 0 && i < data->height && j > 0 && j < ft_strlen(data->map[i]))
-				printf("%c", data->map[i][j]);
-			if (i > 0 && i < data->height && j > 0 && j < ft_strlen(data->map[i]) && data->map[i][j] == 'X')
-			{
-				a->nodes[i][j] = new_node(a, i, j);
-				printf(MAGENTA "WALL : %d %d\n", i, j);
-			}
-			else
-				a->nodes[i][j] = NULL;
-		}
-	}
 	printf(GREEN "INITED!\n" RESET);
 }
 
 
-void Astar(t_data *data, t_astar *a, int start_i, int start_j, int end_i, int end_j)
+void Astar(t_data *data, t_astar *a, int start_x, int start_y, int end_x, int end_y)
 {
 	// return;
 	init_astar(data, a);
-	a->start = new_node(a, start_i, start_j);
-	a->end = new_node(a, end_i, end_j);
+	a->start = new_node(a, start_x, start_y);
+	a->end = new_node(a, end_x, end_y);
 	if (!a->start || !a->end) {
 		printf("malloc error\n");
 		return ; // HANDLE ERROR // FREE
@@ -275,6 +314,9 @@ void Astar(t_data *data, t_astar *a, int start_i, int start_j, int end_i, int en
 	// // 	free(a->nodes[i]);
 	// // }
 	// // free(a->nodes);
+	// init_astar( data, a);
+	if (a->path && a->pathCount > 0)
+		print_astar_map(data);
 }
 
 
@@ -286,7 +328,7 @@ void Astar(t_data *data, t_astar *a, int start_i, int start_j, int end_i, int en
 // 	t_astar a;
 // 	setup_astar(&data, &a);
 // 	init_astar(&data, &a);
-	
+
 // 	a.nodes[0][1] = new_node(&a, 0, 1); // Example obstacle at row 1, col 2
 // 	// a.nodes[1][0] = new_node(&a, 1, 0); // Example obstacle at row 1, col 2
 // 	a.nodes[2][2] = new_node(&a, 2, 2); // Example obstacle at row 2, col 2  

@@ -210,6 +210,7 @@ enum e_state {
 typedef struct monster
 {
 	int				hp;
+	int				max_hp;
 	double			x;
 	double			y;
 	int				speed;
