@@ -153,6 +153,10 @@ typedef struct s_player
 	double	pa;
 	int		fov;
 	float	speed;
+	int		hp;
+	int		max_hp;
+	int		trip;
+	int		trip_cd;
 }	t_player;
 
 typedef struct s_anode {
@@ -215,6 +219,7 @@ typedef struct monster
 	double			x;
 	double			y;
 	int				speed;
+	int				cd;
 	enum e_state	state;
 	// double			pa;
 }	t_mob;

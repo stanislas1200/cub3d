@@ -6,7 +6,7 @@
 /*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 17:38:26 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/25 14:10:33 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/25 16:32:55 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,25 @@ void free_list(t_anode *arr[], int size);
 
 void	execute_mob(t_game *game)
 {
-	
 	if (game->monster.state == DEAD)
 		return;
+	if (distance(game->monster.x, game->monster.y, game->player.px, game->player.py) < 100)
+	{
+		if (game->monster.cd < 1)
+		{
+			play_sound("data/sound/hit.mp3", game);
+			game->player.trip = 1;
+			game->player.trip_cd = 10;
+			game->player.hp--;
+			game->monster.cd = 20;
+		}
+		game->monster.cd--;
+		if (game->player.hp <= 0)
+		{
+			play_sound("data/sound/game_over.mp3", game);
+			end_game(game);
+		}
+	}
 	if (distance(game->monster.x, game->monster.y, game->player.px, game->player.py) < 1000 && rand() % 300 <= 0)
 		play_sound("data/sound/scream.mp3", game);
 	if (game->monster.hp <= 0)

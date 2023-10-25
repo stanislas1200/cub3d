@@ -29,6 +29,7 @@ void	stop_sound(void) // make a function to execute a function in a child ? void
 	pid = fork(); // check -1 ? send error exit 1 ? FOR ALL FORK
 	if (pid == 0)
 	{
+		sleep(1);
 		execlp("pkill", "pkill", "afplay", NULL);
 		exit(0);
 	}
@@ -94,6 +95,9 @@ int	key_released(int key, t_game *game)
 
 int	update_frame(t_game *game)
 {
+	if (game->player.trip_cd < 1)
+		game->player.trip = 0;
+	game->player.trip_cd--;
 	if (game->data->time >= 1000)
 		game->data->time = 0;
 	movement(game);
