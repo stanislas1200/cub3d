@@ -6,7 +6,7 @@
 /*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 15:09:09 by dspilleb          #+#    #+#             */
-/*   Updated: 2023/10/22 17:17:46 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/25 14:07:07 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,9 @@ int	in_view(t_game *game)
 	t_ray	hray;
 	t_ray	vray;
 	t_ray	*ray;
-
+	
+	if (game->monster.state == DEAD)
+		return (0);
 	init_ray(&hray, game, game->player.pa, 'H');
 	init_ray(&vray, game, game->player.pa, 'V');
 	if (hray.dist < vray.dist)

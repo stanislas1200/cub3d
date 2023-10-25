@@ -109,8 +109,6 @@ int	update_frame(t_game *game)
 	if (game->data->g_time > 0) 
 		game->data->g_time++;
 	render_minimap(game);
-	if (rand() % 300 <= 0)
-		play_sound("data/sound/scream.mp3", game);
 	in_view(game);
 	// A*
 	execute_mob(game);
@@ -143,6 +141,11 @@ int	gun_fire(int button, int x, int y, t_game *game)
 		return (0);
 	game->data->g_time = 1;
 	play_sound("data/sound/gun.wav", game);
+	if (in_view(game))
+	{
+		play_sound("data/sound/impact.mp3", game);
+		game->monster.hp--;
+	}
 	return (0);
 }
 

@@ -205,6 +205,7 @@ enum e_state {
 	ATTACK,
 	HIDE,
 	MOVE,
+	DEAD,
 };
 
 typedef struct monster
