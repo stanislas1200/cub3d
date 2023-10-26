@@ -6,7 +6,7 @@
 /*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 15:14:10 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/26 18:12:01 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/26 18:43:13 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -314,8 +314,8 @@ void Astar(t_data *data, t_astar *a, int start_x, int start_y, int end_x, int en
 	// // }
 	// // free(a->nodes);
 	// init_astar( data, a);
-	if (a->path && a->pathCount > 0)
-		print_astar_map(data);
+	// if (a->path && a->pathCount > 0)
+	// 	print_astar_map(data);
 }
 
 

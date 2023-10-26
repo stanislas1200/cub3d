@@ -106,6 +106,19 @@ int	update_frame(t_game *game)
 	// mlx_mouse_hide();
 	mlx_put_image_to_window(game->mlx_ptr, \
 	game->mlx_win, game->img.image, 0, 0);
+	t_mob *current = game->data->mob_list;
+	while (current)
+	{
+		game->monster = *current;
+		// if (in_view(game))
+
+	if (game->monster.state != DEAD || distance(game->monster.x, game->monster.y, game->player.px, game->player.py) < 1000)
+			draw_monster(game);
+		execute_mob(game, current);
+		current = current->next;
+	}
+	mlx_put_image_to_window(game->mlx_ptr, \
+	game->mlx_win, game->img.image, 0, 0);
 	game->data->time++;
 	if (game->data->g_time > 4)
 		game->data->g_time = 0;
@@ -114,14 +127,7 @@ int	update_frame(t_game *game)
 		game->data->g_time++;
 	render_minimap(game);
 	// in_view(game);
-	// draw_monster(game);
 	// A*
-	t_mob *current = game->data->mob_list;
-	while (current)
-	{
-		execute_mob(game, current);
-		current = current->next;
-	}
 	return (0);
 }
 

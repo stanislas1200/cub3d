@@ -6,7 +6,7 @@
 /*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 17:38:26 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/26 18:10:44 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/26 18:52:54 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	add_enemy(t_mob *new_enemy, t_mob *current, t_data *data, int type)
 	}
 	else if (type == CHUBBS)
 	{
-		new_enemy->max_hp = 10;
+		new_enemy->max_hp = 5;
 		new_enemy->cd = 5;
 	}
 	else if (type == ABUTOR)
@@ -85,6 +85,11 @@ void	execute_mob(t_game *game, t_mob *this)
 {
 	if (this->state == DEAD)
 		return;
+	if (this->hp <= 0)
+	{
+		play_sound("data/sound/dying.mp3", game);
+		this->state = DEAD;
+	}
 	if (this->type == EGG)
 	{
 		if (distance(this->x, this->y, game->player.px, game->player.py) < 100)
@@ -94,7 +99,7 @@ void	execute_mob(t_game *game, t_mob *this)
 			// TODO : PROTECT
 
 			current = NULL;
-			this->state = DEAD; // remove from list
+			this->hp = 0; // remove from list
 			game->data->i = (int)this->y >> 6;
 			game->data->j = (int)this->x >> 6;
 			add_enemy(new, current, game->data, CHUBBS);
@@ -120,11 +125,6 @@ void	execute_mob(t_game *game, t_mob *this)
 	}
 	if (distance(this->x, this->y, game->player.px, game->player.py) < 1000 && rand() % 300 <= 0)
 		play_sound("data/sound/scream.mp3", game);
-	if (this->hp <= 0)
-	{
-		play_sound("data/sound/dying.mp3", game);
-		this->state = DEAD;
-	}
 	else if (this->state == FOLLOW)
 	{
 		Astar(game->data, game->data->a, ((int)this->x >> 6) , ((int)this->y >> 6), ((int)game->player.px >> 6) , ((int)game->player.py >> 6));

@@ -6,7 +6,7 @@
 /*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 15:09:09 by dspilleb          #+#    #+#             */
-/*   Updated: 2023/10/26 18:17:56 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/26 19:07:11 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	init_drawing(t_game *game, t_draw *d, t_ray *ray, double angle);
 void	render_monster(t_game *game, t_draw *d, double x);
 void	init_mob_drawing(t_game *game, t_draw *d, double dist);
 double	fov_side(t_game *game);
+int	check_bullet_wall(t_game *game, double angle, double dist);
 
 int	in_view(t_game *game)
 {
@@ -25,8 +26,6 @@ int	in_view(t_game *game)
 	double	angle;
 	t_draw	d;
 
-	if (game->monster.state == DEAD)
-		return (0);
 	b = distance(game->player.px, game->player.py, \
 	game->player.px + game->player.pdx, game->player.py + game->player.pdy);
 	a = distance(game->player.px + game->player.pdx, \
@@ -35,7 +34,26 @@ int	in_view(t_game *game)
 	game->monster.x, game->monster.y);
 	angle = acos((b * b + c * c - a * a) / (2 * b * c));
 	angle *= 180 / PI;
-	return (angle <= FOV / 2);
+	if (fov_side(game) >= 0)
+		angle = (FOV / 2) - angle;
+	else
+		angle = (FOV / 2) + angle;
+	return ((angle <= FOV / 2) && check_bullet_wall(game, game->player.pa - FOV/2 + angle, c));
+}
+
+int	check_bullet_wall(t_game *game, double angle, double dist)
+{
+	t_ray	hray;
+	t_ray	vray;
+	t_ray	*ray;
+
+	init_ray(&hray, game, angle, 'H');
+	init_ray(&vray, game, angle, 'V');
+	if (hray.dist < vray.dist)
+		ray = &hray;
+	else
+		ray = &vray;
+	return (dist < ray->dist);
 }
 void	draw_monster(t_game *game)
 {
