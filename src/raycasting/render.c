@@ -50,8 +50,8 @@ unsigned int	darken_color(t_game *game, unsigned int color, double fog)
 		b = 255;
 	if (b <= 0)
 		b = 0;
-	if (game->player.trip) // RED // DEV
-		return ((((int)(r*0.9) * 256 * 256) + (g/3 * 256) + b/3));
+	// if (game->player.trip) // RED // DEV
+	// 	return ((((int)(r*0.9) * 256 * 256) + (g/3 * 256) + b/3));
 	return ((r * 256 * 256) + (g * 256) + b);
 }
 
@@ -118,24 +118,29 @@ void	render_monster(t_game *game, t_draw *d, double x)
 	double			texy;
 	double			start;
 	double			fog;
-	double			startx = x;
 	double			tex_x = 0;
-
-	for (int i = x - d->line_h/2; i < x + d->line_h/2; i++)
+	double			step_x;
+	double			scale = (SQUARE * HEIGHT) / d->realdist;
+	step_x = (720 / scale);
+	fog = d->realdist / 400;
+	for (int i = x - scale/2; i < x + scale/2 && i < WIDTH; i++)
 	{
 		start = d->line_o;
-		texy = 0;
-		for (int j = 0; j < d->line_h; j++)
+		texy = d->ty_offset * d->step;
+		while (i >= 0 && start < (d->line_o + d->line_h) && start < HEIGHT)
 		{
-			texy += d->step;
 			color = get_color(game->mob, \
-			(int)tex_x, (int)texy);
-			// color = darken_color(color, fog);
-			// color = darken_color(color, in_circle(x, start));
-			if(i >= 0 && i < WIDTH && start>= 0 && start < HEIGHT)
-				my_mlx_pixel_put(&game->img, i, start, color);
+			(int)tex_x % 720, (int)texy % 1104);
+			if (color != 0xFF000000)
+			{
+				color = darken_color(game, color, fog);
+				color = darken_color(game, color, in_circle(x, start));
+			}
+			if(i >= 0 && i < WIDTH && start>= 0 && d->realdist < game->depths[i])
+				my_mlx_pixel_put(&game->monsters, i, start, color);
+			texy += d->step;
 			start++;
 		}
-		tex_x += d->step;
+		tex_x += step_x;
 	}
 }
