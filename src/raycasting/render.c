@@ -107,7 +107,8 @@ void	render_wall(t_game *game, t_draw *d, double x, t_ray *ray)
 			color = get_color(game->sprites.wall[(game->data->time / 10 + (int)d->tex) % 4],  (int)d->tex_x, (int)texy); // animated wall exemple
 		color = darken_color(game, color, fog);
 		color = darken_color(game, color, in_circle(x, start));
-		my_mlx_pixel_put(&game->img, x, start, color);
+		if (x >= 0 && x < WIDTH && start >= 0)
+			my_mlx_pixel_put(&game->img, x, start, color);
 		start++;
 	}
 }
