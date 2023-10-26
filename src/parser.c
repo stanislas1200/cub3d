@@ -88,7 +88,10 @@ void	read_map2(t_data *d, char *str, int tot, int l)
 		else if (str[tot + d->j] == '1')
 			d->map[d->i][d->j] = 'X';
 		else if (str[tot + d->j] == '0')
+		{
+			generate_monster(d, EGG);
 			d->map[d->i][d->j] = 'F';
+		}
 		else if (str[tot + d->j] != ' ')
 			return (d->height = d->i, e(d, "Invalid map" RESET ": ", \
 			"Invalid character in map\n"));

@@ -6,7 +6,7 @@
 /*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 15:14:10 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/25 15:39:46 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/26 18:12:01 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,6 @@ void make_path(t_anode *node, t_astar *a) {
 		node = node->previous;
 	}
 	a->path[a->pathCount++] = copy_node(node);
-	print_path(a->path);
 }
 
 void find_path(t_data *data, t_astar *a) {
@@ -195,21 +194,21 @@ void free_list(t_anode *arr[], int size) {
 
 void print_astar_map(t_data * data) {
 	printf("\x1b[H\x1b[2J");
-	for (int i = 0; i < data->height; i++) {
-		for (int j = 0; j < ft_strlen(data->map[i]); j++) {
-			if (data->map[i][j] == 'X')
-				printf(RED);
-			else
-			{
-				if (i == (int)data->player.py >> 6 && j == (int)data->player.px >> 6)
-					printf(GREEN);
-				else
-					printf(BOLD);
-			}
-			printf("0" RESET);
-		}
-		printf(" %d\n", i);
-	}
+	// for (int i = 0; i < data->height; i++) {
+	// 	for (int j = 0; j < ft_strlen(data->map[i]); j++) {
+	// 		if (data->map[i][j] == 'X')
+	// 			printf(RED);
+	// 		else
+	// 		{
+	// 			if (i == (int)data->player.py >> 6 && j == (int)data->player.px >> 6)
+	// 				printf(GREEN);
+	// 			else
+	// 				printf(BOLD);
+	// 		}
+	// 		printf("0" RESET);
+	// 	}
+	// 	printf(" %d\n", i);
+	// }
 	for (int i = 0; i < data->a->size; i++) {
 		for (int j = 0; j < data->a->size; j++) {
 			if (data->a->nodes[i][j])

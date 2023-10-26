@@ -6,7 +6,7 @@
 /*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 17:38:26 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/25 16:32:55 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/26 18:10:44 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,62 +22,153 @@ void print_path(t_anode **path)
 void remove_arr(t_anode *arr[], t_anode *node, int size);
 void free_list(t_anode *arr[], int size);
 
-void	execute_mob(t_game *game)
+void	add_enemy(t_mob *new_enemy, t_mob *current, t_data *data, int type)
 {
-	if (game->monster.state == DEAD)
-		return;
-	if (distance(game->monster.x, game->monster.y, game->player.px, game->player.py) < 100)
+	if (type == EGG)
 	{
-		if (game->monster.cd < 1)
+		new_enemy->max_hp = 1;
+		new_enemy->cd = 0;
+	}
+	else if (type == CHUBBS)
+	{
+		new_enemy->max_hp = 10;
+		new_enemy->cd = 5;
+	}
+	else if (type == ABUTOR)
+	{
+		new_enemy->max_hp = 100;
+		new_enemy->cd = 10;
+	}
+	new_enemy->x = data->j << 6;
+	new_enemy->y = data->i << 6;
+	new_enemy->state = IDLE;
+	new_enemy->hp = new_enemy->max_hp;
+	new_enemy->next = NULL;
+	new_enemy->type = type;
+
+	if (data->mob_list == NULL)
+	{
+		data->mob_list = new_enemy;
+	}
+	else
+	{
+		current = data->mob_list;
+		while (current->next != NULL)
+		{
+			current = current->next;
+		}
+	current->next = new_enemy;
+	}
+	printf(GREEN "New enemy in : %d, %d\n", (int)new_enemy->x >> 6, (int)new_enemy->y >> 6);
+}
+
+void	generate_monster(t_data *data, int type)
+{
+	t_mob	*current;
+	t_mob	*new;
+
+	if (data->i > data->height / 3 && rand() % 100 < 5)
+	{
+		new = NULL;
+		current = NULL;
+		new = (t_mob *)malloc(sizeof(t_mob));
+		// TODO : PROTECT
+		if (!new)
+		{
+			// DEV HANDLE
+		}
+		add_enemy(new, current, data, type);
+	}
+}
+
+void	execute_mob(t_game *game, t_mob *this)
+{
+	if (this->state == DEAD)
+		return;
+	if (this->type == EGG)
+	{
+		if (distance(this->x, this->y, game->player.px, game->player.py) < 100)
+		{
+			t_mob	*current;
+			t_mob	*new = (t_mob *)malloc(sizeof(t_mob));
+			// TODO : PROTECT
+
+			current = NULL;
+			this->state = DEAD; // remove from list
+			game->data->i = (int)this->y >> 6;
+			game->data->j = (int)this->x >> 6;
+			add_enemy(new, current, game->data, CHUBBS);
+		}
+		return;
+	}
+	if (distance(this->x, this->y, game->player.px, game->player.py) < 100)
+	{
+		if (this->cd < 1)
 		{
 			play_sound("data/sound/hit.mp3", game);
 			game->player.trip = 1;
 			game->player.trip_cd = 10;
 			game->player.hp--;
-			game->monster.cd = 20;
+			this->cd = 20;
 		}
-		game->monster.cd--;
+		this->cd--;
 		if (game->player.hp <= 0)
 		{
 			play_sound("data/sound/game_over.mp3", game);
 			end_game(game);
 		}
 	}
-	if (distance(game->monster.x, game->monster.y, game->player.px, game->player.py) < 1000 && rand() % 300 <= 0)
+	if (distance(this->x, this->y, game->player.px, game->player.py) < 1000 && rand() % 300 <= 0)
 		play_sound("data/sound/scream.mp3", game);
-	if (game->monster.hp <= 0)
+	if (this->hp <= 0)
 	{
 		play_sound("data/sound/dying.mp3", game);
-		game->monster.state = DEAD;
+		this->state = DEAD;
 	}
-	else if (game->monster.state == FOLLOW)
+	else if (this->state == FOLLOW)
 	{
-		Astar(game->data, game->data->a, ((int)game->monster.x >> 6) , ((int)game->monster.y >> 6), ((int)game->player.px >> 6) , ((int)game->player.py >> 6));
-		// print_path(game->data->a->path);
+		Astar(game->data, game->data->a, ((int)this->x >> 6) , ((int)this->y >> 6), ((int)game->player.px >> 6) , ((int)game->player.py >> 6));
 		game->data->i = 0;
-		game->monster.state = MOVE;
-	}
-	else if (game->monster.state == IDLE)
-	{
-		if (distance(game->monster.x, game->monster.y, game->player.px, game->player.py) < 1000)
-			game->monster.state = FOLLOW;
-	}
-	else if (game->monster.state == MOVE)
-	{
+		// this->state = MOVE;
+		// move part
 		if (game->data->a->pathCount < 2 || !game->data->a->path || !game->data->a->path[0])
-			return (free_list(game->data->a->path, game->data->a->pathCount), game->monster.state = IDLE, (void)0);
-		game->monster.speed = 10;
-		if (game->monster.x > game->data->a->path[game->data->a->pathCount - 2]->x << 6)
-			game->monster.x -= game->monster.speed;
-		if (game->monster.x < game->data->a->path[game->data->a->pathCount - 2]->x << 6)
-			game->monster.x += game->monster.speed;
-		if (game->monster.y >= game->data->a->path[game->data->a->pathCount - 2]->y << 6)
-			game->monster.y -= game->monster.speed;
-		if (game->monster.y <= game->data->a->path[game->data->a->pathCount - 2]->y << 6)
-			game->monster.y += game->monster.speed;
-		printf(GREEN "Moved to : %d, %d \nHP: %d, %d\n", (int)game->monster.x >> 6 , (int)game->monster.y >> 6, game->monster.hp, game->monster.max_hp);
+			return (free_list(game->data->a->path, game->data->a->pathCount), this->state = IDLE, (void)0);
+		this->speed = 10;
+		if (this->x > game->data->a->path[game->data->a->pathCount - 2]->x << 6)
+			this->x -= this->speed;
+		if (this->x < game->data->a->path[game->data->a->pathCount - 2]->x << 6)
+			this->x += this->speed;
+		if (this->y >= game->data->a->path[game->data->a->pathCount - 2]->y << 6)
+			this->y -= this->speed;
+		if (this->y <= game->data->a->path[game->data->a->pathCount - 2]->y << 6)
+			this->y += this->speed;
+		printf(GREEN "Moved to : %d, %d \nHP: %d, %d\n", (int)this->x >> 6 , (int)this->y >> 6, this->hp, this->max_hp);
 		free_list(game->data->a->path, game->data->a->pathCount);
 		game->data->a->pathCount = 0;
-		game->monster.state = IDLE; // DEV TEMP
+		this->state = IDLE; // DEV TEMP
 	}
+	else if (this->state == IDLE)
+	{
+		if (distance(this->x, this->y, game->player.px, game->player.py) < 1000)
+			this->state = FOLLOW;
+	}
+	// else if (this->state == MOVE)
+	// {
+	// 	if (game->data->a->pathCount < 2 || !game->data->a->path || !game->data->a->path[0])
+	// 		return (free_list(game->data->a->path, game->data->a->pathCount), this->state = IDLE, (void)0);
+	// 	this->speed = 10;
+	// 	// if (this->x > game->data->a->path[game->data->a->pathCount - 2]->x << 6)
+	// 	// 	this->x -= this->speed;
+	// 	// if (this->x < game->data->a->path[game->data->a->pathCount - 2]->x << 6)
+	// 	// 	this->x += this->speed;
+	// 	// if (this->y >= game->data->a->path[game->data->a->pathCount - 2]->y << 6)
+	// 	// 	this->y -= this->speed;
+	// 	// if (this->y <= game->data->a->path[game->data->a->pathCount - 2]->y << 6)
+	// 	// 	this->y += this->speed;
+	// 	printf(GREEN "Moved to : %d, %d \nHP: %d, %d\n", (int)this->x >> 6 , (int)this->y >> 6, this->hp, this->max_hp);
+	// 	free_list(game->data->a->path, game->data->a->pathCount);
+	// 	game->data->a->pathCount = 0;
+	// 	this->state = IDLE; // DEV TEMP
+	// }
+	// printf(MAGENTA BOLD "Enemy at: %d, %d \nHP: %d, %d\n" RESET, (int)this->x >> 6 , (int)this->y >> 6, this->hp, this->max_hp);
 }

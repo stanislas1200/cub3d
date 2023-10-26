@@ -179,6 +179,35 @@ typedef struct s_astar {
 	int size;
 }	t_astar;
 
+enum e_state {
+	FOLLOW,
+	IDLE,
+	ATTACK,
+	HIDE,
+	MOVE,
+	DEAD,
+};
+
+enum e_type {
+	EGG,
+	CHUBBS,
+	ABUTOR,
+};
+
+typedef struct monster
+{
+	int				hp;
+	int				max_hp;
+	double			x;
+	double			y;
+	int				speed;
+	int				cd;
+	int				type;
+	enum e_state	state;
+	// double			pa;
+	struct monster *next;
+}	t_mob;
+
 typedef struct s_data
 {
 	int			i;
@@ -199,28 +228,9 @@ typedef struct s_data
 	t_node		*stack;
 	t_player	player;
 	t_astar		*a;
+	t_mob		*mob_list; // TODO : free at end
 }	t_data;
 
-enum e_state {
-	FOLLOW,
-	IDLE,
-	ATTACK,
-	HIDE,
-	MOVE,
-	DEAD,
-};
-
-typedef struct monster
-{
-	int				hp;
-	int				max_hp;
-	double			x;
-	double			y;
-	int				speed;
-	int				cd;
-	enum e_state	state;
-	// double			pa;
-}	t_mob;
 
 typedef struct game
 {
@@ -263,7 +273,8 @@ void setup_astar(t_data *data, t_astar *a);
 void Astar(t_data *data, t_astar *a, int start_i, int start_j, int end_i, int end_j);
 
 //Monster
-void	execute_mob(t_game *game);
+void	generate_monster(t_data *data, int type);
+void	execute_mob(t_game *game, t_mob *this);
 
 //raycasting
 void	draw_rays(t_game *game);
@@ -278,6 +289,7 @@ void	init_ray(t_ray *ray, t_game *game, double angle, char type);
 //render
 void	drawstripes(t_game *game, int x1, int y1, int y2);
 int		update_frame(t_game *game);
+int		in_view(t_game *game);
 
 //movement
 void	movement(t_game *game);

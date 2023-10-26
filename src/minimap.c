@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minimap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 13:32:10 by dspilleb          #+#    #+#             */
-/*   Updated: 2023/10/22 17:14:59 by dspilleb         ###   ########.fr       */
+/*   Updated: 2023/10/26 17:48:25 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	in_minimap(double x1, double y1)
 {
-	return (distance(x1, y1, MAP_CENTER, MAP_CENTER) <= MAP_CENTER);
+	return (distance(x1, y1, MAP_CENTER, MAP_CENTER) < MAP_CENTER);
 }
 
 void drawLine2(t_game *game, t_line l)
@@ -132,13 +132,18 @@ void	render_minimap(t_game *game)
 	l.y2 = s.y + + s.size/ 2 + game->player.pdy * 6;
 	drawLine2(game, l);
 
-	int mx = ((int)game->monster.x) >> 6;
-	int my = ((int)game->monster.y) >> 6;
-	s.color = 0xFFFFFF;
-	s.size = map_size;
-	s.x = (mx - (px - MAP_C)) * map_size;
-	s.y = (my - (py - MAP_C)) * map_size;
-	draw_square(game, s);
+	t_mob *current = game->data->mob_list;
+	while (current)
+	{
+		int mx = ((int)current->x) >> 6;
+		int my = ((int)current->y) >> 6;
+		s.color = 0xFFFFFF;
+		s.size = map_size;
+		s.x = (mx - (px - MAP_C)) * map_size;
+		s.y = (my - (py - MAP_C)) * map_size;
+		draw_square(game, s);
+		current = current->next;
+	}
 	mlx_put_image_to_window(game->mlx_ptr, game->mlx_win, \
 	game->map.image, WIDTH - MAP_W, HEIGHT - MAP_W);
 }

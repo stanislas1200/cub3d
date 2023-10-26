@@ -113,9 +113,15 @@ int	update_frame(t_game *game)
 	if (game->data->g_time > 0) 
 		game->data->g_time++;
 	render_minimap(game);
-	in_view(game);
+	// in_view(game);
+	// draw_monster(game);
 	// A*
-	execute_mob(game);
+	t_mob *current = game->data->mob_list;
+	while (current)
+	{
+		execute_mob(game, current);
+		current = current->next;
+	}
 	return (0);
 }
 
@@ -145,10 +151,16 @@ int	gun_fire(int button, int x, int y, t_game *game)
 		return (0);
 	game->data->g_time = 1;
 	play_sound("data/sound/gun.wav", game);
-	if (in_view(game))
+	t_mob *current = game->data->mob_list;
+	while (current)
 	{
-		play_sound("data/sound/impact.mp3", game);
-		game->monster.hp--;
+		game->monster = *current;
+		if (in_view(game))
+		{
+			play_sound("data/sound/impact.mp3", game);
+			current->hp--;
+		}
+		current = current->next;
 	}
 	return (0);
 }
@@ -169,6 +181,12 @@ int	main(int ac, char **av)
 	if (init_mlx(&game))
 		return (e(&data, "mlx faill\n", NULL), 1);
 	init_player(&data, &game);
+	// data.i = (int)game.player.py >> 6;
+	// data.j = (int)(game.player.px + SQUARE * 2) >> 6;
+	// generate_monster(&data, 0);
+	// data.i = (int)game.player.py >> 6;
+	// data.j = (int)(game.player.px - SQUARE * 2) >> 6;
+	// generate_monster(&data, 0);
 	if (init_sprites(&game) != 0)
 		return (e(&data, "Sprites\n", NULL), 1);
 	// A*
@@ -179,8 +197,8 @@ int	main(int ac, char **av)
 	mlx_hook(game.mlx_win, 3, 1L << 1, key_released, &game);
 	mlx_hook(game.mlx_win, 6, 1L << 0, event_hook, &game);
 	mlx_hook(game.mlx_win, 4, 1L << 0, gun_fire, &game);
-	game.monster.x = game.player.px + SQUARE * 2;
-	game.monster.y = game.player.py;
+	// game.monster.x = game.player.px + SQUARE * 2;
+	// game.monster.y = game.player.py;
 	mlx_loop_hook(game.mlx_ptr, update_frame, &game);
 	mlx_hook(game.mlx_win, 17, 1L << 2, end_game, &game);
 	if (pthread_create(&game.t_id, NULL, embient_sound, NULL))
