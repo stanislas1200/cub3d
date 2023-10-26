@@ -69,6 +69,7 @@ void	ray_cast(t_game *game, double angle, int s_width)
 		ray = &hray;
 	else
 		ray = &vray;
+	game->depths[s_width] = ray->dist;
 	init_drawing(game, &d, ray, angle);
 	draw(game, ray, &d, s_width);
 }
