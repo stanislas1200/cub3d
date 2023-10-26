@@ -237,6 +237,7 @@ typedef struct game
 	int			color;
 	t_img		*mob;
 	t_mob		monster;
+	double		depths[2048];
 }	t_game;
 
 void	set_map_from_file(char *path, t_data *data);
@@ -305,4 +306,5 @@ void	init_data(t_data *data);
 void	render_minimap(t_game *game);
 
 void	draw_monster(t_game *game);
+int		in_view(t_game *game);
 #endif

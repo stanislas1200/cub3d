@@ -6,7 +6,7 @@
 /*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 16:11:38 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/26 11:43:20 by dspilleb         ###   ########.fr       */
+/*   Updated: 2023/10/26 15:18:38 by dspilleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	init_sprites(t_game *game)
 	game->sprites.wall[SO] = put_img(game, game->data->so);
 	game->sprites.wall[WE] = put_img(game, game->data->we);
 	game->sprites.wall[EA] = put_img(game, game->data->ea);
-	game->mob = put_img(game, "./Sprites/barrel.xpm");
+	game->mob = put_img(game, "./Sprites/monster.xpm");
 	game->sprites.wallI[0] = put_img(game, "./Sprites/walls/wallR0.xpm");
 	game->sprites.wallI[1] = put_img(game, "./Sprites/walls/wallR1.xpm");
 	game->sprites.wallI[2] = put_img(game, "./Sprites/walls/wallR2.xpm");

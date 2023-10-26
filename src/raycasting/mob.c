@@ -6,7 +6,7 @@
 /*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 15:09:09 by dspilleb          #+#    #+#             */
-/*   Updated: 2023/10/26 11:45:37 by dspilleb         ###   ########.fr       */
+/*   Updated: 2023/10/26 16:46:02 by dspilleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	render_monster(t_game *game, t_draw *d, double x);
 void	init_mob_drawing(t_game *game, t_draw *d, double dist);
 double	fov_side(t_game *game);
 
-void	draw_monster(t_game *game)
+int	in_view(t_game *game)
 {
 	double	a;
 	double	b;
@@ -27,6 +27,26 @@ void	draw_monster(t_game *game)
 
 	if (game->monster.state == DEAD)
 		return (0);
+	b = distance(game->player.px, game->player.py, \
+	game->player.px + game->player.pdx, game->player.py + game->player.pdy);
+	a = distance(game->player.px + game->player.pdx, \
+	game->player.py + game->player.pdy, game->monster.x, game->monster.y);
+	c = distance (game->player.px, game->player.py, \
+	game->monster.x, game->monster.y);
+	angle = acos((b * b + c * c - a * a) / (2 * b * c));
+	angle *= 180 / PI;
+	return (angle <= FOV / 2);
+}
+void	draw_monster(t_game *game)
+{
+	double	a;
+	double	b;
+	double	c;
+	double	angle;
+	t_draw	d;
+
+	if (game->monster.state == DEAD)
+		return ;
 	b = distance(game->player.px, game->player.py, \
 	game->player.px + game->player.pdx, game->player.py + game->player.pdy);
 	a = distance(game->player.px + game->player.pdx, \
@@ -62,8 +82,13 @@ void	init_mob_drawing(t_game *game, t_draw *d, double dist)
 	d->ty_offset = 0;
 	d->realdist = dist;
 	d->line_h = ((SQUARE * HEIGHT) / dist);
-	d->step = (SQUARE / d->line_h);
+	d->step = (1104 / d->line_h);
 	if (d->line_h > HEIGHT)
+	{
+		d->ty_offset = (d->line_h - HEIGHT) /2.0;
 		d->line_h = HEIGHT;
+	}
+	if (d->line_h < 0)
+		d->line_h = 0;
 	d->line_o = (HEIGHT / 2) - ((int)d->line_h >> 1);
 }
