@@ -64,10 +64,8 @@
 // # define D 100
 // # define S 115
 // # define ESC 65307
-// # define A_U 65362
-// # define A_D 65364
-// # define A_E 65363
-// # define A_W 65361
+// # define A_E 65361
+// # define A_W 65363
 
 // MacOS
 # define Z 13
@@ -255,5 +253,5 @@ void	init_data(t_data *data);
 //minimap
 void	render_minimap(t_game *game);
 
-int	in_view(t_game *game);
+void	draw_monster(t_game *game);
 #endif

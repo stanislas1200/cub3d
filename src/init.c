@@ -6,7 +6,7 @@
 /*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 16:11:38 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/22 17:14:56 by dspilleb         ###   ########.fr       */
+/*   Updated: 2023/10/25 13:01:30 by dspilleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,9 @@ i = -1;
 	if (!(game->sprites.wall[NO]->addr || game->sprites.wall[SO]->addr \
 	|| game->sprites.wall[WE]->addr || game->sprites.wall[EA]->addr))
 		return (destroy_sprites(game), 1);
+	game->mob->addr = mlx_get_data_addr(game->mob, \
+&game->mob->bits_per_pixel, &game->mob->line_length, \
+&game->mob->endian);
 	return (0);
 }
 

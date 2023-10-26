@@ -88,7 +88,7 @@ void	render_wall(t_game *game, t_draw *d, double x, t_ray *ray)
 	start = d->line_o;
 	texy = d->ty_offset * d->step;
 	fog = d->realdist / 400;
-	if(d->tex_x < 0)
+	if (d->tex_x < 0)
 		d->tex_x = 0;
 	while (start < (d->line_o + d->line_h) && start < HEIGHT)
 	{
@@ -105,5 +105,33 @@ void	render_wall(t_game *game, t_draw *d, double x, t_ray *ray)
 		color = darken_color(color, in_circle(x, start));
 		my_mlx_pixel_put(&game->img, x, start, color);
 		start++;
+	}
+}
+
+void	render_monster(t_game *game, t_draw *d, double x)
+{
+	unsigned int	color;
+	double			texy;
+	double			start;
+	double			fog;
+	double			startx = x;
+	double			tex_x = 0;
+
+	for (int i = x - d->line_h/2; i < x + d->line_h/2; i++)
+	{
+		start = d->line_o;
+		texy = 0;
+		for (int j = 0; j < d->line_h; j++)
+		{
+			texy += d->step;
+			color = get_color(game->mob, \
+			(int)tex_x, (int)texy);
+			// color = darken_color(color, fog);
+			// color = darken_color(color, in_circle(x, start));
+			if(i >= 0 && i < WIDTH && start>= 0 && start < HEIGHT)
+				my_mlx_pixel_put(&game->img, i, start, color);
+			start++;
+		}
+		tex_x += d->step;
 	}
 }
