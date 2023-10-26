@@ -29,6 +29,7 @@ void	stop_sound(void) // make a function to execute a function in a child ? void
 	pid = fork(); // check -1 ? send error exit 1 ? FOR ALL FORK
 	if (pid == 0)
 	{
+		sleep(1);
 		execlp("pkill", "pkill", "afplay", NULL);
 		exit(0);
 	}
@@ -94,6 +95,9 @@ int	key_released(int key, t_game *game)
 
 int	update_frame(t_game *game)
 {
+	if (game->player.trip_cd < 1)
+		game->player.trip = 0;
+	game->player.trip_cd--;
 	if (game->data->time >= 1000)
 		game->data->time = 0;
 	movement(game);
@@ -109,9 +113,9 @@ int	update_frame(t_game *game)
 	if (game->data->g_time > 0) 
 		game->data->g_time++;
 	render_minimap(game);
-	if (rand() % 300 <= 0)
-		play_sound("data/sound/scream.mp3", game);
 	in_view(game);
+	// A*
+	execute_mob(game);
 	return (0);
 }
 
@@ -141,6 +145,11 @@ int	gun_fire(int button, int x, int y, t_game *game)
 		return (0);
 	game->data->g_time = 1;
 	play_sound("data/sound/gun.wav", game);
+	if (in_view(game))
+	{
+		play_sound("data/sound/impact.mp3", game);
+		game->monster.hp--;
+	}
 	return (0);
 }
 
@@ -148,6 +157,8 @@ int	main(int ac, char **av)
 {
 	t_data	data;
 	t_game	game;
+	t_astar a;
+	data.a = &a;
 
 	init_data(&data);
 	if (ac == 2)
@@ -160,11 +171,15 @@ int	main(int ac, char **av)
 	init_player(&data, &game);
 	if (init_sprites(&game) != 0)
 		return (e(&data, "Sprites\n", NULL), 1);
+	// A*
+	setup_astar(&data, data.a);
+	// init_astar(&data, data.a);
+
 	mlx_hook(game.mlx_win, 2, 1L << 0, key_pressed, &game);
 	mlx_hook(game.mlx_win, 3, 1L << 1, key_released, &game);
 	mlx_hook(game.mlx_win, 6, 1L << 0, event_hook, &game);
 	mlx_hook(game.mlx_win, 4, 1L << 0, gun_fire, &game);
-	game.monster.x = game.player.px + SQUARE;
+	game.monster.x = game.player.px + SQUARE * 2;
 	game.monster.y = game.player.py;
 	mlx_loop_hook(game.mlx_ptr, update_frame, &game);
 	mlx_hook(game.mlx_win, 17, 1L << 2, end_game, &game);

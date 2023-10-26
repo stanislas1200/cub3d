@@ -24,7 +24,7 @@ double	in_circle(double x, double y)
 	return (light * 0.01);
 }
 
-unsigned int	darken_color(unsigned int color, double fog)
+unsigned int	darken_color(t_game *game, unsigned int color, double fog)
 {
 	int	r;
 	int	g;
@@ -36,6 +36,8 @@ unsigned int	darken_color(unsigned int color, double fog)
 	r -= (int)(r * fog);
 	g -= (int)(g * fog);
 	b -= (int)(b * fog);
+	// if (game->player.trip) // trip // DEV
+	// 	return (((r * 256 * 256) + (g * 256) + b));
 	if (r > 255)
 		r = 255;
 	if (r <= 0)
@@ -48,6 +50,8 @@ unsigned int	darken_color(unsigned int color, double fog)
 		b = 255;
 	if (b <= 0)
 		b = 0;
+	if (game->player.trip) // RED // DEV
+		return ((((int)(r*0.9) * 256 * 256) + (g/3 * 256) + b/3));
 	return ((r * 256 * 256) + (g * 256) + b);
 }
 
@@ -70,9 +74,9 @@ void	drawstripes(t_game *game, int x1, int y1, int y2)
 				fog -= 1;
 			fog = 1 - fog;
 		}
-		color2 = darken_color(game->color, fog);
+		color2 = darken_color(game, game->color, fog);
 		if (y1 > HEIGHT / 2)
-			color2 = darken_color(color2, (in_circle(x1, y1)) * 1);
+			color2 = darken_color(game, color2, (in_circle(x1, y1)) * 1);
 		my_mlx_pixel_put(&game->img, x1, y1, color2);
 		y1++;
 	}
@@ -101,8 +105,8 @@ void	render_wall(t_game *game, t_draw *d, double x, t_ray *ray)
 			color = get_color(game->sprites.wallM[(game->data->time / 10 + (int)d->tex) % 4],  (int)d->tex_x, (int)texy); // animated wall exemple
 		else
 			color = get_color(game->sprites.wall[(game->data->time / 10 + (int)d->tex) % 4],  (int)d->tex_x, (int)texy); // animated wall exemple
-		color = darken_color(color, fog);
-		color = darken_color(color, in_circle(x, start));
+		color = darken_color(game, color, fog);
+		color = darken_color(game, color, in_circle(x, start));
 		my_mlx_pixel_put(&game->img, x, start, color);
 		start++;
 	}

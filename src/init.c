@@ -6,7 +6,7 @@
 /*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 16:11:38 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/25 13:01:30 by dspilleb         ###   ########.fr       */
+/*   Updated: 2023/10/26 11:43:20 by dspilleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	init_data(t_data *data)
 	data->ceiling[2] = -1;
 	data->time = 0;
 	data->g_time = 0;
+	data->biggest_w = 0;
 }
 
 int	init_sprites(t_game *game)
@@ -112,8 +113,16 @@ void	init_player(t_data *data, t_game *game)
 	game->keys[5] = 0;
 	data->player.px += (SQUARE / 2);
 	data->player.py += (SQUARE / 2);
+	data->player.max_hp = 100;
+	data->player.hp = data->player.max_hp;
+	data->player.trip = 0;
+	data->player.trip = 0;
 	game->player = data->player;
 	game->data = data;
+	game->monster.state = IDLE;
+	game->monster.cd = 10;
+	game->monster.max_hp = 10;
+	game->monster.hp = game->monster.max_hp;
 }
 
 int	init_mlx(t_game *game)

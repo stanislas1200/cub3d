@@ -6,7 +6,7 @@
 /*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 15:09:09 by dspilleb          #+#    #+#             */
-/*   Updated: 2023/10/26 11:40:45 by dspilleb         ###   ########.fr       */
+/*   Updated: 2023/10/26 11:45:37 by dspilleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ void	draw_monster(t_game *game)
 	double	angle;
 	t_draw	d;
 
+	if (game->monster.state == DEAD)
+		return (0);
 	b = distance(game->player.px, game->player.py, \
 	game->player.px + game->player.pdx, game->player.py + game->player.pdy);
 	a = distance(game->player.px + game->player.pdx, \
