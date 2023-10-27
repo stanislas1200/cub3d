@@ -6,7 +6,7 @@
 /*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 17:38:26 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/27 15:59:00 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/27 17:58:45 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,14 @@ void print_path(t_anode **path)
 	}
 }
 void remove_arr(t_anode *arr[], t_anode *node, int size);
-void free_list(t_anode *arr[], int size);
 
 void	free_mob_list(t_mob *lst)
 {
 	while (lst)
 	{
 		t_mob *current = lst;
-		free(current);
 		lst = lst->next;
-		printf(RED " FREE \n");
+		free(current);
 	}
 }
 
@@ -83,12 +81,36 @@ void	generate_monster(t_data *data, int type)
 		new = NULL;
 		current = NULL;
 		new = (t_mob *)malloc(sizeof(t_mob));
-		// TODO : PROTECT
 		if (!new)
-		{
-			// DEV HANDLE
-		}
+			return (printf(RED "ADD Mob faill\n" RESET), (void)0) ;
 		add_enemy(new, current, data, type);
+	}
+}
+
+void	execute_egg(t_game *game, t_mob *this)
+{
+	t_mob	*current;
+	t_mob	*new;
+
+	if (this->state == DYING)
+	{
+		if (this->cd >= 40)
+		{
+			new = (t_mob *)malloc(sizeof(t_mob));
+			if (!new)
+				return ;
+			current = NULL;
+			game->data->i = (int)this->y >> 6;
+			game->data->j = (int)this->x >> 6;
+			add_enemy(new, current, game->data, CHUBBS);
+			this->state = DEAD; // remove from list;
+		}
+		this->cd++;
+	}
+	else if (distance(this->x, this->y, game->player.px, game->player.py) < 100)
+	{
+		play_sound("data/sound/egg.mp3", game);
+		this->state = DYING;
 	}
 }
 
@@ -104,19 +126,8 @@ void	execute_mob(t_game *game, t_mob *this)
 	}
 	if (this->type == EGG)
 	{
-		if (distance(this->x, this->y, game->player.px, game->player.py) < 100)
-		{
-			t_mob	*current;
-			t_mob	*new = (t_mob *)malloc(sizeof(t_mob));
-			// TODO : PROTECT
-
-			current = NULL;
-			this->hp = 0; // remove from list
-			game->data->i = (int)this->y >> 6;
-			game->data->j = (int)this->x >> 6;
-			add_enemy(new, current, game->data, CHUBBS);
-		}
-		return;
+		execute_egg(game, this);
+		return ;
 	}
 	if (distance(this->x, this->y, game->player.px, game->player.py) < 100)
 	{
@@ -154,7 +165,6 @@ void	execute_mob(t_game *game, t_mob *this)
 			this->y -= this->speed;
 		if (this->y <= game->data->a->path[game->data->a->pathCount - 2]->y << 6)
 			this->y += this->speed;
-		printf(GREEN "Moved to : %d, %d \nHP: %d, %d\n", (int)this->x >> 6 , (int)this->y >> 6, this->hp, this->max_hp);
 		free_list(game->data->a->path, game->data->a->pathCount);
 		game->data->a->pathCount = 0;
 		this->state = IDLE; // DEV TEMP

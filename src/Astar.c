@@ -6,12 +6,11 @@
 /*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 15:14:10 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/27 15:38:41 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/27 17:56:46 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
-
 t_anode *new_node(t_astar *a, int x, int y) {
 	t_anode *node;
 	// if (a->nodes[x][y] != NULL) { // NEVER HAPPENS ?
@@ -19,19 +18,17 @@ t_anode *new_node(t_astar *a, int x, int y) {
 	// 	return a->nodes[x][y];
 	// }
 	node = malloc(sizeof(t_anode));
-	if (!node) {
-		printf("malloc error\n"); // CHANGE
-		return (NULL);
-	}
+	if (!node)
+		return (printf(RED "Node faill\n" RESET), NULL);
 	node->x = x;
 	node->y = y;
 	node->g = 0;
-	node->f	= 0;
+	node->f = 0;
 	node->previous = NULL;
-	return node;
+	return (node);
 }
 
-void add_arr(t_anode **arr, t_anode *node, int i) {
+void add_arr(t_anode **arr, t_anode *node, int i) { // protect size ?
 	arr[i] = node;
 }
 
@@ -43,8 +40,8 @@ float Heuristic(t_anode a, t_anode b) {
 	return abs(a.x - b.x) + abs(a.y - b.y);
 }
 
-void calculate(t_anode *node, t_anode *end) { // Changed to pointer
-	node->f = node->g + Heuristic(*node, *end); // Changed to pointer access
+void calculate(t_anode *node, t_anode *end) {
+	node->f = node->g + Heuristic(*node, *end);
 }
 
 void remove_arr(t_anode *arr[], t_anode *node, int size) {
@@ -91,19 +88,21 @@ int is_in(t_astar *a, int y, int x) {
 	return 0;
 }
 
-t_anode *copy_node(t_anode *node) {
-	t_anode *new_node = malloc(sizeof(t_anode));
-	if (!new_node) {
-		printf("malloc error\n");
-		return (NULL);
-	}
+t_anode	*copy_node(t_anode *node)
+{
+	t_anode	*new_node;
+
+	new_node = malloc(sizeof(t_anode));
+	if (!new_node)
+		return (printf(RED "Node faill\n" RESET), NULL);
 	new_node->x = node->x;
 	new_node->y = node->y;
 	// new_node->g = node->g; // No need for path
 	// new_node->f = node->f;
 	// new_node->previous = node->previous;
-	return new_node;
+	return (new_node);
 }
+
 void print_path(t_anode **path);
 
 void make_path(t_anode *node, t_astar *a) {
@@ -111,22 +110,22 @@ void make_path(t_anode *node, t_astar *a) {
 	while (node->previous) {
 		a->path[a->pathCount++] = copy_node(node);
 		if (!a->path[a->pathCount - 1]) {
-			printf("malloc error\n");
-			return ; // HANDLE ERROR // FREE path or move to here ?
+			return (free_list(a->path, a->pathCount)); // FREE path or move to here ? free to pathCount - 1 ?
 		}
 		node = node->previous;
 	}
 	a->path[a->pathCount++] = copy_node(node);
+	if (!a->path[a->pathCount - 1])
+		return (free_list(a->path, a->pathCount)); // FREE path or move to here ?
 }
 
 void find_path(t_data *data, t_astar *a) {
-	while (a->openCount > 0 && a->openCount < 5000) { //limited
+	while (a->openCount > 0 && a->openCount < 5000) //limited
+	{
 		int winner = get_lowest_f_node(a);
 		a->current = a->open[winner];
 		if (a->current->x == a->end->x && a->current->y == a->end->y) { // END
 			make_path(a->current, a);
-			printf("FIND ONE %d, %d\n", a->current->x, a->current->y);
-			printf("player : %d, %d\n", (int)data->player.px >> 6, (int)data->player.py >> 6);
 			return;
 		}
 		remove_arr(a->open, a->current, a->openCount--);
@@ -141,15 +140,14 @@ void find_path(t_data *data, t_astar *a) {
 				if (isLegal(data, new_x, new_y) && a->nodes[new_y][new_x] == NULL)
 				{
 					t_anode* neighbor = new_node(a, new_x, new_y);
-					if (!neighbor) {
-						printf("malloc error\n");
-						return ; // HANDLE ERROR // Make path to here or restart ?
-					}
 
-					if (is_close(a, neighbor)) {
+					if (!neighbor)
+						return ;
+					if (is_close(a, neighbor))
+					{
 						free(neighbor);
 						neighbor = NULL;
-						continue;
+						continue ;
 					}
 
 					int tentativeG = a->current->g + 1;
@@ -265,6 +263,8 @@ void setup_astar(t_data *data, t_astar *a)
 			if (i >= 0 && i < data->height && j >= 0 && j < ft_strlen(data->map[i]) && data->map[i][j] == 'X')
 			{
 				a->nodes[i][j] = new_node(a, i, j);
+				if (!a->nodes[i][j])
+					return (e(data, "Malloc error\n" RESET, NULL));
 			}
 		}
 	}
@@ -282,38 +282,23 @@ void init_astar(t_data *data, t_astar *a)
 		a->closed[i] = NULL;
 		a->path[i] = NULL;
 	}
-	printf(GREEN "INITED!\n" RESET);
 }
 
 
 void Astar(t_data *data, t_astar *a, int start_x, int start_y, int end_x, int end_y)
 {
-	// return;
 	init_astar(data, a);
 	a->start = new_node(a, start_x, start_y);
 	a->end = new_node(a, end_x, end_y);
-	if (!a->start || !a->end) {
-		printf("malloc error\n");
-		return ; // HANDLE ERROR // FREE
-	}
+	if (!a->start || !a->end)
+		return (free(a->start), free(a->end));
 
 	add_arr(a->open, a->start, a->openCount++);
 	find_path(data, a);
 	free(a->end);
 
-	// // free
-	// free_nodes(data, a);
 	free_list(a->open, a->openCount);
 	free_list(a->closed, a->closedCount);
-	// // free(a->open);
-	// // free(a->closed);
-	// free_list(a->path, a->pathCount);
-	// // free(a->path);
-	// // for (int i = 0; i < data->height; i++) {
-	// // 	free(a->nodes[i]);
-	// // }
-	// // free(a->nodes);
-	// init_astar( data, a);
 	// if (a->path && a->pathCount > 0)
 	// 	print_astar_map(data);
 }

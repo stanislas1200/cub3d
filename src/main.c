@@ -109,9 +109,7 @@ int	update_frame(t_game *game)
 	while (current)
 	{
 		game->monster = *current;
-		// if (in_view(game))
-
-	if (game->monster.state != DEAD || distance(game->monster.x, game->monster.y, game->player.px, game->player.py) < 1000)
+		if (game->monster.state != DEAD || distance(game->monster.x, game->monster.y, game->player.px, game->player.py) < 1000)
 			draw_monster(game);
 		execute_mob(game, current);
 		current = current->next;

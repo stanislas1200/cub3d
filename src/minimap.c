@@ -6,7 +6,7 @@
 /*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 13:32:10 by dspilleb          #+#    #+#             */
-/*   Updated: 2023/10/26 17:48:25 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/27 17:30:21 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,5 +145,5 @@ void	render_minimap(t_game *game)
 		current = current->next;
 	}
 	mlx_put_image_to_window(game->mlx_ptr, game->mlx_win, \
-	game->map.image, WIDTH - MAP_W, HEIGHT - MAP_W);
+	game->map.image, WIDTH - MAP_W - SQUARE/2, SQUARE/2);
 }

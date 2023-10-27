@@ -186,6 +186,7 @@ enum e_state {
 	HIDE,
 	MOVE,
 	DEAD,
+	DYING,
 };
 
 enum e_type {
@@ -274,6 +275,7 @@ void	free_nodes(t_data *data, t_astar *a);
 void init_astar(t_data *data, t_astar *a);
 void setup_astar(t_data *data, t_astar *a);
 void Astar(t_data *data, t_astar *a, int start_i, int start_j, int end_i, int end_j);
+void free_list(t_anode *arr[], int size);
 
 //Monster
 void	generate_monster(t_data *data, int type);
