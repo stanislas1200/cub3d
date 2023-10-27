@@ -228,7 +228,7 @@ typedef struct s_data
 	t_node		*stack;
 	t_player	player;
 	t_astar		*a;
-	t_mob		*mob_list; // TODO : free at end
+	t_mob		*mob_list;
 }	t_data;
 
 

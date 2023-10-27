@@ -6,11 +6,12 @@
 /*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 14:43:45 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/27 13:51:49 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/27 15:52:07 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
+void	free_mob_list(t_mob *lst);
 
 void	free_map(t_data *data, int height)
 {
@@ -36,6 +37,7 @@ void	free_all(t_data *data)
 	free_nodes(data, data->a);
 	free(data->a->nodes);
 	free(data->a->path);
+	free_mob_list(data->mob_list);
 	system("leaks cub3d");
 }
 

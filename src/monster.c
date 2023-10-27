@@ -6,7 +6,7 @@
 /*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 17:38:26 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/27 13:17:17 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/27 15:59:00 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,17 @@ void print_path(t_anode **path)
 }
 void remove_arr(t_anode *arr[], t_anode *node, int size);
 void free_list(t_anode *arr[], int size);
+
+void	free_mob_list(t_mob *lst)
+{
+	while (lst)
+	{
+		t_mob *current = lst;
+		free(current);
+		lst = lst->next;
+		printf(RED " FREE \n");
+	}
+}
 
 void	add_enemy(t_mob *new_enemy, t_mob *current, t_data *data, int type)
 {
@@ -89,6 +100,7 @@ void	execute_mob(t_game *game, t_mob *this)
 	{
 		play_sound("data/sound/dying.mp3", game);
 		this->state = DEAD;
+		return ;
 	}
 	if (this->type == EGG)
 	{

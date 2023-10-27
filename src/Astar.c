@@ -6,7 +6,7 @@
 /*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 15:14:10 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/27 14:38:27 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/27 15:38:41 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,14 +177,15 @@ void free_nodes(t_data *data, t_astar *a) {
 		return ;
 	for (int i = 0; i < data->a->size; i++) {
 		for (int j = 0; j < data->a->size; j++) {
-			if (a->nodes[i] && a->nodes[i][j] != NULL) {
+			if (a->nodes[i] && a->nodes[i][j] != NULL)
+			{
 				free(a->nodes[i][j]);
 				a->nodes[i][j] = NULL;
 			}
 		}
 	}
-
-	for (int i = 0; i < data->a->size; i++) {
+	for (int i = 0; i < data->a->size; i++)
+	{
 		free(a->nodes[i]);
 		a->nodes[i] = NULL;
 	}
@@ -243,27 +244,20 @@ void setup_astar(t_data *data, t_astar *a)
 	a->open = malloc(sizeof(t_anode) * a->size * a->size * a->size);
 	a->closed = malloc(sizeof(t_anode) * a->size * a->size * a->size);
 	a->path = malloc(sizeof(t_anode) * a->size * a->size * a->size);
-	a->nodes = malloc(sizeof(t_anode **) * a->size);
-	if (!a->open || !a->closed || !a->path || !a->nodes)
+	if (!a->open || !a->closed || !a->path)
 		return (e(data, "Malloc error\n" RESET, NULL));
-	for (int i = 0; i < a->size; i++) { // leak // seg
+	a->nodes = malloc(sizeof(t_anode **) * a->size);
+	if (!a->nodes)
+		return (e(data, "Malloc error\n" RESET, NULL));
+	for (int i = 0; i < a->size; i++) {
 		a->nodes[i] = NULL;
 	}
-	for (int i = 0; i < a->size; i++) { // leak // seg
-		// if (i < 1)
-			a->nodes[i] = malloc(sizeof(t_anode *) * a->size);
-		if (!a->nodes[i])
-		{
-			return (e(data, "Malloc error\n" RESET, NULL));
-		}
-	}
-	// Initialize the grid (set NULL for walkable cells)
 	for (int i = 0; i < a->size; i++) {
-		for (int j = 0; j < a->size; j++) {
-			// if (i > 0 && i < data->height && j > 0 && j < ft_strlen(data->map[i]) && data->map[i][j] == 'X')
-			//     a->nodes[i][j] = new_node(a, i, j);
-			// else
-				a->nodes[i][j] = NULL;
+		a->nodes[i] = malloc(sizeof(t_anode *) * a->size);
+		if (!a->nodes[i])
+			return (e(data, "Malloc error\n" RESET, NULL));
+		for (int j = 0; j < a->size; j++) { 
+			a->nodes[i][j] = NULL;
 		}
 	}
 	for (int i = 0; i < a->size; i++) {
@@ -272,8 +266,6 @@ void setup_astar(t_data *data, t_astar *a)
 			{
 				a->nodes[i][j] = new_node(a, i, j);
 			}
-			else
-				a->nodes[i][j] = NULL;
 		}
 	}
 	printf(GREEN "SETUP DONE : %d\n", a->size);

@@ -6,7 +6,7 @@
 /*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 16:11:38 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/27 13:29:08 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/27 15:50:32 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ void	init_data(t_data *data)
 	data->a->open = NULL;
 	data->a->closed = NULL;
 	data->a->path = NULL;
+	data->a->nodes = NULL;
+	data->mob_list = NULL;
 }
 
 int	init_sprites(t_game *game)
