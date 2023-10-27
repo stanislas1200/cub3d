@@ -6,7 +6,7 @@
 /*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 17:38:26 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/27 17:58:45 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/27 18:01:16 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ void	add_enemy(t_mob *new_enemy, t_mob *current, t_data *data, int type)
 		new_enemy->max_hp = 100;
 		new_enemy->cd = 10;
 	}
-	new_enemy->x = data->j << 6;
-	new_enemy->y = data->i << 6;
+	new_enemy->x = (data->j << 6) + SQUARE/2;
+	new_enemy->y = (data->i << 6) + SQUARE/2;
 	new_enemy->state = IDLE;
 	new_enemy->hp = new_enemy->max_hp;
 	new_enemy->next = NULL;
