@@ -106,6 +106,14 @@ typedef struct sprites {
 	t_img	*wallI[4];
 	t_img	*wallM[4];
 	t_img	*gun[4];
+	t_img	*egg[5];
+	t_img	*egg_e[5];
+	t_img	*chubb_s[5];
+	t_img	*chubb_w[5];
+	t_img	*chubb_a[5];
+	t_img	*abutor_s[5];
+	t_img	*abutor_w[5];
+	t_img	*abutor_a[5];
 }				t_sprites;
 
 typedef struct drawing {

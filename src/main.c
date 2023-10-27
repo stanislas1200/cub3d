@@ -109,9 +109,13 @@ int	update_frame(t_game *game)
 	while (current)
 	{
 		game->monster = *current;
+		if (current->type == CHUBBS)
+			game->mob = game->sprites.chubb_w[0];
+		else
+			game->mob = game->sprites.egg[game->data->time/10 % 2];
 		if (game->monster.state != DEAD || distance(game->monster.x, game->monster.y, game->player.px, game->player.py) < 500)
 			draw_monster(game);
-		if (game->data->fired && in_view(game))
+		if (game->data->fired && game->monster.state != DEAD && in_view(game))
 		{
 			play_sound("data/sound/impact.mp3", game);
 			current->hp--;
@@ -131,8 +135,6 @@ int	update_frame(t_game *game)
 	if (game->data->g_time > 0) 
 		game->data->g_time++;
 	render_minimap(game);
-	// in_view(game);
-	// A*
 	return (0);
 }
 
@@ -166,6 +168,19 @@ int	gun_fire(int button, int x, int y, t_game *game)
 	return (0);
 }
 
+void	set_event(t_game *game)
+{
+	mlx_hook(game->mlx_win, 2, 1L << 0, key_pressed, game);
+	mlx_hook(game->mlx_win, 3, 1L << 1, key_released, game);
+	mlx_hook(game->mlx_win, 6, 1L << 0, event_hook, game);
+	mlx_hook(game->mlx_win, 4, 1L << 0, gun_fire, game);
+	mlx_loop_hook(game->mlx_ptr, update_frame, game);
+	mlx_hook(game->mlx_win, 17, 1L << 2, end_game, game);
+	if (pthread_create(&game->t_id, NULL, embient_sound, NULL))
+		return (e(game->data, "Thread: " RESET, "creation faill\n"));
+	mlx_loop(game->mlx_ptr);
+}
+
 int	main(int ac, char **av)
 {
 	t_data	data;
@@ -185,15 +200,7 @@ int	main(int ac, char **av)
 	if (init_sprites(&game) != 0)
 		return (e(&data, "Sprites\n", NULL), 1);
 	setup_astar(&data, data.a);
-	mlx_hook(game.mlx_win, 2, 1L << 0, key_pressed, &game);
-	mlx_hook(game.mlx_win, 3, 1L << 1, key_released, &game);
-	mlx_hook(game.mlx_win, 6, 1L << 0, event_hook, &game);
-	mlx_hook(game.mlx_win, 4, 1L << 0, gun_fire, &game);
-	mlx_loop_hook(game.mlx_ptr, update_frame, &game);
-	mlx_hook(game.mlx_win, 17, 1L << 2, end_game, &game);
-	if (pthread_create(&game.t_id, NULL, embient_sound, NULL))
-		return (ft_error(RED BOLD "Error: " RESET "Thread\n"), 1); // exit ? use errno to specify error ?
-	mlx_loop(game.mlx_ptr);
+	set_event(&game);
 	free_all(&data);
 	return (0);
 }
