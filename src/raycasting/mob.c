@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mob.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 15:09:09 by dspilleb          #+#    #+#             */
-/*   Updated: 2023/10/26 19:07:11 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/27 15:16:04 by dspilleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	in_view(t_game *game)
 	double	b;
 	double	c;
 	double	angle;
-	t_draw	d;
+	double	angle2;
 
 	b = distance(game->player.px, game->player.py, \
 	game->player.px + game->player.pdx, game->player.py + game->player.pdy);
@@ -34,11 +34,12 @@ int	in_view(t_game *game)
 	game->monster.x, game->monster.y);
 	angle = acos((b * b + c * c - a * a) / (2 * b * c));
 	angle *= 180 / PI;
+	angle2 = angle;
 	if (fov_side(game) >= 0)
 		angle = (FOV / 2) - angle;
 	else
 		angle = (FOV / 2) + angle;
-	return ((angle <= FOV / 2) && check_bullet_wall(game, game->player.pa - FOV/2 + angle, c));
+	return (angle2 <= 10 && check_bullet_wall(game, game->player.pa - FOV/2 + angle, c));
 }
 
 int	check_bullet_wall(t_game *game, double angle, double dist)

@@ -105,8 +105,6 @@ int	update_frame(t_game *game)
 	draw_rays(game);
 	// mlx_mouse_move(game->mlx_win, WIDTH/2, HEIGHT/2);
 	// mlx_mouse_hide();
-	mlx_put_image_to_window(game->mlx_ptr, \
-	game->mlx_win, game->img.image, 0, 0);
 	t_mob *current = game->data->mob_list;
 	while (current)
 	{
@@ -123,7 +121,8 @@ int	update_frame(t_game *game)
 	game->data->time++;
 	if (game->data->g_time > 4)
 		game->data->g_time = 0;
-	mlx_put_image_to_window(game->mlx_ptr, game->mlx_win, game->sprites.gun[(game->data->g_time) % 4], WIDTH / 1.3 - GUN_W, HEIGHT - GUN_H);
+	mlx_put_image_to_window(game->mlx_ptr, game->mlx_win, game->crosshair, (WIDTH / 2), (HEIGHT/2) - SQUARE);
+	mlx_put_image_to_window(game->mlx_ptr, game->mlx_win, game->sprites.gun[(game->data->g_time) % 4], (WIDTH / 2), HEIGHT - GUN_H);
 	if (game->data->g_time > 0) 
 		game->data->g_time++;
 	render_minimap(game);

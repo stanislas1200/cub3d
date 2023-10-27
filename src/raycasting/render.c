@@ -122,6 +122,7 @@ void	render_monster(t_game *game, t_draw *d, double x)
 	double			tex_x = 0;
 	double			step_x;
 	double			scale = (SQUARE * HEIGHT) / d->realdist;
+
 	step_x = (720 / scale);
 	fog = d->realdist / 400;
 	for (int i = x - scale/2; i < x + scale/2 && i < WIDTH; i++)
@@ -136,9 +137,9 @@ void	render_monster(t_game *game, t_draw *d, double x)
 			{
 				color = darken_color(game, color, fog);
 				color = darken_color(game, color, in_circle(x, start));
+				if(i >= 0 && i < WIDTH && start>= 0 && d->realdist < game->depths[i])
+					my_mlx_pixel_put(&game->img, i, start, color);
 			}
-			if(i >= 0 && i < WIDTH && start>= 0 && d->realdist < game->depths[i])
-				my_mlx_pixel_put(&game->img, i, start, color);
 			texy += d->step;
 			start++;
 		}

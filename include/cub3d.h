@@ -247,6 +247,8 @@ typedef struct game
 	int			color;
 	t_img		*mob;
 	t_mob		monster;
+	t_img		*crosshair;
+	t_img		monster_draw;
 	double		depths[2048];
 }	t_game;
 
