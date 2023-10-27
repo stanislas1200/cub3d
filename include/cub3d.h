@@ -205,7 +205,6 @@ typedef struct monster
 	int				cd;
 	int				type;
 	enum e_state	state;
-	// double			pa;
 	struct monster *next;
 }	t_mob;
 
@@ -226,6 +225,7 @@ typedef struct s_data
 	char		*all_line;
 	int			time;
 	int			g_time;
+	int			fired;
 	t_node		*stack;
 	t_player	player;
 	t_astar		*a;

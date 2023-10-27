@@ -109,11 +109,18 @@ int	update_frame(t_game *game)
 	while (current)
 	{
 		game->monster = *current;
-		if (game->monster.state != DEAD || distance(game->monster.x, game->monster.y, game->player.px, game->player.py) < 1000)
+		if (game->monster.state != DEAD || distance(game->monster.x, game->monster.y, game->player.px, game->player.py) < 500)
 			draw_monster(game);
+		if (game->data->fired && in_view(game))
+		{
+			play_sound("data/sound/impact.mp3", game);
+			current->hp--;
+			game->data->fired = 0;
+		}
 		execute_mob(game, current);
 		current = current->next;
 	}
+	game->data->fired = 0;
 	mlx_put_image_to_window(game->mlx_ptr, \
 	game->mlx_win, game->img.image, 0, 0);
 	game->data->time++;
@@ -155,17 +162,7 @@ int	gun_fire(int button, int x, int y, t_game *game)
 		return (0);
 	game->data->g_time = 1;
 	play_sound("data/sound/gun.wav", game);
-	t_mob *current = game->data->mob_list;
-	while (current)
-	{
-		game->monster = *current;
-		if (in_view(game))
-		{
-			play_sound("data/sound/impact.mp3", game);
-			current->hp--;
-		}
-		current = current->next;
-	}
+	game->data->fired = 1;
 	return (0);
 }
 
@@ -173,9 +170,9 @@ int	main(int ac, char **av)
 {
 	t_data	data;
 	t_game	game;
-	t_astar a;
-	data.a = &a;
+	t_astar	a;
 
+	data.a = &a;
 	init_data(&data);
 	if (ac == 2)
 		set_map_from_file(av[1], &data);
@@ -185,24 +182,13 @@ int	main(int ac, char **av)
 	if (init_mlx(&game))
 		return (e(&data, "mlx faill\n", NULL), 1);
 	init_player(&data, &game);
-	// data.i = (int)game.player.py >> 6;
-	// data.j = (int)(game.player.px + SQUARE * 2) >> 6;
-	// generate_monster(&data, 0);
-	// data.i = (int)game.player.py >> 6;
-	// data.j = (int)(game.player.px - SQUARE * 2) >> 6;
-	// generate_monster(&data, 0);
 	if (init_sprites(&game) != 0)
 		return (e(&data, "Sprites\n", NULL), 1);
-	// A*
 	setup_astar(&data, data.a);
-	// init_astar(&data, data.a);
-
 	mlx_hook(game.mlx_win, 2, 1L << 0, key_pressed, &game);
 	mlx_hook(game.mlx_win, 3, 1L << 1, key_released, &game);
 	mlx_hook(game.mlx_win, 6, 1L << 0, event_hook, &game);
 	mlx_hook(game.mlx_win, 4, 1L << 0, gun_fire, &game);
-	// game.monster.x = game.player.px + SQUARE * 2;
-	// game.monster.y = game.player.py;
 	mlx_loop_hook(game.mlx_ptr, update_frame, &game);
 	mlx_hook(game.mlx_win, 17, 1L << 2, end_game, &game);
 	if (pthread_create(&game.t_id, NULL, embient_sound, NULL))
