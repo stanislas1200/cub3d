@@ -6,7 +6,7 @@
 /*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 16:11:38 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/27 19:24:16 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/27 19:29:20 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ int	init_sprites(t_game *game)
 	game->sprites.wall[WE] = put_img(game, game->data->we);
 	game->sprites.wall[EA] = put_img(game, game->data->ea);
 	// game->mob = put_img(game, "./Sprites/mobs/egg/egg0.xpm");
+	game->crosshair = put_img(game, "./Sprites/crosshair.xpm");
 	game->sprites.chubb_w[0] = put_img(game, "./Sprites/monster.xpm");
 	game->sprites.egg[0] = put_img(game, "./Sprites/mobs/egg/egg0.xpm");
 	game->sprites.egg[1] = put_img(game, "./Sprites/mobs/egg/egg1.xpm");
@@ -137,7 +138,7 @@ void	init_player(t_data *data, t_game *game)
 	game->keys[5] = 0;
 	data->player.px += (SQUARE / 2);
 	data->player.py += (SQUARE / 2);
-	data->player.max_hp = 10;
+	data->player.max_hp = 1000;
 	data->player.hp = data->player.max_hp;
 	data->player.trip = 0;
 	// data->player.trip = 0;

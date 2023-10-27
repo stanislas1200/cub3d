@@ -6,7 +6,7 @@
 /*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 17:38:26 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/27 18:01:16 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/27 19:30:47 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,8 @@ void	execute_mob(t_game *game, t_mob *this)
 		return;
 	if (this->hp <= 0)
 	{
-		play_sound("data/sound/dying.mp3", game);
+		if (this->type != EGG)
+			play_sound("data/sound/dying.mp3", game);
 		this->state = DEAD;
 		return ;
 	}
