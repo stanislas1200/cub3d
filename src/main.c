@@ -44,6 +44,7 @@ int	end_game(t_game *game)
 	stop_sound();
 	if (pthread_join(game->t_id, NULL))
 		return (e(game->data, "thread join failed\n", NULL), exit(1), 1); // Give error message ? exit 1 ?
+	free_all(game->data);
 	return (exit(0), 0);
 }
 

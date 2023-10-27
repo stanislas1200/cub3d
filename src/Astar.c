@@ -6,7 +6,7 @@
 /*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 15:14:10 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/26 18:43:13 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/27 14:38:27 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,13 +173,20 @@ void find_path(t_data *data, t_astar *a) {
 
 
 void free_nodes(t_data *data, t_astar *a) {
-	for (int i = 0; i < data->height; i++) {
-		for (int j = 0; j < data->biggest_w; j++) {
-			if (a->nodes[i][j] != NULL) {
+	if (!a->nodes)
+		return ;
+	for (int i = 0; i < data->a->size; i++) {
+		for (int j = 0; j < data->a->size; j++) {
+			if (a->nodes[i] && a->nodes[i][j] != NULL) {
 				free(a->nodes[i][j]);
 				a->nodes[i][j] = NULL;
 			}
 		}
+	}
+
+	for (int i = 0; i < data->a->size; i++) {
+		free(a->nodes[i]);
+		a->nodes[i] = NULL;
 	}
 }
 
@@ -238,15 +245,16 @@ void setup_astar(t_data *data, t_astar *a)
 	a->path = malloc(sizeof(t_anode) * a->size * a->size * a->size);
 	a->nodes = malloc(sizeof(t_anode **) * a->size);
 	if (!a->open || !a->closed || !a->path || !a->nodes)
-	{
-		printf("malloc error\n");
-		exit(1); // HANDLE ERROR // FREE
+		return (e(data, "Malloc error\n" RESET, NULL));
+	for (int i = 0; i < a->size; i++) { // leak // seg
+		a->nodes[i] = NULL;
 	}
-	for (int i = 0; i < a->size; i++) {
-		a->nodes[i] = malloc(sizeof(t_anode *) * a->size);
-		if (!a->nodes[i]) {
-			printf("malloc error\n");
-			exit(1); // HANDLE ERROR // FREE
+	for (int i = 0; i < a->size; i++) { // leak // seg
+		// if (i < 1)
+			a->nodes[i] = malloc(sizeof(t_anode *) * a->size);
+		if (!a->nodes[i])
+		{
+			return (e(data, "Malloc error\n" RESET, NULL));
 		}
 	}
 	// Initialize the grid (set NULL for walkable cells)

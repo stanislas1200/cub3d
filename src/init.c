@@ -6,7 +6,7 @@
 /*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 16:11:38 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/26 18:16:40 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/27 13:29:08 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,9 @@ void	init_data(t_data *data)
 	data->time = 0;
 	data->g_time = 0;
 	data->biggest_w = 0;
+	data->a->open = NULL;
+	data->a->closed = NULL;
+	data->a->path = NULL;
 }
 
 int	init_sprites(t_game *game)
@@ -113,7 +116,7 @@ void	init_player(t_data *data, t_game *game)
 	game->keys[5] = 0;
 	data->player.px += (SQUARE / 2);
 	data->player.py += (SQUARE / 2);
-	data->player.max_hp = 100;
+	data->player.max_hp = 10;
 	data->player.hp = data->player.max_hp;
 	data->player.trip = 0;
 	// data->player.trip = 0;

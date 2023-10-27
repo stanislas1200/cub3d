@@ -6,7 +6,7 @@
 /*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 14:43:45 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/11 15:41:04 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/27 13:51:49 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,12 @@ void	free_all(t_data *data)
 	free(data->so);
 	free(data->we);
 	free(data->ea);
+	free(data->a->open);
+	free(data->a->closed);
+	free_nodes(data, data->a);
+	free(data->a->nodes);
+	free(data->a->path);
+	system("leaks cub3d");
 }
 
 void	e(t_data *data, char *error, char *info)
