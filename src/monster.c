@@ -6,7 +6,7 @@
 /*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 17:38:26 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/28 18:29:03 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/28 18:39:14 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,7 @@ void	execute_egg(t_game *game, t_mob *this)
 			game->data->i = (int)this->y >> 6;
 			game->data->j = (int)this->x >> 6;
 			add_enemy(new, current, game->data, CHUBBS);
-			this->state = DEAD; // remove from list;
+			this->state = DEAD;
 		}
 		this->cd++;
 	}
@@ -161,9 +161,9 @@ void	execute_chubbs(t_game *game, t_mob *this)
 	game->mob = game->sprites.chubb_w[this->frame % 4];
 	if (this->hp <= 0 || this->state == DEAD)
 	{
-		this->state = DEAD; // temp dev need remove from arr
+		this->state = DEAD;
 		play_sound("data/sound/chubbs_dead.mp3", game);
-		return;
+		return ;
 	}
 	if (this->state == FOLLOW)
 	{
@@ -208,7 +208,6 @@ void	execute_mob(t_game *game, t_mob *this)
 	if (this->frame > 1000)
 		this->frame = 0;
 	this->frame++;
-
 	if (this->type == EGG)
 		execute_egg(game, this);
 	else if (this->type == CHUBBS)

@@ -126,13 +126,14 @@ int	update_frame(t_game *game)
 			game->data->fired = 0;
 		}
 		execute_mob(game, current);
-		
 		if (current->state == DEAD)
 		{
+			t_mob *next = current->next;
 			delete_monster(&game->data->mob_list, current);
-			current = game->data->mob_list;
+			current = next;
 		}
-		current = current->next;
+		else
+			current = current->next;
 	}
 	game->data->fired = 0;
 	mlx_put_image_to_window(game->mlx_ptr, \

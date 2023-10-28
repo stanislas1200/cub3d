@@ -6,7 +6,7 @@
 /*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 17:38:49 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/28 18:35:48 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/28 18:38:47 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	execute_abutor(t_game *game, t_mob *this)
 	game->mob = game->sprites.abutor_w[this->frame / 4 % 2];
 	if (this->hp <= 0 || this->state == DEAD)
 	{
-     this->state = DEAD; // temp dev need remove from arr
+        this->state = DEAD;
 		play_sound("data/sound/dying.mp3", game);
 		return ;
 	}
