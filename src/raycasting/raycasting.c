@@ -38,7 +38,7 @@ void	init_drawing(t_game *game, t_draw *d, t_ray *ray, double angle)
 	d->realdist = ray->dist;
 	ray->dist *= cos(deg_to_rad(fix_ang(game->player.pa - angle)));
 	d->line_h = (SQUARE * HEIGHT) / ray->dist;
-	d->step = (128 / d->line_h);
+	d->step = (SQUARE / d->line_h);
 	if (d->line_h > HEIGHT)
 	{
 		d->ty_offset = (d->line_h - HEIGHT) / 2.0;
