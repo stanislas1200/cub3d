@@ -6,7 +6,7 @@
 /*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 17:38:26 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/28 14:35:44 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/28 15:43:00 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,27 +178,45 @@ void	execute_chubbs(t_game *game, t_mob *this)
 
 void	execute_abutor(t_game *game, t_mob *this)
 {
-		game->mob = game->sprites.abutor_w[this->frame/4 % 2];
+	game->mob = game->sprites.abutor_w[this->frame/4 % 2];
 	if (this->state == FOLLOW)
 	{
 		// game->mob = game->sprites.abutor_w[this->frame/3 % 2];
 		this->state = IDLE;
-		// Astar(game->data, game->data->a, ((int)this->x >> 6) , ((int)this->y >> 6), ((int)game->player.px >> 6) , ((int)game->player.py >> 6));
-		// game->data->i = 0;
-		// if (game->data->a->pathCount < 2 || !game->data->a->path || !game->data->a->path[0])
-		// 	return (free_list(game->data->a->path, game->data->a->pathCount));
-		// this->speed = 10;
-		// mob_move(game, this);
-		// free_list(game->data->a->path, game->data->a->pathCount);
-		// game->data->a->pathCount = 0;
-		// if (distance(this->x, this->y, game->player.px, game->player.py) < 100)
-		// 	this->state = ATTACK;
+		Astar(game->data, game->data->a, ((int)this->x >> 6) , ((int)this->y >> 6), ((int)game->player.px >> 6) , ((int)game->player.py >> 6));
+		game->data->i = 0;
+		if (game->data->a->pathCount < 2 || !game->data->a->path || !game->data->a->path[0])
+			return (free_list(game->data->a->path, game->data->a->pathCount));
+		this->speed = 10;
+		mob_move(game, this);
+		free_list(game->data->a->path, game->data->a->pathCount);
+		game->data->a->pathCount = 0;
 	}
 	else if (this->state == IDLE)
 	{
 		if (distance(this->x, this->y, game->player.px, game->player.py) < 1000)
 			this->state = FOLLOW;
 	}
+	else if (this->state == ATTACK)
+	{
+		if (this->cd < 1)
+		{
+			game->mob = game->sprites.abutor_a[this->frame/2 % 15];
+			if (this->frame/2 % 15 == 14)
+			{
+				play_sound("data/sound/hit.mp3", game);
+				game->player.trip = 1;
+				game->player.trip_cd = 10;
+				game->player.hp--;
+				this->cd = 20;
+			}
+			this->state = IDLE;
+		}
+	}
+	if (distance(this->x, this->y, game->player.px, game->player.py) < 50 || this->state == ATTACK)
+		this->state = ATTACK;
+	if (this->cd > 0)
+		this->cd--;
 }
 
 void	execute_mob(t_game *game, t_mob *this)
