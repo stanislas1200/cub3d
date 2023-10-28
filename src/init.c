@@ -6,7 +6,7 @@
 /*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 16:11:38 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/28 15:21:45 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/28 15:28:38 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,23 @@ void	mob_put_img(t_game *game)
 	game->sprites.abutor_w[1] = put_img(game, "./Sprites/mobs/abutor/AW1.xpm");
 	game->sprites.abutor_w[2] = put_img(game, "./Sprites/mobs/abutor/AW1.xpm"); // No need
 	game->sprites.abutor_w[3] = put_img(game, "./Sprites/mobs/abutor/AW1.xpm"); // No need
+	
+	game->sprites.abutor_a[0] = put_img(game, "./Sprites/mobs/abutor/A0.xpm");
+	game->sprites.abutor_a[1] = put_img(game, "./Sprites/mobs/abutor/A1.xpm");
+	game->sprites.abutor_a[2] = put_img(game, "./Sprites/mobs/abutor/A2.xpm");
+	game->sprites.abutor_a[3] = put_img(game, "./Sprites/mobs/abutor/A3.xpm");
+	game->sprites.abutor_a[4] = put_img(game, "./Sprites/mobs/abutor/A4.xpm");
+	game->sprites.abutor_a[5] = put_img(game, "./Sprites/mobs/abutor/A5.xpm");
+	game->sprites.abutor_a[6] = put_img(game, "./Sprites/mobs/abutor/A6.xpm");
+	game->sprites.abutor_a[7] = put_img(game, "./Sprites/mobs/abutor/A7.xpm");
+	game->sprites.abutor_a[8] = put_img(game, "./Sprites/mobs/abutor/A8.xpm");
+	game->sprites.abutor_a[9] = put_img(game, "./Sprites/mobs/abutor/A9.xpm");
+	game->sprites.abutor_a[10] = put_img(game, "./Sprites/mobs/abutor/A10.xpm");
+	game->sprites.abutor_a[11] = put_img(game, "./Sprites/mobs/abutor/A11.xpm");
+	game->sprites.abutor_a[12] = put_img(game, "./Sprites/mobs/abutor/A12.xpm");
+	game->sprites.abutor_a[13] = put_img(game, "./Sprites/mobs/abutor/A13.xpm");
+	game->sprites.abutor_a[14] = put_img(game, "./Sprites/mobs/abutor/A14.xpm");
+	
 	game->sprites.chubb_w[0] = put_img(game, "./Sprites/monster.xpm");
 	game->sprites.chubb_w[1] = put_img(game, "./Sprites/monster.xpm");
 	game->sprites.chubb_w[2] = put_img(game, "./Sprites/monster.xpm");
@@ -71,6 +88,11 @@ int	init_sprites(t_game *game)
 		game->sprites.egg[i] = NULL;
 		game->sprites.egg_e[i] = NULL;
 		game->sprites.abutor_w[i] = NULL;
+	}
+	i = -1;
+	while (++i <= 14)
+	{
+		game->sprites.abutor_a[i] = NULL;
 	}
 	game->sprites.gun[0] = put_img(game, "./Sprites/gun/0.xpm");
 	game->sprites.gun[1] = put_img(game, "./Sprites/gun/1.xpm");
@@ -109,6 +131,15 @@ int	init_sprites(t_game *game)
 		game->sprites.abutor_w[i]->addr = mlx_get_data_addr(game->sprites.abutor_w[i], \
 &game->sprites.abutor_w[i]->bits_per_pixel, &game->sprites.abutor_w[i]->line_length, \
 &game->sprites.abutor_w[i]->endian);
+	}
+	i = -1;
+	while (++i <= 14)
+	{
+		if (!game->sprites.abutor_a[i])
+			return (destroy_sprites(game), 1);
+		game->sprites.abutor_a[i]->addr = mlx_get_data_addr(game->sprites.abutor_a[i], \
+&game->sprites.abutor_a[i]->bits_per_pixel, &game->sprites.abutor_a[i]->line_length, \
+&game->sprites.abutor_a[i]->endian);
 	}
 	//
 
