@@ -36,22 +36,20 @@ unsigned int	darken_color(t_game *game, unsigned int color, double fog)
 	r -= (int)(r * fog);
 	g -= (int)(g * fog);
 	b -= (int)(b * fog);
-	// if (game->player.trip) // trip // DEV
-	// 	return (((r * 256 * 256) + (g * 256) + b));
 	if (r > 255)
 		r = 255;
-	if (r <= 0)
+	if (r < 0)
 		r = 0;
 	if (g > 255)
 		g = 255;
-	if (g <= 0)
+	if (g < 0)
 		g = 0;
 	if (b > 255)
 		b = 255;
-	if (b <= 0)
+	if (b < 0)
 		b = 0;
-	if (game->player.trip) // RED // DEV
-		return ((((int)(r*0.9) * 256 * 256) + (g/3 * 256) + b/3));
+	if (game->player.trip)
+		return (((int)(r * 0.9) *256 * 256) + (g / 3 * 256) + b / 3);
 	return ((r * 256 * 256) + (g * 256) + b);
 }
 
@@ -89,60 +87,53 @@ void	render_wall(t_game *game, t_draw *d, double x, t_ray *ray)
 	double			start;
 	double			fog;
 
-	start = d->line_o;
+	start = d->line_o - 1;
 	texy = d->ty_offset * d->step;
 	fog = d->realdist / 400;
-	if (d->tex_x < 0)
-		d->tex_x = 0;
-	while (start < (d->line_o + d->line_h) && start < HEIGHT)
+	while (++start < (d->line_o + d->line_h) && start < HEIGHT)
 	{
 		texy += d->step;
-		color = get_color(game->sprites.wall[(int)d->tex], \
-		(int)d->tex_x, (int)texy);
-		if (ray->my > game->data->height / 3) // red propagation
-			color = get_color(game->sprites.wallI[(game->data->time / 10 + (int)d->tex) % 4], (int)d->tex_x, (int)texy); // animated wall exemple
-		else if (ray->my <= game->data->height / 3 && ray->my >= game->data->height / 3 - 1)
-			color = get_color(game->sprites.wallM[(game->data->time / 10 + (int)d->tex) % 4],  (int)d->tex_x, (int)texy); // animated wall exemple
-		else
-			color = get_color(game->sprites.wall[(game->data->time / 10 + (int)d->tex) % 4],  (int)d->tex_x, (int)texy); // animated wall exemple
+		color = get_color(game->sprites.wall
+			[(game->data->time / 10) % 4], (int)d->tex_x, (int)texy);
+		if (ray->my > game->data->height / 3)
+			color = get_color(game->sprites.wallI
+				[(game->data->time / 10) % 4], (int)d->tex_x, (int)texy);
+		else if (ray->my <= game->data->height / 3 \
+		&& ray->my >= game->data->height / 3 - 1)
+			color = get_color(game->sprites.wallM
+				[(game->data->time / 10) % 4], (int)d->tex_x, (int)texy);
 		color = darken_color(game, color, fog);
 		color = darken_color(game, color, in_circle(x, start));
 		if (x >= 0 && x < WIDTH && start >= 0)
 			my_mlx_pixel_put(&game->img, x, start, color);
-		start++;
 	}
 }
 
-void	render_monster(t_game *game, t_draw *d, double x)
+void	render_monster(t_game *game, t_mdraw *d, double x)
 {
 	unsigned int	color;
-	double			texy;
-	double			start;
-	double			fog;
-	double			tex_x = 0;
-	double			step_x;
-	double			scale = (SQUARE * HEIGHT) / d->realdist;
+	double			y;
 
-	step_x = (720 / scale);
-	fog = d->realdist / 400;
-	for (int i = x - scale/2; i < x + scale/2 && i < WIDTH; i++)
+	while (d->startx < d->endx)
 	{
-		start = d->line_o;
-		texy = d->ty_offset * d->step;
-		while (i >= 0 && start < (d->line_o + d->line_h) && start < HEIGHT)
+		y = d->line_o;
+		d->tex_y = d->ty_offset * d->stepy;
+		while (y < (d->line_o + d->line_h) && y < HEIGHT)
 		{
 			color = get_color(game->mob, \
-			(int)tex_x % 720, (int)texy % 1104);
+			(int)d->tex_x % 720, (int)d->tex_y % 1104);
 			if (color != 0xFF000000)
 			{
-				color = darken_color(game, color, fog);
-				color = darken_color(game, color, in_circle(x, start));
-				if(i >= 0 && i < WIDTH && start>= 0 && d->realdist < game->depths[i])
-					my_mlx_pixel_put(&game->img, i, start, color);
+				color = darken_color(game, color, d->fog);
+				color = darken_color(game, color, in_circle(x, y));
+				if (d->startx >= 0 && d->startx < WIDTH \
+				&& y >= 0 && d->dist < game->depths[d->startx])
+					my_mlx_pixel_put(&game->img, d->startx, y, color);
 			}
-			texy += d->step;
-			start++;
+			d->tex_y += d->stepy;
+			y++;
 		}
-		tex_x += step_x;
+		d->tex_x += d->stepx;
+		d->startx++;
 	}
 }

@@ -6,17 +6,16 @@
 /*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 15:09:09 by dspilleb          #+#    #+#             */
-/*   Updated: 2023/10/27 15:16:04 by dspilleb         ###   ########.fr       */
+/*   Updated: 2023/10/28 14:23:32 by dspilleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
 
-void	init_drawing(t_game *game, t_draw *d, t_ray *ray, double angle);
-void	render_monster(t_game *game, t_draw *d, double x);
-void	init_mob_drawing(t_game *game, t_draw *d, double dist);
+void	render_monster(t_game *game, t_mdraw *d, double x);
+void	init_mob_drawing(t_game *game, t_mdraw *d, double dist, double screenx);
 double	fov_side(t_game *game);
-int	check_bullet_wall(t_game *game, double angle, double dist);
+int		check_bullet_wall(t_game *game, double angle, double dist);
 
 int	in_view(t_game *game)
 {
@@ -39,7 +38,8 @@ int	in_view(t_game *game)
 		angle = (FOV / 2) - angle;
 	else
 		angle = (FOV / 2) + angle;
-	return (angle2 <= 10 && check_bullet_wall(game, game->player.pa - FOV/2 + angle, c));
+	return (angle2 <= 10 && \
+	check_bullet_wall(game, game->player.pa - FOV / 2 + angle, c));
 }
 
 int	check_bullet_wall(t_game *game, double angle, double dist)
@@ -56,13 +56,14 @@ int	check_bullet_wall(t_game *game, double angle, double dist)
 		ray = &vray;
 	return (dist < ray->dist);
 }
+
 void	draw_monster(t_game *game)
 {
 	double	a;
 	double	b;
 	double	c;
 	double	angle;
-	t_draw	d;
+	t_mdraw	d;
 
 	if (game->monster.state == DEAD)
 		return ;
@@ -78,7 +79,7 @@ void	draw_monster(t_game *game)
 		angle = (FOV / 2) - angle;
 	else
 		angle = (FOV / 2) + angle;
-	init_mob_drawing(game, &d, c);
+	init_mob_drawing(game, &d, c, angle * (WIDTH / FOV));
 	render_monster(game, &d, angle * (WIDTH / FOV));
 }
 
@@ -96,15 +97,25 @@ double	fov_side(t_game *game)
 	return ((abx * ady) - (aby * adx));
 }
 
-void	init_mob_drawing(t_game *game, t_draw *d, double dist)
+void	init_mob_drawing(t_game *game, t_mdraw *d, double dist, double screenx)
 {
 	d->ty_offset = 0;
-	d->realdist = dist;
+	d->dist = dist;
 	d->line_h = ((SQUARE * HEIGHT) / dist);
-	d->step = (1104 / d->line_h);
+	d->stepy = (1104 / d->line_h);
+	d->stepx = (720 / d->line_h);
+	d->fog = d->dist / 400;
+	d->endx = screenx + d->line_h / 2;
+	d->startx = screenx - d->line_h / 2;
+	d->tex_x = 0;
+	d->tex_x = 0;
+	if (d->endx > WIDTH)
+		d->endx = WIDTH;
+	if (d->startx < 0)
+		d->startx = 0;
 	if (d->line_h > HEIGHT)
 	{
-		d->ty_offset = (d->line_h - HEIGHT) /2.0;
+		d->ty_offset = (d->line_h - HEIGHT) / 2.0;
 		d->line_h = HEIGHT;
 	}
 	if (d->line_h < 0)

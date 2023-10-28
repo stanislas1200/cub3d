@@ -122,10 +122,22 @@ typedef struct drawing {
 	double	ty_offset;
 	double	tex_x;
 	double	step;
-	double	tex;
 	double	realdist;
-
 }	t_draw;
+
+typedef struct monster_drawing {
+	double	line_h;
+	double	line_o;
+	double	ty_offset;
+	double	tex_x;
+	double	tex_y;
+	double	stepy;
+	double	stepx;
+	double	dist;
+	double	fog;
+	int		startx;
+	int		endx;
+}	t_mdraw;
 
 typedef struct ray
 {
@@ -292,7 +304,7 @@ void	execute_mob(t_game *game, t_mob *this);
 //raycasting
 void	draw_rays(t_game *game);
 void	ray_cast(t_game *game, double angle, int s_width);
-
+int		in_map(t_game *game, int x, int y);
 //rays
 void	check_for_hit(t_game *game, t_ray *ray);
 void	setup_horizontal_ray(t_ray *ray, t_game *game);
@@ -328,6 +340,8 @@ void	init_data(t_data *data);
 
 //minimap
 void	render_minimap(t_game *game);
+void	draw_entity(t_game *game, t_square s);
+int		in_minimap(double x1, double y1);
 
 void	draw_monster(t_game *game);
 int		in_view(t_game *game);

@@ -12,48 +12,18 @@
 
 #include "../../include/cub3d.h"
 
+void	check_cell(t_game *game, t_ray *ray, char *cell);
+
 void	check_for_hit(t_game *game, t_ray *ray)
 {
-	int	stop;
-
-	stop = 0;
-	while (ray->hit == 0 && !stop)
+	while (ray->hit == 0)
 	{
 		ray->mx = ((int)ray->rx) >> 6;
 		ray->my = ((int)ray->ry) >> 6;
-		if ((ray->my >= 0 && ray->mx >= 0) && ray->my < game->data->height && \
-		ray->mx < ft_strlen(game->data->map[ray->my]) \
-		&& game->data->map[ray->my][ray->mx])
-		{
-			if (game->data->map[ray->my][ray->mx] == '0') // auto door exemple no animation
-			{
-				ray->dist = distance(game->player.px, \
-				game->player.py, ray->rx, ray->ry);
-				if ((ray->dist * cos(deg_to_rad(fix_ang(game->player.pa - ray->ra)))) > 175.0)
-				{
-					play_sound("data/sound/door.mp3", game);
-					game->data->map[ray->my][ray->mx] = 'D';
-				}
-			}
-			if (game->data->map[ray->my][ray->mx] == 'X' || game->data->map[ray->my][ray->mx] == 'D')
-			{
-				ray->hit = 1;
-				ray->dist = distance(game->player.px, \
-				game->player.py, ray->rx, ray->ry);
-				if (game->data->map[ray->my][ray->mx] == 'D' && (ray->dist * cos(deg_to_rad(fix_ang(game->player.pa - ray->ra))) )<= 75.0) // auto door exemple no animation
-				{
-					game->data->map[ray->my][ray->mx] = '0';
-					play_sound("data/sound/door.mp3", game);
-				}
-			}
-			else
-			{
-				ray->rx += ray->xo;
-				ray->ry += ray->yo;
-			}
-		}
+		if (in_map(game, ray->mx, ray->my))
+			check_cell(game, ray, &game->data->map[ray->my][ray->mx]);
 		else
-			stop++;
+			ray->hit = -1;
 	}
 }
 
@@ -133,4 +103,32 @@ void	init_ray(t_ray *ray, t_game *game, double angle, char type)
 		setup_vertical_ray(ray, game);
 	}
 	check_for_hit(game, ray);
+}
+
+void	check_cell(t_game *game, t_ray *ray, char *cell)
+{
+	if (*cell == '0' || *cell == 'X' || *cell == 'D')
+		ray->dist = distance(game->player.px, \
+		game->player.py, ray->rx, ray->ry);
+	if (*cell == '0' && (ray->dist * \
+cos(deg_to_rad(fix_ang(game->player.pa - ray->ra)))) > 175.0)
+	{
+		play_sound("data/sound/door.mp3", game);
+		*cell = 'D';
+	}
+	if (*cell == 'X' || *cell == 'D')
+	{
+		ray->hit = 1;
+		if (*cell == 'D' && (ray->dist * \
+cos(deg_to_rad(fix_ang(game->player.pa - ray->ra)))) <= 75.0)
+		{
+			*cell = '0';
+			play_sound("data/sound/door.mp3", game);
+		}
+	}
+	else
+	{
+		ray->rx += ray->xo;
+		ray->ry += ray->yo;
+	}
 }

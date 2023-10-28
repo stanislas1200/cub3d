@@ -14,7 +14,6 @@
 
 void	render_wall(t_game *game, t_draw *d, double x, t_ray *ray);
 void	draw(t_game *game, t_ray *ray, t_draw *d, int s_width);
-int		texture(int side, double ra);
 int		create_trgb(int t, int r, int g, int b);
 
 void	draw_rays(t_game *game)
@@ -27,7 +26,7 @@ void	draw_rays(t_game *game)
 	while (i < WIDTH)
 	{
 		fov = fix_ang(fov);
-		ray_cast(game, fov, (i));
+		ray_cast(game, fov, i);
 		fov += FOV / WIDTH;
 		i++;
 	}
@@ -39,7 +38,7 @@ void	init_drawing(t_game *game, t_draw *d, t_ray *ray, double angle)
 	d->realdist = ray->dist;
 	ray->dist *= cos(deg_to_rad(fix_ang(game->player.pa - angle)));
 	d->line_h = (SQUARE * HEIGHT) / ray->dist;
-	d->step = (SQUARE / d->line_h);
+	d->step = (128 / d->line_h);
 	if (d->line_h > HEIGHT)
 	{
 		d->ty_offset = (d->line_h - HEIGHT) / 2.0;
@@ -52,7 +51,6 @@ void	init_drawing(t_game *game, t_draw *d, t_ray *ray, double angle)
 	if ((ray->side == 0 && ray->ra > 180) || \
 	(ray->side == 1 && (ray->ra > 90 && ray->ra < 270)))
 		d->tex_x = (256 - 1) - d->tex_x;
-	d->tex = texture(ray->side, ray->ra);
 	d->line_o = (HEIGHT / 2) - ((int)d->line_h >> 1);
 }
 
@@ -69,22 +67,12 @@ void	ray_cast(t_game *game, double angle, int s_width)
 		ray = &hray;
 	else
 		ray = &vray;
-	game->depths[s_width] = ray->dist;
-	init_drawing(game, &d, ray, angle);
-	draw(game, ray, &d, s_width);
-}
-
-int	texture(int side, double ra)
-{
-	// if (side == 0 && ra < 180)
-	// 	return (0);
-	// else if (side == 0 && ra >= 180)
-	// 	return (2);
-	// else if (side == 1 && ra > 90 && ra < 270)
-	// 	return (1);
-	// else if (side == 1 && ra <= 90 || ra >= 270)
-	// 	return (3);
-	return (0);
+	if (ray->hit == 1)
+	{
+		game->depths[s_width] = ray->dist;
+		init_drawing(game, &d, ray, angle);
+		draw(game, ray, &d, s_width);
+	}
 }
 
 void	draw(t_game *game, t_ray *ray, t_draw *d, int s_width)
@@ -96,4 +84,10 @@ void	draw(t_game *game, t_ray *ray, t_draw *d, int s_width)
 	game->color = create_trgb(0, game->data->floor[0], game->data->floor[1], \
 	game->data->floor[2]);
 	drawstripes(game, s_width, d->line_h + d->line_o, HEIGHT);
+}
+
+int	in_map(t_game *game, int x, int y)
+{
+	return (y >= 0 && x >= 0 && y < game->data->height && \
+	x < ft_strlen(game->data->map[y]) && game->data->map[y][x]);
 }
