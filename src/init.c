@@ -6,7 +6,7 @@
 /*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 16:11:38 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/27 19:29:20 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/28 14:49:38 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ int	init_sprites(t_game *game)
 		game->sprites.wallM[i] = NULL;
 		game->sprites.gun[i] = NULL;
 		game->sprites.egg[i] = NULL;
+		game->sprites.egg_e[i] = NULL;
+		game->sprites.abutor_w[i] = NULL;
 	}
 	game->sprites.gun[0] = put_img(game, "./Sprites/gun/0.xpm");
 	game->sprites.gun[1] = put_img(game, "./Sprites/gun/1.xpm");
@@ -60,9 +62,22 @@ int	init_sprites(t_game *game)
 	game->sprites.wall[EA] = put_img(game, game->data->ea);
 	// game->mob = put_img(game, "./Sprites/mobs/egg/egg0.xpm");
 	game->crosshair = put_img(game, "./Sprites/crosshair.xpm");
+	game->sprites.abutor_w[0] = put_img(game, "./Sprites/mobs/abutor/abutorW0.xpm");
+	game->sprites.abutor_w[1] = put_img(game, "./Sprites/mobs/abutor/abutorW1.xpm");
+	game->sprites.abutor_w[2] = put_img(game, "./Sprites/mobs/abutor/abutorW1.xpm"); // No need
+	game->sprites.abutor_w[3] = put_img(game, "./Sprites/mobs/abutor/abutorW1.xpm"); // No need
 	game->sprites.chubb_w[0] = put_img(game, "./Sprites/monster.xpm");
+	game->sprites.chubb_w[1] = put_img(game, "./Sprites/monster.xpm");
+	game->sprites.chubb_w[2] = put_img(game, "./Sprites/monster.xpm");
+	game->sprites.chubb_w[3] = put_img(game, "./Sprites/monster.xpm");
 	game->sprites.egg[0] = put_img(game, "./Sprites/mobs/egg/egg0.xpm");
 	game->sprites.egg[1] = put_img(game, "./Sprites/mobs/egg/egg1.xpm");
+	game->sprites.egg[2] = put_img(game, "./Sprites/mobs/egg/egg0.xpm"); // No need
+	game->sprites.egg[3] = put_img(game, "./Sprites/mobs/egg/egg1.xpm"); // No need
+	game->sprites.egg_e[0] = put_img(game, "./Sprites/mobs/egg/egg2.xpm");
+	game->sprites.egg_e[1] = put_img(game, "./Sprites/mobs/egg/egg3.xpm");
+	game->sprites.egg_e[2] = put_img(game, "./Sprites/mobs/egg/egg4.xpm");
+	game->sprites.egg_e[3] = put_img(game, "./Sprites/mobs/egg/egg5.xpm");
 	game->sprites.wallI[0] = put_img(game, "./Sprites/walls/wallR0.xpm");
 	game->sprites.wallI[1] = put_img(game, "./Sprites/walls/wallR1.xpm");
 	game->sprites.wallI[2] = put_img(game, "./Sprites/walls/wallR2.xpm");
@@ -73,17 +88,24 @@ int	init_sprites(t_game *game)
 	game->sprites.wallM[3] = put_img(game, "./Sprites/walls/wallM0.4.xpm");
 
 	//MOB
-	game->sprites.chubb_w[0]->addr = mlx_get_data_addr(game->sprites.chubb_w[0], \
-&game->sprites.chubb_w[0]->bits_per_pixel, &game->sprites.chubb_w[0]->line_length, \
-&game->sprites.chubb_w[0]->endian);
-	game->sprites.egg[0]->addr = mlx_get_data_addr(game->sprites.egg[0], \
-&game->sprites.egg[0]->bits_per_pixel, &game->sprites.egg[0]->line_length, \
-&game->sprites.egg[0]->endian);
-	game->sprites.egg[1]->addr = mlx_get_data_addr(game->sprites.egg[1], \
-&game->sprites.egg[1]->bits_per_pixel, &game->sprites.egg[1]->line_length, \
-&game->sprites.egg[1]->endian);
-// game->sprites.egg[2]->addr = game->sprites.egg[0]->addr;
-// game->sprites.egg[3]->addr = game->sprites.egg[1]->addr;
+	i = -1;
+	while (++i <= 3)
+	{
+		if (!game->sprites.chubb_w[i] || !game->sprites.egg[i] || !game->sprites.egg_e[i] || !game->sprites.abutor_w[i])
+			return (destroy_sprites(game), 1);
+		game->sprites.egg_e[i]->addr = mlx_get_data_addr(game->sprites.egg_e[i], \
+&game->sprites.egg_e[i]->bits_per_pixel, &game->sprites.egg_e[i]->line_length, \
+&game->sprites.egg_e[i]->endian);
+		game->sprites.egg[i]->addr = mlx_get_data_addr(game->sprites.egg[i], \
+&game->sprites.egg[i]->bits_per_pixel, &game->sprites.egg[i]->line_length, \
+&game->sprites.egg[i]->endian);
+		game->sprites.chubb_w[i]->addr = mlx_get_data_addr(game->sprites.chubb_w[i], \
+&game->sprites.chubb_w[i]->bits_per_pixel, &game->sprites.chubb_w[i]->line_length, \
+&game->sprites.chubb_w[i]->endian);
+		game->sprites.abutor_w[i]->addr = mlx_get_data_addr(game->sprites.abutor_w[i], \
+&game->sprites.abutor_w[i]->bits_per_pixel, &game->sprites.abutor_w[i]->line_length, \
+&game->sprites.abutor_w[i]->endian);
+	}
 	//
 
 	if (!game->sprites.wall[NO] || !game->sprites.wall[SO] \
@@ -108,9 +130,6 @@ i = -1;
 	if (!(game->sprites.wall[NO]->addr || game->sprites.wall[SO]->addr \
 	|| game->sprites.wall[WE]->addr || game->sprites.wall[EA]->addr))
 		return (destroy_sprites(game), 1);
-	game->mob->addr = mlx_get_data_addr(game->mob, \
-&game->mob->bits_per_pixel, &game->mob->line_length, \
-&game->mob->endian);
 	return (0);
 }
 

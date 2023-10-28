@@ -87,9 +87,12 @@ void	read_map2(t_data *d, char *str, int tot, int l)
 		}
 		else if (str[tot + d->j] == '1')
 			d->map[d->i][d->j] = 'X';
-		else if (str[tot + d->j] == '0')
+		else if (str[tot + d->j] == '0' || str[tot + d->j] == 'B')
 		{
-			generate_monster(d, EGG);
+			if (str[tot + d->j] == 'B')
+				generate_monster(d, ABUTOR);
+			else
+				generate_monster(d, EGG);
 			d->map[d->i][d->j] = 'F';
 		}
 		else if (str[tot + d->j] != ' ')

@@ -106,14 +106,14 @@ typedef struct sprites {
 	t_img	*wallI[4];
 	t_img	*wallM[4];
 	t_img	*gun[4];
-	t_img	*egg[5];
-	t_img	*egg_e[5];
-	t_img	*chubb_s[5];
-	t_img	*chubb_w[5];
-	t_img	*chubb_a[5];
-	t_img	*abutor_s[5];
-	t_img	*abutor_w[5];
-	t_img	*abutor_a[5];
+	t_img	*egg[4];
+	t_img	*egg_e[4];
+	t_img	*chubb_s[4];
+	t_img	*chubb_w[4];
+	t_img	*chubb_a[4];
+	t_img	*abutor_w[4];
+	// t_img	*abutor_s[5];
+	t_img	*abutor_a[15];
 }				t_sprites;
 
 typedef struct drawing {
@@ -224,6 +224,7 @@ typedef struct monster
 	int				speed;
 	int				cd;
 	int				type;
+	int				frame;
 	enum e_state	state;
 	struct monster *next;
 }	t_mob;
@@ -291,6 +292,8 @@ void	free_all(t_data *data);
 void	get_wall_texture_path(char **dest, char *str, char *str2, t_data *d);
 void	play_sound(char *sound, t_game *game);
 void	free_nodes(t_data *data, t_astar *a);
+void	remove_arr(t_anode *arr[], t_anode *node, int size);
+
 //A*
 void init_astar(t_data *data, t_astar *a);
 void setup_astar(t_data *data, t_astar *a);
