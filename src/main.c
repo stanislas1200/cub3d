@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
+void	delete_monster(t_mob **list, t_mob *mob);
 
 void	destroy_sprites(t_game *game)
 {
@@ -125,6 +126,12 @@ int	update_frame(t_game *game)
 			game->data->fired = 0;
 		}
 		execute_mob(game, current);
+		
+		if (current->state == DEAD)
+		{
+			delete_monster(&game->data->mob_list, current);
+			current = game->data->mob_list;
+		}
 		current = current->next;
 	}
 	game->data->fired = 0;

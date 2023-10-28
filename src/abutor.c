@@ -6,7 +6,7 @@
 /*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 17:38:49 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/28 17:57:32 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/28 18:35:48 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,9 @@ void	execute_abutor(t_game *game, t_mob *this)
 			}
 			else
 			{
-				game->mob = game->sprites.abutor_a[this->frame / 2 % 15];
-				play_sound("data/sound/powering.wav", game);
+				game->mob = game->sprites.abutor_s[this->frame / 2 % 15];
+                if (this->frame % 3 == 0)
+				    play_sound("data/sound/powering.wav", game);
 				if (this->frame / 2 % 15 == 14)
 				{
 					play_sound("data/sound/hit.mp3", game);

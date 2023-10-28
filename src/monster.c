@@ -6,12 +6,34 @@
 /*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 17:38:26 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/28 17:56:25 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/28 18:29:03 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
 void	execute_abutor(t_game *game, t_mob *this);
+
+void	delete_monster(t_mob **list, t_mob *mob)
+{
+	t_mob	*current;
+
+	if (*list == mob)
+	{
+		*list = mob->next;
+		free(mob);
+		return ;
+	}
+	current = *list;
+	while (current && current->next != mob)
+	{
+		current = current->next;
+	}
+	if (current)
+	{
+		current->next = mob->next;
+		free(mob);
+	}
+}
 
 void	free_mob_list(t_mob *lst)
 {
@@ -107,16 +129,15 @@ void	execute_egg(t_game *game, t_mob *this)
 	t_mob	*current;
 	t_mob	*new;
 
+	game->mob = game->sprites.egg[this->frame / 5 % 2];
 	if (this->hp <=0)
 		this->state = DEAD;
-	if (this->state != DYING && distance(this->x, this->y, game->player.px, game->player.py) < 150)
+	else if (this->state != DYING && distance(this->x, this->y, game->player.px, game->player.py) < 150)
 	{
 		play_sound("data/sound/egg.mp3", game);
 		this->frame = 0;
 		this->state = DYING;
 	}
-	if (this->state == IDLE)
-		game->mob = game->sprites.egg[this->frame / 5 % 2];
 	else if (this->state == DYING)
 	{
 		game->mob = game->sprites.egg_e[this->frame / 5 % 4];
@@ -187,9 +208,6 @@ void	execute_mob(t_game *game, t_mob *this)
 	if (this->frame > 1000)
 		this->frame = 0;
 	this->frame++;
-
-	if (this->state == DEAD)
-		return ;
 
 	if (this->type == EGG)
 		execute_egg(game, this);

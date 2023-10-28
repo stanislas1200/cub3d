@@ -118,7 +118,7 @@ typedef struct sprites {
 	t_img	*chubb_w[4];
 	t_img	*chubb_a[4];
 	t_img	*abutor_w[4];
-	// t_img	*abutor_s[5];
+	t_img	*abutor_s[15];
 	t_img	*abutor_a[15];
 }				t_sprites;
 
