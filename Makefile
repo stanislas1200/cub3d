@@ -23,6 +23,7 @@ SRCS = src/main.c\
 		src/movement.c\
 		src/Astar.c\
 		src/monster.c\
+		src/abutor.c\
 		src/minimap.c\
 		src/minimap2.c\
 			src/raycasting/raycasting.c\

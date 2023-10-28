@@ -96,9 +96,18 @@ int	key_released(int key, t_game *game)
 
 int	update_frame(t_game *game)
 {
+
+	if (game->player.hp <= 0)
+	{
+		play_sound("data/sound/game_over.mp3", game);
+		end_game(game);
+	}
 	if (game->player.trip_cd < 1)
 		game->player.trip = 0;
+	if (game->player.hurt_cd < 1)
+		game->player.hurt = 0;
 	game->player.trip_cd--;
+	game->player.hurt_cd--;
 	if (game->data->time >= 1000)
 		game->data->time = 0;
 	movement(game);

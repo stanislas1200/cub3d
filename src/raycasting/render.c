@@ -36,6 +36,8 @@ unsigned int	darken_color(t_game *game, unsigned int color, double fog)
 	r -= (int)(r * fog);
 	g -= (int)(g * fog);
 	b -= (int)(b * fog);
+	if (game->player.trip)
+		return (((int)(r * 0.9) *256 * 256) + (g / 3 * 256) + b / 3);
 	if (r > 255)
 		r = 255;
 	if (r < 0)
@@ -48,7 +50,7 @@ unsigned int	darken_color(t_game *game, unsigned int color, double fog)
 		b = 255;
 	if (b < 0)
 		b = 0;
-	if (game->player.trip)
+	if (game->player.hurt)
 		return (((int)(r * 0.9) *256 * 256) + (g / 3 * 256) + b / 3);
 	return ((r * 256 * 256) + (g * 256) + b);
 }

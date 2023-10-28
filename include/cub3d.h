@@ -181,6 +181,8 @@ typedef struct s_player
 	int		max_hp;
 	int		trip;
 	int		trip_cd;
+	int		hurt;
+	int		hurt_cd;
 }	t_player;
 
 typedef struct s_anode {
@@ -225,6 +227,7 @@ typedef struct monster
 {
 	int				hp;
 	int				max_hp;
+	int				attack_type;
 	double			x;
 	double			y;
 	int				speed;
@@ -299,6 +302,7 @@ void	get_wall_texture_path(char **dest, char *str, char *str2, t_data *d);
 void	play_sound(char *sound, t_game *game);
 void	free_nodes(t_data *data, t_astar *a);
 void	remove_arr(t_anode *arr[], t_anode *node, int size);
+void	mob_move(t_game *game, t_mob *this);
 
 //A*
 void init_astar(t_data *data, t_astar *a);
