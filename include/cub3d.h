@@ -54,6 +54,9 @@
 # define MAP_GROUND 0x002d75
 # define MAP_PLAYER 0x0063ff
 # define MAP_WALL 0x004abf
+# define MAP_BG 0x001330
+# define MAP_MOB 0xff3333
+# define MAP_DOOR 0x00aeff
 
 // keys
 

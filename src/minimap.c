@@ -6,7 +6,7 @@
 /*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 13:32:10 by dspilleb          #+#    #+#             */
-/*   Updated: 2023/10/28 16:16:45 by dspilleb         ###   ########.fr       */
+/*   Updated: 2023/10/28 16:25:57 by dspilleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	fill_map_bg(t_game *game)
 		while (++j < MAP_W)
 		{
 			if (in_minimap(i, j))
-				my_mlx_pixel_put(&game->map, i, j, 0x001a42);
+				my_mlx_pixel_put(&game->map, i, j, MAP_BG);
 			else
 				my_mlx_pixel_put(&game->map, i, j, 0xFF000000);
 		}
@@ -92,7 +92,7 @@ void	fill_map(t_game *game, int px, int py)
 				if (game->data->map[game->data->j][game->data->i] == 'X')
 					s.color = MAP_WALL;
 				else if (game->data->map[game->data->j][game->data->i] == 'D')
-					s.color = 0xFF0000;
+					s.color = MAP_DOOR;
 				else
 					s.color = MAP_GROUND;
 				s.size = square_size();
@@ -121,7 +121,7 @@ void	render_minimap(t_game *game)
 	while (current)
 	{
 		draw_entity(game, (((int)current->x) >> 6), \
-		(((int)current->y) >> 6), 0xFFFFFF);
+		(((int)current->y) >> 6), MAP_MOB);
 		current = current->next;
 	}
 	draw_entity(game, px, py, MAP_PLAYER);
