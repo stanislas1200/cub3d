@@ -6,7 +6,7 @@
 /*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 16:11:38 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/28 14:49:38 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/28 15:21:45 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,26 @@ void	init_data(t_data *data)
 	data->mob_list = NULL;
 }
 
+void	mob_put_img(t_game *game)
+{
+	game->sprites.abutor_w[0] = put_img(game, "./Sprites/mobs/abutor/AW0.xpm");
+	game->sprites.abutor_w[1] = put_img(game, "./Sprites/mobs/abutor/AW1.xpm");
+	game->sprites.abutor_w[2] = put_img(game, "./Sprites/mobs/abutor/AW1.xpm"); // No need
+	game->sprites.abutor_w[3] = put_img(game, "./Sprites/mobs/abutor/AW1.xpm"); // No need
+	game->sprites.chubb_w[0] = put_img(game, "./Sprites/monster.xpm");
+	game->sprites.chubb_w[1] = put_img(game, "./Sprites/monster.xpm");
+	game->sprites.chubb_w[2] = put_img(game, "./Sprites/monster.xpm");
+	game->sprites.chubb_w[3] = put_img(game, "./Sprites/monster.xpm");
+	game->sprites.egg[0] = put_img(game, "./Sprites/mobs/egg/egg0.xpm");
+	game->sprites.egg[1] = put_img(game, "./Sprites/mobs/egg/egg1.xpm");
+	game->sprites.egg[2] = put_img(game, "./Sprites/mobs/egg/egg0.xpm"); // No need
+	game->sprites.egg[3] = put_img(game, "./Sprites/mobs/egg/egg1.xpm"); // No need
+	game->sprites.egg_e[0] = put_img(game, "./Sprites/mobs/egg/egg2.xpm");
+	game->sprites.egg_e[1] = put_img(game, "./Sprites/mobs/egg/egg3.xpm");
+	game->sprites.egg_e[2] = put_img(game, "./Sprites/mobs/egg/egg4.xpm");
+	game->sprites.egg_e[3] = put_img(game, "./Sprites/mobs/egg/egg5.xpm");
+}
+
 int	init_sprites(t_game *game)
 {
 	int		i;
@@ -60,24 +80,6 @@ int	init_sprites(t_game *game)
 	game->sprites.wall[SO] = put_img(game, game->data->so);
 	game->sprites.wall[WE] = put_img(game, game->data->we);
 	game->sprites.wall[EA] = put_img(game, game->data->ea);
-	// game->mob = put_img(game, "./Sprites/mobs/egg/egg0.xpm");
-	game->crosshair = put_img(game, "./Sprites/crosshair.xpm");
-	game->sprites.abutor_w[0] = put_img(game, "./Sprites/mobs/abutor/abutorW0.xpm");
-	game->sprites.abutor_w[1] = put_img(game, "./Sprites/mobs/abutor/abutorW1.xpm");
-	game->sprites.abutor_w[2] = put_img(game, "./Sprites/mobs/abutor/abutorW1.xpm"); // No need
-	game->sprites.abutor_w[3] = put_img(game, "./Sprites/mobs/abutor/abutorW1.xpm"); // No need
-	game->sprites.chubb_w[0] = put_img(game, "./Sprites/monster.xpm");
-	game->sprites.chubb_w[1] = put_img(game, "./Sprites/monster.xpm");
-	game->sprites.chubb_w[2] = put_img(game, "./Sprites/monster.xpm");
-	game->sprites.chubb_w[3] = put_img(game, "./Sprites/monster.xpm");
-	game->sprites.egg[0] = put_img(game, "./Sprites/mobs/egg/egg0.xpm");
-	game->sprites.egg[1] = put_img(game, "./Sprites/mobs/egg/egg1.xpm");
-	game->sprites.egg[2] = put_img(game, "./Sprites/mobs/egg/egg0.xpm"); // No need
-	game->sprites.egg[3] = put_img(game, "./Sprites/mobs/egg/egg1.xpm"); // No need
-	game->sprites.egg_e[0] = put_img(game, "./Sprites/mobs/egg/egg2.xpm");
-	game->sprites.egg_e[1] = put_img(game, "./Sprites/mobs/egg/egg3.xpm");
-	game->sprites.egg_e[2] = put_img(game, "./Sprites/mobs/egg/egg4.xpm");
-	game->sprites.egg_e[3] = put_img(game, "./Sprites/mobs/egg/egg5.xpm");
 	game->sprites.wallI[0] = put_img(game, "./Sprites/walls/wallR0.xpm");
 	game->sprites.wallI[1] = put_img(game, "./Sprites/walls/wallR1.xpm");
 	game->sprites.wallI[2] = put_img(game, "./Sprites/walls/wallR2.xpm");
@@ -86,8 +88,10 @@ int	init_sprites(t_game *game)
 	game->sprites.wallM[1] = put_img(game, "./Sprites/walls/wallM0.2.xpm");
 	game->sprites.wallM[2] = put_img(game, "./Sprites/walls/wallM0.3.xpm");
 	game->sprites.wallM[3] = put_img(game, "./Sprites/walls/wallM0.4.xpm");
+	game->crosshair = put_img(game, "./Sprites/crosshair.xpm");
+	mob_put_img(game);
 
-	//MOB
+	// MOB
 	i = -1;
 	while (++i <= 3)
 	{
