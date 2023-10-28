@@ -109,12 +109,6 @@ int	update_frame(t_game *game)
 	while (current)
 	{
 		game->monster = *current;
-		if (current->type == CHUBBS)
-			game->mob = game->sprites.chubb_w[0];
-		else
-			game->mob = game->sprites.egg[game->data->time/10 % 2];
-		if (game->monster.state != DEAD || distance(game->monster.x, game->monster.y, game->player.px, game->player.py) < 500)
-			draw_monster(game);
 		if (game->data->fired && game->monster.state != DEAD && in_view(game))
 		{
 			play_sound("data/sound/impact.mp3", game);
