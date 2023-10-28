@@ -3,47 +3,43 @@
 /*                                                        :::      ::::::::   */
 /*   minimap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 13:32:10 by dspilleb          #+#    #+#             */
-/*   Updated: 2023/10/27 17:30:21 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/28 16:16:45 by dspilleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
 
-int	in_minimap(double x1, double y1)
+void	init_line(t_game *game, int x, int y, double size);
+
+void	drawline(t_game *game, t_line l)
 {
-	return (distance(x1, y1, MAP_CENTER, MAP_CENTER) < MAP_CENTER);
-}
+	int	err;
+	int	e2;
 
-void drawLine2(t_game *game, t_line l)
-{
-    int dx = abs(l.x2 - l.x1);
-    int dy = abs(l.y2 - l.y1);
-
-    int sx = (l.x1 < l.x2) ? 1 : -1;
-    int sy = (l.y1 < l.y2) ? 1 : -1;
-
-    int err = dx - dy;
-
-    while((l.x1 >= 0 && l.x1 < MAP_W - 1) && (l.y1 >= 0 && l.y1 < MAP_W - 1)) {
+	err = l.dx - l.dy;
+	while ((l.x1 >= 0 && l.x1 < MAP_W - 1) && (l.y1 >= 0 && l.y1 < MAP_W - 1)) 
+	{
 		my_mlx_pixel_put(&game->map, l.x1, l.y1, MAP_PLAYER);
 		my_mlx_pixel_put(&game->map, l.x1 + 1, l.y1 + 1, MAP_PLAYER);
 		my_mlx_pixel_put(&game->map, l.x1, l.y1 + 1, MAP_PLAYER);
 		my_mlx_pixel_put(&game->map, l.x1 + 1, l.y1, MAP_PLAYER);
-        if(l.x1 == l.x2 && l.y1 == l.y2)
-            break;
-        int e2 = 2 * err;
-        if(e2 > -dy) {
-            err -= dy;
-            l.x1 += sx;
-        }
-        if(e2 < dx) {
-            err += dx;
-            l.y1 += sy;
-        }
-    }
+		if (l.x1 == l.x2 && l.y1 == l.y2)
+			break ;
+		e2 = 2 * err;
+		if (e2 > -l.dy) 
+		{
+			err -= l.dy;
+			l.x1 += l.sx;
+		}
+		if (e2 < l.dx) 
+		{
+			err += l.dx;
+			l.y1 += l.sy;
+		}
+	}
 }
 
 void	draw_square(t_game *game, t_square square)
@@ -91,8 +87,7 @@ void	fill_map(t_game *game, int px, int py)
 		game->data->j = py - MAP_C;
 		while (game->data->j < py + MAP_C && game->data->j < game->data->height)
 		{
-			if (game->data->i >= 0 && game->data->j >= 0 && \
-			game->data->i < ft_strlen(game->data->map[game->data->j]))
+			if (in_map(game, game->data->i, game->data->j))
 			{
 				if (game->data->map[game->data->j][game->data->i] == 'X')
 					s.color = MAP_WALL;
@@ -100,9 +95,9 @@ void	fill_map(t_game *game, int px, int py)
 					s.color = 0xFF0000;
 				else
 					s.color = MAP_GROUND;
-				s.size = map_size;
-				s.x = (game->data->i - (px - MAP_C)) * map_size;
-				s.y = (game->data->j - (py - MAP_C)) * map_size;
+				s.size = square_size();
+				s.x = (game->data->i - (px - MAP_C)) * square_size();
+				s.y = (game->data->j - (py - MAP_C)) * square_size();
 				draw_square(game, s);
 			}
 			game->data->j++;
@@ -116,34 +111,22 @@ void	render_minimap(t_game *game)
 	int			py;
 	t_square	s;
 	t_line		l;
+	t_mob		*current;
 
 	px = ((int)game->player.px) >> 6;
 	py = ((int)game->player.py) >> 6;
 	fill_map_bg(game);
 	fill_map(game, px, py);
-	s.color = MAP_PLAYER;
-	s.size = map_size;
-	s.x = (px - (px - MAP_C)) * map_size;
-	s.y = (py - (py - MAP_C)) * map_size;
-	draw_square(game, s);
-	l.x1 = s.x + s.size/ 2;
-	l.y1 = s.y + s.size/ 2;
-	l.x2 = s.x + s.size/ 2 + game->player.pdx * 6;
-	l.y2 = s.y + + s.size/ 2 + game->player.pdy * 6;
-	drawLine2(game, l);
-
-	t_mob *current = game->data->mob_list;
+	current = game->data->mob_list;
 	while (current)
 	{
-		int mx = ((int)current->x) >> 6;
-		int my = ((int)current->y) >> 6;
-		s.color = 0xFFFFFF;
-		s.size = map_size;
-		s.x = (mx - (px - MAP_C)) * map_size;
-		s.y = (my - (py - MAP_C)) * map_size;
-		draw_square(game, s);
+		draw_entity(game, (((int)current->x) >> 6), \
+		(((int)current->y) >> 6), 0xFFFFFF);
 		current = current->next;
 	}
+	draw_entity(game, px, py, MAP_PLAYER);
+	init_line(game, (px - (px - MAP_C)) * square_size(), \
+	(py - (py - MAP_C)) * square_size(), square_size());
 	mlx_put_image_to_window(game->mlx_ptr, game->mlx_win, \
-	game->map.image, WIDTH - MAP_W - SQUARE/2, SQUARE/2);
+	game->map.image, WIDTH - MAP_W - SQUARE / 2, SQUARE / 2);
 }

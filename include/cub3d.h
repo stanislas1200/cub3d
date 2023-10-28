@@ -50,8 +50,7 @@
 
 # define MAP_W 200
 # define MAP_C 5
-# define MAP_CENTER MAP_W / 2
-# define map_size MAP_W / (MAP_C * 2)
+# define MAP_CENTER 100
 # define MAP_GROUND 0x002d75
 # define MAP_PLAYER 0x0063ff
 # define MAP_WALL 0x004abf
@@ -83,6 +82,10 @@ typedef struct line
 	int	y1;
 	int	x2;
 	int	y2;
+	int	dx;
+	int	dy;
+	int	sx;
+	int	sy;
 }	t_line;
 
 typedef struct square
@@ -341,11 +344,15 @@ void	init_player(t_data *data, t_game *game);
 int		init_sprites(t_game *game);
 void	init_data(t_data *data);
 
-//minimap
+//minimap 1 && 2
 void	render_minimap(t_game *game);
-void	draw_entity(t_game *game, t_square s);
 int		in_minimap(double x1, double y1);
+void	draw_entity(t_game *game, int x, int y, unsigned int color);
+double	square_size(void);
+void	draw_square(t_game *game, t_square square);
+void	drawline(t_game *game, t_line l);
 
+//raycasting/mob
 void	draw_monster(t_game *game);
 int		in_view(t_game *game);
 #endif

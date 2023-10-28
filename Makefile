@@ -24,6 +24,7 @@ SRCS = src/main.c\
 		src/Astar.c\
 		src/monster.c\
 		src/minimap.c\
+		src/minimap2.c\
 			src/raycasting/raycasting.c\
 			src/raycasting/rays.c\
 			src/raycasting/mob.c\
@@ -47,7 +48,7 @@ RESET = \033[0m
 all: ${NAME}
 
 ${NAME}: ${OBJS} ${INCL}
-	@${GCC} ${OBJS} -lmlx -framework OpenGL -framework AppKit -o ${NAME} && echo -ne "\r${BLUE}Compiling ${NAME} ${GREEN}Done${RESET}\n" || echo -ne "\r${BLUE}Compiling ${NAME} ${RED}Error${RESET}\n"
+@${GCC} ${OBJS} -lmlx -framework OpenGL -framework AppKit -o ${NAME} && echo -ne "\r${BLUE}Compiling ${NAME} ${GREEN}Done${RESET}\n" || echo -ne "\r${BLUE}Compiling ${NAME} ${RED}Error${RESET}\n"
 
 $(OBJS_DIR)%.o: %.c
 	@mkdir -p $(dir $@)
