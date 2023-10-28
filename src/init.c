@@ -6,7 +6,7 @@
 /*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 16:11:38 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/28 15:28:38 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/28 17:52:06 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,10 @@ void	mob_put_img(t_game *game)
 	game->sprites.abutor_a[13] = put_img(game, "./Sprites/mobs/abutor/A13.xpm");
 	game->sprites.abutor_a[14] = put_img(game, "./Sprites/mobs/abutor/A14.xpm");
 	
-	game->sprites.chubb_w[0] = put_img(game, "./Sprites/monster.xpm");
-	game->sprites.chubb_w[1] = put_img(game, "./Sprites/monster.xpm");
-	game->sprites.chubb_w[2] = put_img(game, "./Sprites/monster.xpm");
-	game->sprites.chubb_w[3] = put_img(game, "./Sprites/monster.xpm");
+	game->sprites.chubb_w[0] = put_img(game, "./Sprites/mobs/chubbs/C0.xpm");
+	game->sprites.chubb_w[1] = put_img(game, "./Sprites/mobs/chubbs/C1.xpm");
+	game->sprites.chubb_w[2] = put_img(game, "./Sprites/mobs/chubbs/C2.xpm");
+	game->sprites.chubb_w[3] = put_img(game, "./Sprites/mobs/chubbs/C3.xpm");
 	game->sprites.egg[0] = put_img(game, "./Sprites/mobs/egg/egg0.xpm");
 	game->sprites.egg[1] = put_img(game, "./Sprites/mobs/egg/egg1.xpm");
 	game->sprites.egg[2] = put_img(game, "./Sprites/mobs/egg/egg0.xpm"); // No need
@@ -166,6 +166,7 @@ i = -1;
 	|| game->sprites.wall[WE]->addr || game->sprites.wall[EA]->addr))
 		return (destroy_sprites(game), 1);
 	return (0);
+	game->mob = NULL;
 }
 
 void	init_player(t_data *data, t_game *game)
@@ -195,7 +196,8 @@ void	init_player(t_data *data, t_game *game)
 	data->player.max_hp = 1000;
 	data->player.hp = data->player.max_hp;
 	data->player.trip = 0;
-	// data->player.trip = 0;
+	data->player.hurt = 0;
+	data->fired = 0;
 	game->player = data->player;
 	game->data = data;
 }

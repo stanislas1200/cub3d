@@ -6,11 +6,12 @@
 /*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 17:38:26 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/28 15:43:00 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/28 17:56:25 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
+void	execute_abutor(t_game *game, t_mob *this);
 
 void	free_mob_list(t_mob *lst)
 {
@@ -53,6 +54,7 @@ void	add_enemy(t_mob *new_enemy, t_mob *current, t_data *data, int type)
 	new_enemy->hp = new_enemy->max_hp;
 	new_enemy->next = NULL;
 	new_enemy->type = type;
+	new_enemy->attack_type = 0;
 
 	if (data->mob_list == NULL)
 		data->mob_list = new_enemy;
@@ -105,9 +107,17 @@ void	execute_egg(t_game *game, t_mob *this)
 	t_mob	*current;
 	t_mob	*new;
 
+	if (this->hp <=0)
+		this->state = DEAD;
+	if (this->state != DYING && distance(this->x, this->y, game->player.px, game->player.py) < 150)
+	{
+		play_sound("data/sound/egg.mp3", game);
+		this->frame = 0;
+		this->state = DYING;
+	}
 	if (this->state == IDLE)
 		game->mob = game->sprites.egg[this->frame / 5 % 2];
-	if (this->state == DYING)
+	else if (this->state == DYING)
 	{
 		game->mob = game->sprites.egg_e[this->frame / 5 % 4];
 		if (this->cd >= 20)
@@ -123,17 +133,17 @@ void	execute_egg(t_game *game, t_mob *this)
 		}
 		this->cd++;
 	}
-	else if (distance(this->x, this->y, game->player.px, game->player.py) < 150)
-	{
-		play_sound("data/sound/egg.mp3", game);
-		this->frame = 0;
-		this->state = DYING;
-	}
 }
 
 void	execute_chubbs(t_game *game, t_mob *this)
 {
 	game->mob = game->sprites.chubb_w[this->frame % 4];
+	if (this->hp <= 0 || this->state == DEAD)
+	{
+		this->state = DEAD; // temp dev need remove from arr
+		play_sound("data/sound/chubbs_dead.mp3", game);
+		return;
+	}
 	if (this->state == FOLLOW)
 	{
 		this->state = IDLE;
@@ -156,15 +166,10 @@ void	execute_chubbs(t_game *game, t_mob *this)
 		if (this->cd < 1)
 		{
 			play_sound("data/sound/hit.mp3", game);
-			game->player.trip = 1;
-			game->player.trip_cd = 10;
+			game->player.hurt = 1;
+			game->player.hurt_cd = 10;
 			game->player.hp--;
 			this->cd = 20;
-		}
-		if (game->player.hp <= 0)
-		{
-			play_sound("data/sound/game_over.mp3", game);
-			end_game(game);
 		}
 		this->state = IDLE;
 	}
@@ -176,48 +181,6 @@ void	execute_chubbs(t_game *game, t_mob *this)
 		this->cd--;
 }
 
-void	execute_abutor(t_game *game, t_mob *this)
-{
-	game->mob = game->sprites.abutor_w[this->frame/4 % 2];
-	if (this->state == FOLLOW)
-	{
-		// game->mob = game->sprites.abutor_w[this->frame/3 % 2];
-		this->state = IDLE;
-		Astar(game->data, game->data->a, ((int)this->x >> 6) , ((int)this->y >> 6), ((int)game->player.px >> 6) , ((int)game->player.py >> 6));
-		game->data->i = 0;
-		if (game->data->a->pathCount < 2 || !game->data->a->path || !game->data->a->path[0])
-			return (free_list(game->data->a->path, game->data->a->pathCount));
-		this->speed = 10;
-		mob_move(game, this);
-		free_list(game->data->a->path, game->data->a->pathCount);
-		game->data->a->pathCount = 0;
-	}
-	else if (this->state == IDLE)
-	{
-		if (distance(this->x, this->y, game->player.px, game->player.py) < 1000)
-			this->state = FOLLOW;
-	}
-	else if (this->state == ATTACK)
-	{
-		if (this->cd < 1)
-		{
-			game->mob = game->sprites.abutor_a[this->frame/2 % 15];
-			if (this->frame/2 % 15 == 14)
-			{
-				play_sound("data/sound/hit.mp3", game);
-				game->player.trip = 1;
-				game->player.trip_cd = 10;
-				game->player.hp--;
-				this->cd = 20;
-			}
-			this->state = IDLE;
-		}
-	}
-	if (distance(this->x, this->y, game->player.px, game->player.py) < 50 || this->state == ATTACK)
-		this->state = ATTACK;
-	if (this->cd > 0)
-		this->cd--;
-}
 
 void	execute_mob(t_game *game, t_mob *this)
 {
@@ -227,22 +190,14 @@ void	execute_mob(t_game *game, t_mob *this)
 
 	if (this->state == DEAD)
 		return ;
-	if (this->hp <= 0)
-	{
-		if (this->type != EGG)
-			play_sound("data/sound/dying.mp3", game);
-		this->state = DEAD;
-		return ;
-	}
 
-	// game->mob = game->sprites.chubb_w[this->frame/5 % 2];
 	if (this->type == EGG)
 		execute_egg(game, this);
 	else if (this->type == CHUBBS)
 		execute_chubbs(game, this);
 	if (this->type == ABUTOR)
 		execute_abutor(game, this);
-
-	if (distance(game->monster.x, game->monster.y, game->player.px, game->player.py) < 500)
+	if (distance(game->monster.x, game->monster.y, \
+	game->player.px, game->player.py) < 500)
 		draw_monster(game);
 }
