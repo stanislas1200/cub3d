@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sprites2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 18:31:45 by dspilleb          #+#    #+#             */
-/*   Updated: 2023/10/29 18:38:22 by dspilleb         ###   ########.fr       */
+/*   Updated: 2023/10/29 19:05:47 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,9 @@ int	sprites_addr(t_game *game)
 		return (destroy_sprites(game), 1);
 	if (init_addr_array(game->sprites.heal0, 2) || \
 	init_addr_array(game->sprites.heal1, 2) || \
-	init_addr_array(game->sprites.heal2, 2))
+	init_addr_array(game->sprites.heal2, 2) || \
+	init_addr_array((t_img *[]){game->sprites.red_b, \
+	game->sprites.green_b}, 2))
 		return (destroy_sprites(game), 1);
 	if (!game->crosshair || !game->sprites.gun[0] || \
 	!game->sprites.gun[1] || !game->sprites.gun[2] || !game->sprites.gun[3] \
@@ -119,4 +121,6 @@ void	hud_out_img(t_game *game)
 	game->sprites.heal2[1] = put_img(game, "./Sprites/heal_bar/heall21.xpm");
 	game->sprites.win = put_img(game, "./Sprites/screen/victory_c.xpm");
 	game->sprites.loss = put_img(game, "./Sprites/screen/game_over_c.xpm");
+	game->sprites.red_b = put_img(game, "./Sprites/heal_bar/red_bar.xpm");
+	game->sprites.green_b = put_img(game, "./Sprites/heal_bar/green_bar.xpm");
 }
