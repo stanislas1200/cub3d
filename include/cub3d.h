@@ -75,6 +75,7 @@
 # define D 2
 # define S 1
 # define ESC 53
+# define SPACE 49
 # define F 3
 # define A_E 123
 # define A_W 124

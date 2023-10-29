@@ -12,12 +12,15 @@
 
 SRCS = src/main.c\
 		src/get_map.c\
+		src/get_file.c\
 		src/propagation.c\
 		src/stack.c\
 		src/utils.c\
 		src/utils2.c\
 		src/utils3.c\
 		src/parser.c\
+		src/event.c\
+		src/sound.c\
 		src/cleaner.c\
 		src/init.c\
 		src/movement.c\
@@ -29,6 +32,7 @@ SRCS = src/main.c\
 		src/abutor.c\
 		src/minimap.c\
 		src/minimap2.c\
+		src/game_logic.c\
 			src/raycasting/raycasting.c\
 			src/raycasting/rays.c\
 			src/raycasting/mob.c\
