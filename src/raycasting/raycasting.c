@@ -62,7 +62,7 @@ void	ray_cast(t_game *game, double angle, int s_width)
 
 	init_ray(&hray, game, angle, 'H');
 	init_ray(&vray, game, angle, 'V');
-	if (hray.dist < vray.dist)
+	if (hray.dist < vray.dist && hray.hit == 1)
 		ray = &hray;
 	else
 		ray = &vray;
