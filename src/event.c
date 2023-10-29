@@ -6,7 +6,7 @@
 /*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 13:17:49 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/29 17:59:38 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/29 19:29:07 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	*embient_sound(void *nop);
 
 int	event_hook(int x, int y, t_game *game)
 {
-	game->player.pa += (x - game->old_x);
+	game->player.pa -= (x - game->old_x);
 	game->player.pa = fix_ang(game->player.pa);
 	game->player.pdx = cos(deg_to_rad(game->player.pa)) * 5.0;
 	game->player.pdy = -sin(deg_to_rad(game->player.pa)) * 5.0;
