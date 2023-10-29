@@ -48,8 +48,7 @@ void	init_drawing(t_game *game, t_draw *d, t_ray *ray, double angle)
 		d->tex_x = (int)ray->rx % 256;
 	else
 		d->tex_x = (int)ray->ry % 256;
-	if ((ray->side == 0 && ray->ra > 180) || \
-	(ray->side == 1 && (ray->ra > 90 && ray->ra < 270)))
+	if ((ray->side == 0 && ray->ra < 180) || ray->side == 1)
 		d->tex_x = (256 - 1) - d->tex_x;
 	d->line_o = (HEIGHT / 2) - ((int)d->line_h >> 1);
 }
