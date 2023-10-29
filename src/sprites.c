@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sprites.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 15:19:32 by dspilleb          #+#    #+#             */
-/*   Updated: 2023/10/29 16:16:33 by dspilleb         ###   ########.fr       */
+/*   Updated: 2023/10/29 16:37:45 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ void	set_sprites_null(t_game *game)
 	}
 	game->crosshair = NULL;
 	game->mob = NULL;
+	game->sprites.win = NULL;
 }
 
 void	mob_put_img2(t_game *g)
@@ -137,8 +138,15 @@ int	sprites_addr(t_game *game)
 		return (destroy_sprites(game), 1);
 	if (init_addr_array(game->sprites.wallM, 4))
 		return (destroy_sprites(game), 1);
+	if (init_addr_array(game->sprites.heal0, 2))
+		return (destroy_sprites(game), 1);
+	if (init_addr_array(game->sprites.heal1, 2))
+		return (destroy_sprites(game), 1);
+	if (init_addr_array(game->sprites.heal2, 2))
+		return (destroy_sprites(game), 1);
 	if (!game->crosshair || !game->sprites.gun[0] || \
-	!game->sprites.gun[1] || !game->sprites.gun[2] || !game->sprites.gun[3])
+	!game->sprites.gun[1] || !game->sprites.gun[2] || !game->sprites.gun[3] \
+	|| !game->sprites.win)
 		return (1);
 	return (0);
 }

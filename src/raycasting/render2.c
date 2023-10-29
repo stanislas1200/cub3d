@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 20:42:49 by dspilleb          #+#    #+#             */
-/*   Updated: 2023/10/29 14:42:01 by dspilleb         ###   ########.fr       */
+/*   Updated: 2023/10/29 15:53:42 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ void	draw_img(t_game *game, t_idraw *i)
 	tex_x = 0;
 	while (i->startx < i->endx)
 	{
-		tex_x += i->stepx;
 		tex_y = 0;
 		y = i->starty;
 		while (y < i->endy)
@@ -57,6 +56,7 @@ void	draw_img(t_game *game, t_idraw *i)
 			y++;
 			tex_y += i->stepy;
 		}
+		tex_x += i->stepx;
 		i->startx++;
 	}
 }

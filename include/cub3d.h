@@ -121,6 +121,11 @@ typedef struct sprites {
 	t_img	*abutor_w[4];
 	t_img	*abutor_s[15];
 	t_img	*abutor_a[15];
+	t_img	*heal0[2];
+	t_img	*heal1[2];
+	t_img	*heal2[2];
+	t_img	*win;
+	t_img	*loss;
 }				t_sprites;
 
 typedef struct wall_drawing {
@@ -294,6 +299,7 @@ typedef struct game
 	t_img		*crosshair;
 	t_img		monster_draw;
 	double		depths[2048];
+	int			status;
 }	t_game;
 
 void			set_map_from_file(char *path, t_data *data);
@@ -344,7 +350,7 @@ void			init_ray(t_ray *ray, t_game *game, double angle, char type);
 void			drawstripes(t_game *game, int x1, int y1, int y2);
 int				update_frame(t_game *game);
 int				in_view(t_game *game);
-void			setup_img(t_img *img, t_game *game, int pos[2], double size);
+void			setup_img(t_img *img, t_game *game, int pos[4], double size);
 void			draw_img(t_game *game, t_idraw *i);
 
 //movement

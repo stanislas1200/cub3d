@@ -6,7 +6,7 @@
 /*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 17:38:49 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/29 14:28:41 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/29 16:49:18 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,26 @@ void	abutor_attack(t_game *game, t_mob *this)
 
 void	execute_abutor(t_game *game, t_mob *this)
 {
+	int	i;
+
+	i = 0;
+	while (++i <= this->hp)
+	{
+		if (i == 1)
+			setup_img(game->sprites.heal0[this->frame/2 % 2], game, (int[]){128 + i * 64, 0, 128 , 128}, 1);
+		else if (i == this->max_hp)
+			setup_img(game->sprites.heal2[this->frame/2 % 2], game, (int[]){128 + (i + 2) * 64, 0, 128, 128}, 1);
+		else
+			setup_img(game->sprites.heal1[this->frame/2 % 2], game, (int[]){128 + (i + 1) * 64, 0, 128, 128}, 1);
+	}
 	game->mob = game->sprites.abutor_w[this->frame / 4 % 2];
 	if (this->hp <= 0 || this->state == DEAD)
-		return (this->state = DEAD, play_sound("data/sound/dying.mp3", game));
+	{
+		this->state = DEAD;
+		play_sound("data/sound/dying.mp3", game);
+		game->status = 1;
+		return ;
+	}
 	if (this->state == FOLLOW)
 		mob_track(game, this);
 	else if (this->state == IDLE)

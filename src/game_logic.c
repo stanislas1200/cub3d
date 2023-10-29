@@ -6,7 +6,7 @@
 /*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 13:32:49 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/29 14:33:35 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/29 16:51:20 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	update_player(t_game *game)
 	if (game->player.hp <= 0)
 	{
 		play_sound("data/sound/game_over.mp3", game);
-		end_game(game);
+		game->status = 2;
 	}
 	if (game->player.trip_cd < 1)
 		game->player.trip = 0;
@@ -78,8 +78,20 @@ void	update_mob(t_game *game)
 	game->data->fired = 0;
 }
 
+void	check_end(t_game *game)
+{
+		if (game->status == 1)
+			mlx_put_image_to_window(game->mlx_ptr, \
+		game->mlx_win, game->sprites.win, 0, 0);
+		else if (game->status == 2)
+			mlx_put_image_to_window(game->mlx_ptr, \
+		game->mlx_win, game->sprites.loss, 0, 0);
+}
+
 int	update_frame(t_game *game)
 {
+	if (game->status)
+		return (check_end(game), 1);
 	if (game->data->time >= 1000)
 		game->data->time = 0;
 	update_player(game);

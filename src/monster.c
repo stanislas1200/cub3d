@@ -6,7 +6,7 @@
 /*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 17:38:26 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/29 14:21:27 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/29 15:16:54 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	set_stats(t_mob *this, int type)
 	}
 	else if (type == ABUTOR)
 	{
-		this->max_hp = 100;
+		this->max_hp = 20;
 		this->cd = 10;
 	}
 }

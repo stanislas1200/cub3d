@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 16:11:38 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/29 16:12:09 by dspilleb         ###   ########.fr       */
+/*   Updated: 2023/10/29 16:45:32 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,18 @@ void	init_data(t_data *data)
 	data->a->path = NULL;
 	data->a->nodes = NULL;
 	data->mob_list = NULL;
+}
+
+void	hud_out_img(t_game *game)
+{
+	game->sprites.heal0[0] = put_img(game, "./Sprites/heal_bar/heall00.xpm");
+	game->sprites.heal1[0] = put_img(game, "./Sprites/heal_bar/heall10.xpm");
+	game->sprites.heal2[0] = put_img(game, "./Sprites/heal_bar/heall20.xpm");
+	game->sprites.heal0[1] = put_img(game, "./Sprites/heal_bar/heall01.xpm");
+	game->sprites.heal1[1] = put_img(game, "./Sprites/heal_bar/heall11.xpm");
+	game->sprites.heal2[1] = put_img(game, "./Sprites/heal_bar/heall21.xpm");
+	game->sprites.win = put_img(game, "./Sprites/screen/victory_c.xpm");
+	game->sprites.loss = put_img(game, "./Sprites/screen/game_over_c.xpm");
 }
 
 void	mob_put_img(t_game *game)
@@ -85,6 +97,7 @@ int	init_sprites(t_game *game)
 	game->sprites.wallM[3] = put_img(game, "./Sprites/walls/wallM0.4.xpm");
 	game->crosshair = put_img(game, "./Sprites/crosshair.xpm");
 	mob_put_img(game);
+	hud_out_img(game);
 	return (sprites_addr(game));
 }
 
@@ -112,7 +125,7 @@ void	init_player(t_data *data, t_game *game)
 	game->keys[5] = 0;
 	data->player.px += (SQUARE / 2);
 	data->player.py += (SQUARE / 2);
-	data->player.max_hp = 1000;
+	data->player.max_hp = 10;
 	data->player.hp = data->player.max_hp;
 	data->player.trip = 0;
 	data->player.hurt = 0;
@@ -121,6 +134,7 @@ void	init_player(t_data *data, t_game *game)
 	data->fired = 0;
 	game->player = data->player;
 	game->data = data;
+	game->status = 0;
 }
 
 int	init_mlx(t_game *game)
