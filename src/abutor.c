@@ -6,7 +6,7 @@
 /*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 17:38:49 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/28 18:38:47 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/29 12:27:04 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	execute_abutor(t_game *game, t_mob *this)
 	if (this->state == FOLLOW)
 	{
 		this->state = IDLE;
-		Astar(game->data, game->data->a, ((int)this->x >> 6) , ((int)this->y >> 6), ((int)game->player.px >> 6) , ((int)game->player.py >> 6));
+		astar(game->data, game->data->a, (int []){(int)this->x >> 6, (int)this->y >> 6}, (int []){(int)game->player.px >> 6, (int)game->player.py >> 6});
 		game->data->i = 0;
 		if (game->data->a->pathCount < 2 || !game->data->a->path || !game->data->a->path[0])
 			return (free_list(game->data->a->path, game->data->a->pathCount));

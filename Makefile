@@ -21,7 +21,10 @@ SRCS = src/main.c\
 		src/cleaner.c\
 		src/init.c\
 		src/movement.c\
-		src/Astar.c\
+			src/astar/Astar.c\
+			src/astar/Astar_init.c\
+			src/astar/Astar_free.c\
+			src/astar/Astar_utils.c\
 		src/monster.c\
 		src/abutor.c\
 		src/minimap.c\

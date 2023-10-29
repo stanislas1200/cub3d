@@ -322,9 +322,10 @@ void			mob_move(t_game *game, t_mob *this);
 //A*
 void			init_astar(t_data *data, t_astar *a);
 void			setup_astar(t_data *data, t_astar *a);
-void			Astar(t_data *data, t_astar *a, \
-				int start_i, int start_j, int end_i, int end_j);
+void			astar(t_data *data, t_astar *a, int start[], int end[]);
 void			free_list(t_anode *arr[], int size);
+t_anode			*new_node(t_astar *a, int x, int y);
+t_anode			*copy_node(t_anode *node);
 
 //Monster
 void			generate_monster(t_data *data, int type);
