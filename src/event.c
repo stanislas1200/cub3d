@@ -6,7 +6,7 @@
 /*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 13:17:49 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/29 13:24:46 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/29 17:59:38 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ int	gun_fire(int button, int x, int y, t_game *game)
 
 int	key_pressed(int key, t_game *game)
 {
+	game->data->player.speed = 0.5;
+	game->data->fade_cd = 0.5;
 	if (key == SPACE)
 		gun_fire(0, 0, 0, game);
 	if (key == Z)

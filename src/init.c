@@ -6,7 +6,7 @@
 /*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 16:11:38 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/29 16:45:32 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/29 18:22:33 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ void	init_player(t_data *data, t_game *game)
 	data->player.py *= SQUARE;
 	data->player.pdx = cos(deg_to_rad(data->player.pa)) * 5;
 	data->player.pdy = -sin(deg_to_rad(data->player.pa)) * 5;
-	data->player.speed = 1.5;
+	data->player.speed = 0.5;
 	game->old_x = WIDTH / 2;
 	game->keys[0] = 0;
 	game->keys[1] = 0;
@@ -135,6 +135,7 @@ void	init_player(t_data *data, t_game *game)
 	game->player = data->player;
 	game->data = data;
 	game->status = 0;
+	data->fade_cd = 0.5;
 }
 
 int	init_mlx(t_game *game)

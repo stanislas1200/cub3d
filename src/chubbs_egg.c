@@ -6,7 +6,7 @@
 /*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 13:55:57 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/29 14:17:29 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/29 18:03:52 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ void	mob_track(t_game *game, t_mob *this)
 	if (game->data->a->pathCount < 2 || !game->data->a->path || \
 	!game->data->a->path[0])
 		return (free_list(game->data->a->path, game->data->a->pathCount));
-	this->speed = 10;
 	mob_move(game, this);
 	free_list(game->data->a->path, game->data->a->pathCount);
 }

@@ -274,6 +274,7 @@ typedef struct s_data
 	int			time;
 	int			g_time;
 	int			fired;
+	float		fade_cd;
 	t_node		*stack;
 	t_player	player;
 	t_astar		*a;

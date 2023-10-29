@@ -6,7 +6,7 @@
 /*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 17:38:49 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/29 17:13:27 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/29 18:05:37 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	execute_abutor(t_game *game, t_mob *this)
 	int	i;
 
 	i = 0;
-	while (++i <= this->hp)
+	while (++i <= this->hp && distance(game->player.px, game->player.py, this->x, this->y) < SQUARE * 4)
 	{
 		if (i == 1)
 			setup_img(game->sprites.heal0[this->frame/2 % 2], game, (int[]){128 + i * 64, 0, 128 , 128}, 1);
