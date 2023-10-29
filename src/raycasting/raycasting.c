@@ -23,14 +23,13 @@ void	draw_rays(t_game *game)
 	double	fov;
 	double	angle;
 
-	i = 0;
 	fov = game->player.pa - (FOV / 2);
-	angle = 0;
-	while (angle < FOV)
+	i = WIDTH;
+	while (--i >= 0)
 	{
-		ray_cast(game, fix_ang(fov), i++);
-		angle += (FOV / WIDTH);
-		fov += (FOV / WIDTH);
+		fov = fix_ang(fov);
+		ray_cast(game, fov, i);
+		fov += FOV / WIDTH;
 	}
 }
 
