@@ -6,7 +6,7 @@
 /*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 15:14:10 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/29 12:58:03 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/29 19:46:27 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,17 +20,17 @@ int		is_open(t_astar *a, t_anode	*node);
 
 void	make_path(t_anode *node, t_astar *a)
 {
-	a->pathCount = 0;
+	a->path_count = 0;
 	while (node->previous)
 	{
-		a->path[a->pathCount++] = copy_node(node);
-		if (!a->path[a->pathCount - 1])
-			return (free_list(a->path, a->pathCount));
+		a->path[a->path_count++] = copy_node(node);
+		if (!a->path[a->path_count - 1])
+			return (free_list(a->path, a->path_count));
 		node = node->previous;
 	}
-	a->path[a->pathCount++] = copy_node(node);
-	if (!a->path[a->pathCount - 1])
-		return (free_list(a->path, a->pathCount));
+	a->path[a->path_count++] = copy_node(node);
+	if (!a->path[a->path_count - 1])
+		return (free_list(a->path, a->path_count));
 }
 
 int	do_neighbor(t_astar *a, t_anode *neighbor)
@@ -47,7 +47,7 @@ int	do_neighbor(t_astar *a, t_anode *neighbor)
 		calculate(neighbor, a->end);
 		neighbor->previous = a->current;
 		if (!is_open(a, neighbor))
-			a->open[a->openCount++] = neighbor;
+			a->open[a->open_count++] = neighbor;
 	}
 	return (1);
 }
@@ -86,20 +86,20 @@ void	find_path(t_data *data, t_astar *a)
 	int		winner;
 	t_anode	*neighbor;
 
-	while (a->openCount > 0 && a->openCount < 5000)
+	while (a->open_count > 0 && a->open_count < 5000)
 	{
 		winner = get_lowest_f_node(a);
 		a->current = a->open[winner];
 		if (a->current->x == a->end->x && a->current->y == a->end->y)
 			return (make_path(a->current, a));
-		remove_arr(a->open, a->current, a->openCount--);
-		a->closed[a->closedCount++] = a->current;
+		remove_arr(a->open, a->current, a->open_count--);
+		a->closed[a->closed_count++] = a->current;
 		data->i = -2;
 		if (!check_neighbor(data, a, neighbor))
 			return ;
 	}
 	printf("NO PATH FOUND\n");
-	a->pathCount = 0;
+	a->path_count = 0;
 }
 
 void	astar(t_data *data, t_astar *a, int start[], int end[])
@@ -109,9 +109,9 @@ void	astar(t_data *data, t_astar *a, int start[], int end[])
 	a->end = new_node(a, end[0], end[1]);
 	if (!a->start || !a->end)
 		return (free(a->start), free(a->end));
-	a->open[a->openCount++] = a->start;
+	a->open[a->open_count++] = a->start;
 	find_path(data, a);
 	free(a->end);
-	free_list(a->open, a->openCount);
-	free_list(a->closed, a->closedCount);
+	free_list(a->open, a->open_count);
+	free_list(a->closed, a->closed_count);
 }

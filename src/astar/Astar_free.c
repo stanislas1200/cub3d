@@ -6,7 +6,7 @@
 /*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 11:38:23 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/29 12:57:54 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/29 19:46:27 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	is_in(t_astar *a, int y, int x)
 	int	i;
 
 	i = 0;
-	while (i < a->pathCount)
+	while (i < a->path_count)
 	{
 		if (a->path[i]->x == x && a->path[i]->y == y)
 			return (1);

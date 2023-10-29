@@ -89,11 +89,11 @@ void	render_wall(t_game *game, t_draw *d, double x, t_ray *ray)
 		color = get_color(game->sprites.wall
 			[(game->data->time / 10) % 4], (int)d->tex_x, (int)texy % 64);
 		if (ray->my > game->data->height / 3)
-			color = get_color(game->sprites.wallI
+			color = get_color(game->sprites.wall_i
 				[(game->data->time / 10) % 4], (int)d->tex_x, (int)texy % 64);
 		else if (ray->my <= game->data->height / 3 \
 		&& ray->my >= game->data->height / 3 - 1)
-			color = get_color(game->sprites.wallM
+			color = get_color(game->sprites.wall_m
 				[(game->data->time / 10) % 4], (int)d->tex_x, (int)texy % 64);
 		color = darken_color(game, color, fog);
 		color = darken_color(game, color, in_circle(x, start));

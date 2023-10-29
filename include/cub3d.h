@@ -110,8 +110,8 @@ typedef struct s_img {
 
 typedef struct sprites {
 	t_img	*wall[4];
-	t_img	*wallI[4];
-	t_img	*wallM[4];
+	t_img	*wall_i[4];
+	t_img	*wall_m[4];
 	t_img	*gun[4];
 	t_img	*egg[4];
 	t_img	*egg_e[4];
@@ -217,14 +217,14 @@ typedef struct s_astar {
 	t_anode	**open;
 	t_anode	**closed;
 	t_anode	**path;
-	int		openCount;
-	int		closedCount;
-	int		pathCount;
+	int		open_count;
+	int		closed_count;
+	int		path_count;
 	t_anode	*start;
 	t_anode	*end;
 	t_anode	*current;
 	t_anode	***nodes;
-	int size;
+	int		size;
 }	t_astar;
 
 enum e_state {
@@ -255,7 +255,7 @@ typedef struct monster
 	int				type;
 	int				frame;
 	enum e_state	state;
-	struct monster *next;
+	struct monster	*next;
 }	t_mob;
 
 typedef struct s_data
@@ -282,7 +282,6 @@ typedef struct s_data
 	t_astar		*a;
 	t_mob		*mob_list;
 }	t_data;
-
 
 typedef struct game
 {

@@ -6,7 +6,7 @@
 /*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 18:31:45 by dspilleb          #+#    #+#             */
-/*   Updated: 2023/10/29 19:05:47 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/29 19:44:42 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ int	sprites_addr(t_game *game)
 	init_addr_array(game->sprites.abutor_s, 15))
 		return (destroy_sprites(game), 1);
 	if (init_addr_array(game->sprites.wall, 4) || \
-	init_addr_array(game->sprites.wallI, 4) || \
-	init_addr_array(game->sprites.wallM, 4))
+	init_addr_array(game->sprites.wall_i, 4) || \
+	init_addr_array(game->sprites.wall_m, 4))
 		return (destroy_sprites(game), 1);
 	if (init_addr_array(game->sprites.heal0, 2) || \
 	init_addr_array(game->sprites.heal1, 2) || \
@@ -97,14 +97,14 @@ int	init_sprites(t_game *game)
 	game->sprites.wall[SO] = put_img(game, game->data->so);
 	game->sprites.wall[WE] = put_img(game, game->data->we);
 	game->sprites.wall[EA] = put_img(game, game->data->ea);
-	game->sprites.wallI[0] = put_img(game, "./Sprites/walls/wallR0.xpm");
-	game->sprites.wallI[1] = put_img(game, "./Sprites/walls/wallR1.xpm");
-	game->sprites.wallI[2] = put_img(game, "./Sprites/walls/wallR2.xpm");
-	game->sprites.wallI[3] = put_img(game, "./Sprites/walls/wallR1.xpm");
-	game->sprites.wallM[0] = put_img(game, "./Sprites/walls/wallM0.1.xpm");
-	game->sprites.wallM[1] = put_img(game, "./Sprites/walls/wallM0.2.xpm");
-	game->sprites.wallM[2] = put_img(game, "./Sprites/walls/wallM0.3.xpm");
-	game->sprites.wallM[3] = put_img(game, "./Sprites/walls/wallM0.4.xpm");
+	game->sprites.wall_i[0] = put_img(game, "./Sprites/walls/wallR0.xpm");
+	game->sprites.wall_i[1] = put_img(game, "./Sprites/walls/wallR1.xpm");
+	game->sprites.wall_i[2] = put_img(game, "./Sprites/walls/wallR2.xpm");
+	game->sprites.wall_i[3] = put_img(game, "./Sprites/walls/wallR1.xpm");
+	game->sprites.wall_m[0] = put_img(game, "./Sprites/walls/wall_m0.1.xpm");
+	game->sprites.wall_m[1] = put_img(game, "./Sprites/walls/wall_m0.2.xpm");
+	game->sprites.wall_m[2] = put_img(game, "./Sprites/walls/wall_m0.3.xpm");
+	game->sprites.wall_m[3] = put_img(game, "./Sprites/walls/wall_m0.4.xpm");
 	game->crosshair = put_img(game, "./Sprites/crosshair.xpm");
 	mob_put_img(game);
 	hud_out_img(game);

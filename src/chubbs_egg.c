@@ -6,7 +6,7 @@
 /*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 13:55:57 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/29 18:03:52 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/29 19:46:27 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@ void	mob_track(t_game *game, t_mob *this)
 	(int []){(int)this->x >> 6, (int)this->y >> 6}, \
 	(int []){(int)game->player.px >> 6, (int)game->player.py >> 6});
 	game->data->i = 0;
-	if (game->data->a->pathCount < 2 || !game->data->a->path || \
+	if (game->data->a->path_count < 2 || !game->data->a->path || \
 	!game->data->a->path[0])
-		return (free_list(game->data->a->path, game->data->a->pathCount));
+		return (free_list(game->data->a->path, game->data->a->path_count));
 	mob_move(game, this);
-	free_list(game->data->a->path, game->data->a->pathCount);
+	free_list(game->data->a->path, game->data->a->path_count);
 }
 
 void	egg_hatch(t_game *game, t_mob *this)

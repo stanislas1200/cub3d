@@ -6,33 +6,13 @@
 /*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 13:32:49 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/29 18:50:23 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/29 19:33:26 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
 
-void	delete_monster(t_mob **list, t_mob *mob)
-{
-	t_mob	*current;
-
-	if (*list == mob)
-	{
-		*list = mob->next;
-		free(mob);
-		return ;
-	}
-	current = *list;
-	while (current && current->next != mob)
-	{
-		current = current->next;
-	}
-	if (current)
-	{
-		current->next = mob->next;
-		free(mob);
-	}
-}
+void	delete_monster(t_mob **list, t_mob *mob);
 
 void	update_player(t_game *game)
 {
@@ -95,9 +75,11 @@ void	player_bar(t_game *game)
 	i = -1;
 	while (++i <= game->player.max_hp)
 	{
-		setup_img(game->sprites.red_b, game, (int[]){WIDTH - WIDTH/4 + i * 32, HEIGHT - 128, 128 , 128}, 0.5);
+		setup_img(game->sprites.red_b, game, \
+		(int []){WIDTH - WIDTH / 4 + i * 32, HEIGHT - 128, 128, 128}, 0.5);
 		if (i <= game->player.hp)
-			setup_img(game->sprites.green_b, game, (int[]){WIDTH - WIDTH/4 + i * 32, HEIGHT - 128, 128 , 128}, 0.5);
+			setup_img(game->sprites.green_b, game, \
+			(int []){WIDTH - WIDTH / 4 + i * 32, HEIGHT - 128, 128, 128}, 0.5);
 	}
 }
 

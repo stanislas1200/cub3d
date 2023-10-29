@@ -6,7 +6,7 @@
 /*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 12:25:56 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/29 12:58:01 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/29 19:46:13 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	get_lowest_f_node(t_astar *a)
 
 	winner = 0;
 	i = 0;
-	while (i < a->openCount)
+	while (i < a->open_count)
 	{
 		if (a->open[i]->f < a->open[winner]->f)
 			winner = i;
@@ -47,7 +47,7 @@ int	is_close(t_astar *a, t_anode	*node)
 	int	i;
 
 	i = 0;
-	while (i < a->closedCount)
+	while (i < a->closed_count)
 	{
 		if (a->closed[i] == node)
 			return (1);
@@ -61,7 +61,7 @@ int	is_open(t_astar *a, t_anode	*node)
 	int	i;
 
 	i = 0;
-	while (i < a->openCount)
+	while (i < a->open_count)
 	{
 		if (a->open[i] == node)
 			return (1);

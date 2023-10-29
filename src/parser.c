@@ -11,6 +11,9 @@
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
+#define E_M "Invalid map"
+#define P "Only one player is allowed\n"
+#define C "Invalid character in map\n"
 
 void	get_rgb(int dest[3], char c, char *str, t_data *data)
 {
@@ -24,20 +27,20 @@ void	get_rgb(int dest[3], char c, char *str, t_data *data)
 				data->i++;
 			if (str[data->i + 2] != ',' || \
 			str[data->i + 3] < '0' || str[data->i + 3] > '9')
-				return (e(data, "Invalid map" RESET ": ", \
+				return (e(data, E_M RESET ": ", \
 				"Invalid floor color\n"));
 			dest[1] = ft_atoi(&str[++data->i + 2]);
 			while (str[data->i + 2] >= '0' && str[data->i + 2] <= '9')
 				data->i++;
 			if (str[data->i + 2] != ',' || \
 			str[data->i + 3] < '0' || str[data->i + 3] > '9')
-				return (e(data, "Invalid map" RESET ": ", \
+				return (e(data, E_M RESET ": ", \
 				"Invalid floor color\n"));
 			dest[2] = ft_atoi(&str[++data->i + 2]);
 			data->i += 2;
 		}
 		else
-			return (e(data, "Invalid map" RESET ": ", "Invalid floor color\n"));
+			return (e(data, E_M RESET ": ", "Invalid floor color\n"));
 	}
 }
 
@@ -62,11 +65,11 @@ void	get_element(char *str, t_data *d)
 			break ;
 	}
 	if (!d->no || !d->so || !d->we || !d->ea)
-		return (e(d, "Invalid map" RESET ": ", "Missing Texture path\n"));
+		return (e(d, E_M RESET ": ", "Missing Texture path\n"));
 	if (d->floor[0] == -1 || d->floor[1] == -1 || d->floor[2] == -1)
-		return (e(d, "Invalid map" RESET ": ", "Missing floor color\n"));
+		return (e(d, E_M RESET ": ", "Missing floor color\n"));
 	if (d->ceiling[0] == -1 || d->ceiling[1] == -1 || d->ceiling[2] == -1)
-		return (e(d, "Invalid map" RESET ": ", "Missing ceiling color\n"));
+		return (e(d, E_M RESET ": ", "Missing ceiling color\n"));
 }
 
 void	read_map2(t_data *d, char *str, int tot, int l)
@@ -82,8 +85,7 @@ void	read_map2(t_data *d, char *str, int tot, int l)
 			d->player.dir = str[tot + d->j];
 			d->map[d->i][d->j] = 'F';
 			if (d->player_nb++ >= 1)
-				return (d->height = d->i, e(d, "Invalid map" RESET ": ", \
-				"Only one player is allowed\n"));
+				return (d->height = d->i, e(d, E_M RESET ": ", P));
 		}
 		else if (str[tot + d->j] == '1')
 			d->map[d->i][d->j] = 'X';
@@ -91,13 +93,11 @@ void	read_map2(t_data *d, char *str, int tot, int l)
 		{
 			if (str[tot + d->j] == 'B')
 				generate_monster(d, ABUTOR);
-			else
-				generate_monster(d, EGG);
+			generate_monster(d, EGG);
 			d->map[d->i][d->j] = 'F';
 		}
 		else if (str[tot + d->j] != ' ')
-			return (d->height = d->i, e(d, "Invalid map" RESET ": ", \
-			"Invalid character in map\n"));
+			return (d->height = d->i, e(d, E_M RESET ": ", C));
 	}
 }
 
@@ -146,5 +146,5 @@ void	make_map(char *str, t_data *d)
 	read_map(d, str, tot);
 	d->map[d->height] = NULL;
 	if (d->player_nb == 0)
-		e(d, "Invalid map" RESET ": ", "No player found\n");
+		e(d, E_M RESET ": ", "No player found\n");
 }

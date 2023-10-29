@@ -6,7 +6,7 @@
 /*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 11:52:26 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/29 12:57:59 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/29 19:46:27 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,9 +95,9 @@ void	init_astar(t_data *data, t_astar *a)
 
 	i = 0;
 	j = 0;
-	a->closedCount = 0;
-	a->openCount = 0;
-	a->pathCount = 0;
+	a->closed_count = 0;
+	a->open_count = 0;
+	a->path_count = 0;
 	while (i < a->size * a->size * a->size)
 	{
 		a->open[i] = NULL;

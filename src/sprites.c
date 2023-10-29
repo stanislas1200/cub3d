@@ -6,7 +6,7 @@
 /*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 15:19:32 by dspilleb          #+#    #+#             */
-/*   Updated: 2023/10/29 18:57:01 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/29 19:44:42 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@ void	destroy_sprites(t_game *game)
 	{
 		if (game->sprites.wall[i])
 			mlx_destroy_image(game->mlx_ptr, game->sprites.wall[i]);
-		if (game->sprites.wallI[i])
-			mlx_destroy_image(game->mlx_ptr, game->sprites.wallI[i]);
-		if (game->sprites.wallM[i])
-			mlx_destroy_image(game->mlx_ptr, game->sprites.wallM[i]);
+		if (game->sprites.wall_i[i])
+			mlx_destroy_image(game->mlx_ptr, game->sprites.wall_i[i]);
+		if (game->sprites.wall_m[i])
+			mlx_destroy_image(game->mlx_ptr, game->sprites.wall_m[i]);
 		if (game->sprites.abutor_w[i])
 			mlx_destroy_image(game->mlx_ptr, game->sprites.abutor_w[i]);
 		if (game->sprites.chubb_w[i])
@@ -68,8 +68,8 @@ void	set_sprites_null(t_game *game)
 		game->sprites.egg[i] = NULL;
 		game->sprites.egg_e[i] = NULL;
 		game->sprites.gun[i] = NULL;
-		game->sprites.wallI[i] = NULL;
-		game->sprites.wallM[i] = NULL;
+		game->sprites.wall_i[i] = NULL;
+		game->sprites.wall_m[i] = NULL;
 	}
 	i = -1;
 	while (++i <= 14)

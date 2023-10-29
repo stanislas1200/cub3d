@@ -6,7 +6,7 @@
 /*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 17:38:26 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/29 18:22:13 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/29 19:46:27 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,9 +80,9 @@ void	mob_move(t_game *game, t_mob *this)
 	int	x;
 	int	y;
 
-	x = (game->data->a->path[game->data->a->pathCount - 2]->x << 6) \
+	x = (game->data->a->path[game->data->a->path_count - 2]->x << 6) \
 	+ (SQUARE / 2);
-	y = (game->data->a->path[game->data->a->pathCount - 2]->y << 6) \
+	y = (game->data->a->path[game->data->a->path_count - 2]->y << 6) \
 	+ (SQUARE / 2);
 	if (this->x > x)
 		this->x -= this->speed;
