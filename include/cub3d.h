@@ -106,8 +106,6 @@ typedef struct s_img {
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
-	int		width;
-	int		height;
 }				t_img;
 
 typedef struct sprites {
@@ -140,8 +138,8 @@ typedef struct img_drawing {
 	int		starty;
 	int		width;
 	int		height;
-	int		stepx;
-	int		stepy;
+	double	stepx;
+	double	stepy;
 	int		endx;
 	int		endy;
 }	t_idraw;
@@ -346,7 +344,7 @@ void			init_ray(t_ray *ray, t_game *game, double angle, char type);
 void			drawstripes(t_game *game, int x1, int y1, int y2);
 int				update_frame(t_game *game);
 int				in_view(t_game *game);
-void			setup_img(t_img *img, int x, int y, double size);
+void			setup_img(t_img *img, t_game *game, int pos[2], double size);
 void			draw_img(t_game *game, t_idraw *i);
 
 //movement
