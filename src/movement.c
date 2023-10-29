@@ -12,7 +12,6 @@
 
 #include "../include/cub3d.h"
 
-
 void	ease_in(t_game *game);
 
 void	movement(t_game *g)

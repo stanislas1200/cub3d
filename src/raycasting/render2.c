@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 20:42:49 by dspilleb          #+#    #+#             */
-/*   Updated: 2023/10/29 15:53:42 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/29 18:57:49 by dspilleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,8 @@ void	setup_img(t_img *img, t_game *game, int pos[4], double size)
 	i.startx = fmax(i.startx, 0);
 	i.starty = fmax(i.starty, 0);
 	i.endy = fmax(fmin(i.endy, HEIGHT), 0);
-	// printf(RESET "stepx  %fstepy  %fstartx  %dstarty %d endx %d endy %d\n", i.stepx, i.stepy, i.startx, i.starty, i.endx, i.endy);
 	draw_img(game, &i);
 }
-
 
 void	draw_img(t_game *game, t_idraw *i)
 {
