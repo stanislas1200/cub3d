@@ -6,7 +6,7 @@
 /*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 13:32:49 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/29 16:51:20 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/29 17:12:53 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,12 +80,12 @@ void	update_mob(t_game *game)
 
 void	check_end(t_game *game)
 {
-		if (game->status == 1)
-			mlx_put_image_to_window(game->mlx_ptr, \
-		game->mlx_win, game->sprites.win, 0, 0);
-		else if (game->status == 2)
-			mlx_put_image_to_window(game->mlx_ptr, \
-		game->mlx_win, game->sprites.loss, 0, 0);
+	if (game->status == 1)
+		mlx_put_image_to_window(game->mlx_ptr, \
+	game->mlx_win, game->sprites.win, 0, 0);
+	else if (game->status == 2)
+		mlx_put_image_to_window(game->mlx_ptr, \
+	game->mlx_win, game->sprites.loss, 0, 0);
 }
 
 int	update_frame(t_game *game)

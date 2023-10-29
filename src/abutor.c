@@ -6,7 +6,7 @@
 /*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 17:38:49 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/29 16:49:18 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/29 17:13:27 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	abutor_sp(t_game *game, t_mob *this)
 		play_sound("data/sound/hit.mp3", game);
 		game->player.trip = 1;
 		game->player.trip_cd = 50;
-		game->player.hp -= 5;
+		game->player.hp -= 3;
 		this->cd = 20;
 		this->state = IDLE;
 	}
@@ -85,7 +85,7 @@ void	execute_abutor(t_game *game, t_mob *this)
 	}
 	else if (this->state == ATTACK)
 		abutor_attack(game, this);
-	if (distance(this->x, this->y, game->player.px, game->player.py) < 50 || \
+	if (distance(this->x, this->y, game->player.px, game->player.py) < 75 || \
 	this->state == ATTACK)
 	{
 		if (this->cd == 0)
