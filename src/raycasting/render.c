@@ -38,18 +38,9 @@ unsigned int	darken_color(t_game *game, unsigned int color, double fog)
 	b -= (int)(b * fog);
 	if (game->player.trip)
 		return (((int)(r * 0.9) *256 * 256) + (g / 3 * 256) + b / 3);
-	if (r > 255)
-		r = 255;
-	if (r < 0)
-		r = 0;
-	if (g > 255)
-		g = 255;
-	if (g < 0)
-		g = 0;
-	if (b > 255)
-		b = 255;
-	if (b < 0)
-		b = 0;
+	r = fmin(fmax(r, 0), 255);
+	g = fmin(fmax(g, 0), 255);
+	b = fmin(fmax(b, 0), 255);
 	if (game->player.hurt)
 		return (((int)(r * 0.9) *256 * 256) + (g / 3 * 256) + b / 3);
 	return ((r * 256 * 256) + (g * 256) + b);

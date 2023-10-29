@@ -123,17 +123,16 @@ void	make_door(t_data *data)
 			if (i > 2 && i < data->height - 2 && j > 2 \
 			&& j < ft_strlen(data->map[i]) - 2 && data->map[i][j] == 'X')
 			{
-				if ((j < ft_strlen(data->map[i - 1]) && data->map[i - 1][j] == 'F' \
+				if ((j < ft_strlen(data->map[i - 1]) \
+				&& data->map[i - 1][j] == 'F' \
 				&& data->map[i][j + 1] == 'X' \
-				&& j < ft_strlen(data->map[i + 1]) && data->map[i + 1][j] == 'F' \
+				&& j < ft_strlen(data->map[i + 1]) \
+				&& data->map[i + 1][j] == 'F' \
 				&& data->map[i][j - 1] == 'X') || \
 				data->map[i][j - 1] == 'F' && data->map[i][j + 1] == 'F' \
 				&& data->map[i - 1][j] == 'X' \
-				&& data->map[i + 1][j] == 'X')
-				{
-					if (rand() * 10 <= 1)
-						data->map[i][j] = 'D';
-				}
+				&& data->map[i + 1][j] == 'X' && rand() * 10 <= 1)
+					data->map[i][j] = 'D';
 			}
 		}
 	}
@@ -164,6 +163,7 @@ void	check_map(t_data *d)
 		}
 	}
 }
+
 void	set_map_from_file(char *path, t_data *data)
 {
 	int		fd;
