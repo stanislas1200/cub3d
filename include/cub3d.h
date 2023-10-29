@@ -375,7 +375,6 @@ int				end_game(t_game *game);
 //init
 int				init_mlx(t_game *game);
 void			init_player(t_data *data, t_game *game);
-int				init_sprites(t_game *game);
 void			init_data(t_data *data);
 
 //minimap 1 && 2
@@ -394,9 +393,12 @@ int				in_view(t_game *game);
 void			destroy_sprites(t_game *game);
 void			destroy_sprites2(t_game *game);
 void			set_sprites_null(t_game *game);
+void			mob_put_img(t_game *game);
 void			mob_put_img2(t_game *game);
 void			mob_put_img3(t_game *game);
 int				sprites_addr(t_game *game);
 int				init_addr_array(t_img **arr, int size);
+int				init_sprites(t_game *game);
+void			hud_out_img(t_game *game);
 
 #endif

@@ -6,11 +6,13 @@
 /*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 16:11:38 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/29 18:36:57 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/29 18:56:12 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
+
+void	init_player2(t_data *data, t_game *game);
 
 void	init_data(t_data *data)
 {
@@ -37,72 +39,6 @@ void	init_data(t_data *data)
 	data->mob_list = NULL;
 }
 
-void	hud_out_img(t_game *game)
-{
-	game->sprites.heal0[0] = put_img(game, "./Sprites/heal_bar/heall00.xpm");
-	game->sprites.heal1[0] = put_img(game, "./Sprites/heal_bar/heall10.xpm");
-	game->sprites.heal2[0] = put_img(game, "./Sprites/heal_bar/heall20.xpm");
-	game->sprites.heal0[1] = put_img(game, "./Sprites/heal_bar/heall01.xpm");
-	game->sprites.heal1[1] = put_img(game, "./Sprites/heal_bar/heall11.xpm");
-	game->sprites.heal2[1] = put_img(game, "./Sprites/heal_bar/heall21.xpm");
-	game->sprites.win = put_img(game, "./Sprites/screen/victory_c.xpm");
-	game->sprites.loss = put_img(game, "./Sprites/screen/game_over_c.xpm");
-	game->sprites.red_b = put_img(game, "./Sprites/heal_bar/red_bar.xpm");
-	game->sprites.green_b = put_img(game, "./Sprites/heal_bar/green_bar.xpm");
-}
-
-void	mob_put_img(t_game *game)
-{
-	game->sprites.abutor_w[0] = put_img(game, "./Sprites/mobs/abutor/AW0.xpm");
-	game->sprites.abutor_w[1] = put_img(game, "./Sprites/mobs/abutor/AW1.xpm");
-	game->sprites.abutor_w[2] = put_img(game, "./Sprites/mobs/abutor/AW1.xpm");
-	game->sprites.abutor_w[3] = put_img(game, "./Sprites/mobs/abutor/AW1.xpm");
-	game->sprites.abutor_a[0] = put_img(game, "./Sprites/mobs/abutor/A0.xpm");
-	game->sprites.abutor_a[1] = put_img(game, "./Sprites/mobs/abutor/A1.xpm");
-	game->sprites.abutor_a[2] = put_img(game, "./Sprites/mobs/abutor/A2.xpm");
-	game->sprites.abutor_a[3] = put_img(game, "./Sprites/mobs/abutor/A3.xpm");
-	game->sprites.abutor_a[4] = put_img(game, "./Sprites/mobs/abutor/A4.xpm");
-	game->sprites.abutor_a[5] = put_img(game, "./Sprites/mobs/abutor/A5.xpm");
-	game->sprites.abutor_a[6] = put_img(game, "./Sprites/mobs/abutor/A6.xpm");
-	game->sprites.abutor_a[7] = put_img(game, "./Sprites/mobs/abutor/A7.xpm");
-	game->sprites.abutor_a[8] = put_img(game, "./Sprites/mobs/abutor/A8.xpm");
-	game->sprites.abutor_a[9] = put_img(game, "./Sprites/mobs/abutor/A9.xpm");
-	game->sprites.abutor_a[10] = put_img(game, "./Sprites/mobs/abutor/A10.xpm");
-	game->sprites.abutor_a[11] = put_img(game, "./Sprites/mobs/abutor/A11.xpm");
-	game->sprites.abutor_a[12] = put_img(game, "./Sprites/mobs/abutor/A12.xpm");
-	game->sprites.abutor_a[13] = put_img(game, "./Sprites/mobs/abutor/A13.xpm");
-	game->sprites.abutor_a[14] = put_img(game, "./Sprites/mobs/abutor/A14.xpm");
-	mob_put_img2(game);
-}
-
-int	init_sprites(t_game *game)
-{
-	int		i;
-
-	i = -1;
-	set_sprites_null(game);
-	game->sprites.gun[0] = put_img(game, "./Sprites/gun/0.xpm");
-	game->sprites.gun[1] = put_img(game, "./Sprites/gun/1.xpm");
-	game->sprites.gun[2] = put_img(game, "./Sprites/gun/2.xpm");
-	game->sprites.gun[3] = put_img(game, "./Sprites/gun/3.xpm");
-	game->sprites.wall[NO] = put_img(game, game->data->no);
-	game->sprites.wall[SO] = put_img(game, game->data->so);
-	game->sprites.wall[WE] = put_img(game, game->data->we);
-	game->sprites.wall[EA] = put_img(game, game->data->ea);
-	game->sprites.wallI[0] = put_img(game, "./Sprites/walls/wallR0.xpm");
-	game->sprites.wallI[1] = put_img(game, "./Sprites/walls/wallR1.xpm");
-	game->sprites.wallI[2] = put_img(game, "./Sprites/walls/wallR2.xpm");
-	game->sprites.wallI[3] = put_img(game, "./Sprites/walls/wallR1.xpm");
-	game->sprites.wallM[0] = put_img(game, "./Sprites/walls/wallM0.1.xpm");
-	game->sprites.wallM[1] = put_img(game, "./Sprites/walls/wallM0.2.xpm");
-	game->sprites.wallM[2] = put_img(game, "./Sprites/walls/wallM0.3.xpm");
-	game->sprites.wallM[3] = put_img(game, "./Sprites/walls/wallM0.4.xpm");
-	game->crosshair = put_img(game, "./Sprites/crosshair.xpm");
-	mob_put_img(game);
-	hud_out_img(game);
-	return (sprites_addr(game));
-}
-
 void	init_player(t_data *data, t_game *game)
 {
 	if (data->player.dir == 'S')
@@ -125,6 +61,11 @@ void	init_player(t_data *data, t_game *game)
 	game->keys[3] = 0;
 	game->keys[4] = 0;
 	game->keys[5] = 0;
+	init_player2(data, game);
+}
+
+void	init_player2(t_data *data, t_game *game)
+{
 	data->player.px += (SQUARE / 2);
 	data->player.py += (SQUARE / 2);
 	data->player.max_hp = 10;
