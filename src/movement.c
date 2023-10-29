@@ -12,21 +12,12 @@
 
 #include "../include/cub3d.h"
 
+
+void	ease_in(t_game *game);
+
 void	movement(t_game *g)
 {
-	if (g->keys[0] || g->keys[1] || g->keys[5] || g->keys[4] || g->keys[2] || g->keys[3])
-	{
-
-	g->player.speed += fmax(fmin(g->data->fade_cd, 1.5), 0);
-	g->player.speed = fmin(g->player.speed, 1.5);
-	g->data->fade_cd += 0.5 * fmax(g->data->fade_cd, 0.5);
-	g->data->fade_cd = fmin(g->data->fade_cd, 1.5);
-	}
-	else
-	{
-		g->data->fade_cd = 0.5;
-		g->player.speed = 0.5;
-	}
+	ease_in(g);
 	if (g->keys[0])
 		can_move(g, g->player.px + g->player.pdx * g->player.speed, \
 		g->player.py + g->player.pdy * g->player.speed, 0);
@@ -66,5 +57,22 @@ void	can_move(t_game *game, double fx, double fy, int side)
 	{
 		game->player.px = fx;
 		game->player.py = fy;
+	}
+}
+
+void	ease_in(t_game *g)
+{
+	if (g->keys[0] || g->keys[1] || \
+	g->keys[5] || g->keys[4] || g->keys[2] || g->keys[3])
+	{
+		g->player.speed += fmax(fmin(g->data->fade_cd, 1.5), 0);
+		g->player.speed = fmin(g->player.speed, 1.5);
+		g->data->fade_cd += 0.5 * fmax(g->data->fade_cd, 0.5);
+		g->data->fade_cd = fmin(g->data->fade_cd, 1.5);
+	}
+	else
+	{
+		g->data->fade_cd = 0.5;
+		g->player.speed = 0.5;
 	}
 }
