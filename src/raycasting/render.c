@@ -111,7 +111,7 @@ void	render_monster(t_game *game, t_mdraw *d, double x)
 	{
 		y = d->line_o;
 		d->tex_y = d->ty_offset * d->stepy;
-		while (y < (d->line_o + d->line_h) && y < HEIGHT)
+		while (d->startx >= 0 && y < (d->line_o + d->line_h) && y < HEIGHT)
 		{
 			color = get_color(game->mob, \
 			(int)d->tex_x % 720, (int)d->tex_y % 1104);
