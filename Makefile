@@ -30,6 +30,7 @@ SRCS = src/main.c\
 			src/raycasting/rays.c\
 			src/raycasting/mob.c\
 			src/raycasting/render.c
+			src/raycasting/render2.c
 
 INCL = include/cub3d.h
 

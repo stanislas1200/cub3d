@@ -6,7 +6,7 @@
 /*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 15:09:09 by dspilleb          #+#    #+#             */
-/*   Updated: 2023/10/28 14:23:32 by dspilleb         ###   ########.fr       */
+/*   Updated: 2023/10/29 11:06:29 by dspilleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,16 +109,12 @@ void	init_mob_drawing(t_game *game, t_mdraw *d, double dist, double screenx)
 	d->startx = screenx - d->line_h / 2;
 	d->tex_x = 0;
 	d->tex_x = 0;
-	if (d->endx > WIDTH)
-		d->endx = WIDTH;
-	if (d->startx < 0)
-		d->startx = 0;
+	d->endx = fmin(d->endx, WIDTH);
+	d->startx = fmax(0, d->startx);
 	if (d->line_h > HEIGHT)
 	{
 		d->ty_offset = (d->line_h - HEIGHT) / 2.0;
 		d->line_h = HEIGHT;
 	}
-	if (d->line_h < 0)
-		d->line_h = 0;
 	d->line_o = (HEIGHT / 2) - ((int)d->line_h >> 1);
 }

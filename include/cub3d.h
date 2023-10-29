@@ -105,6 +105,8 @@ typedef struct s_img {
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
+	int		width;
+	int		height;
 }				t_img;
 
 typedef struct sprites {
@@ -122,7 +124,7 @@ typedef struct sprites {
 	t_img	*abutor_a[15];
 }				t_sprites;
 
-typedef struct drawing {
+typedef struct wall_drawing {
 	double	line_h;
 	double	line_o;
 	double	ty_offset;
@@ -130,6 +132,18 @@ typedef struct drawing {
 	double	step;
 	double	realdist;
 }	t_draw;
+
+typedef struct img_drawing {
+	t_img	*img;
+	int		startx;
+	int		starty;
+	int		width;
+	int		height;
+	int		stepx;
+	int		stepy;
+	int		endx;
+	int		endy;
+}	t_idraw;
 
 typedef struct monster_drawing {
 	double	line_h;
@@ -283,83 +297,87 @@ typedef struct game
 	double		depths[2048];
 }	t_game;
 
-void	set_map_from_file(char *path, t_data *data);
-int		ft_strlen(char *str);
-void	ft_error(char *str);
-void	pg(int x, int y, int f, t_data *data);
-void	push(t_node	**top, int x, int y);
-void	pop(t_node	**top);
-void	cleanup_stack(t_data *data);
-void	e(t_data *data, char *str, char *error);
-void	make_map(char *str, t_data *data);
-char	*ft_strjoin(char const *s1, char const *s2);
-void	free_map(t_data *data, int height);
-int		ft_atoi(const char *str);
-size_t	ft_strlcpy(char *dest, char *src, size_t size);
-int		ft_strncmp(const char *s1, const char *s2, size_t n);
-void	free_all(t_data *data);
-void	get_wall_texture_path(char **dest, char *str, char *str2, t_data *d);
-void	play_sound(char *sound, t_game *game);
-void	free_nodes(t_data *data, t_astar *a);
-void	remove_arr(t_anode *arr[], t_anode *node, int size);
-void	mob_move(t_game *game, t_mob *this);
+void			set_map_from_file(char *path, t_data *data);
+int				ft_strlen(char *str);
+void			ft_error(char *str);
+void			pg(int x, int y, int f, t_data *data);
+void			push(t_node	**top, int x, int y);
+void			pop(t_node **top);
+void			cleanup_stack(t_data *data);
+void			e(t_data *data, char *str, char *error);
+void			make_map(char *str, t_data *data);
+char			*ft_strjoin(char const *s1, char const *s2);
+void			free_map(t_data *data, int height);
+int				ft_atoi(const char *str);
+size_t			ft_strlcpy(char *dest, char *src, size_t size);
+int				ft_strncmp(const char *s1, const char *s2, size_t n);
+void			free_all(t_data *data);
+void			get_wall_texture_path(char **dest, \
+				char *str, char *str2, t_data *d);
+void			play_sound(char *sound, t_game *game);
+void			free_nodes(t_data *data, t_astar *a);
+void			remove_arr(t_anode *arr[], t_anode *node, int size);
+void			mob_move(t_game *game, t_mob *this);
 
 //A*
-void init_astar(t_data *data, t_astar *a);
-void setup_astar(t_data *data, t_astar *a);
-void Astar(t_data *data, t_astar *a, int start_i, int start_j, int end_i, int end_j);
-void free_list(t_anode *arr[], int size);
+void			init_astar(t_data *data, t_astar *a);
+void			setup_astar(t_data *data, t_astar *a);
+void			Astar(t_data *data, t_astar *a, \
+				int start_i, int start_j, int end_i, int end_j);
+void			free_list(t_anode *arr[], int size);
 
 //Monster
-void	generate_monster(t_data *data, int type);
-void	execute_mob(t_game *game, t_mob *this);
+void			generate_monster(t_data *data, int type);
+void			execute_mob(t_game *game, t_mob *this);
 
 //raycasting
-void	draw_rays(t_game *game);
-void	ray_cast(t_game *game, double angle, int s_width);
-int		in_map(t_game *game, int x, int y);
+void			draw_rays(t_game *game);
+void			ray_cast(t_game *game, double angle, int s_width);
+int				in_map(t_game *game, int x, int y);
 //rays
-void	check_for_hit(t_game *game, t_ray *ray);
-void	setup_horizontal_ray(t_ray *ray, t_game *game);
-void	setup_vertical_ray(t_ray *ray, t_game *game);
-void	init_ray(t_ray *ray, t_game *game, double angle, char type);
+void			check_for_hit(t_game *game, t_ray *ray);
+void			setup_horizontal_ray(t_ray *ray, t_game *game);
+void			setup_vertical_ray(t_ray *ray, t_game *game);
+void			init_ray(t_ray *ray, t_game *game, double angle, char type);
 
-//render
-void	drawstripes(t_game *game, int x1, int y1, int y2);
-int		update_frame(t_game *game);
-int		in_view(t_game *game);
+//render 1 && 2
+void			drawstripes(t_game *game, int x1, int y1, int y2);
+int				update_frame(t_game *game);
+int				in_view(t_game *game);
+void			setup_img(t_img *img, int x, int y, double size);
+void			draw_img(t_game *game, t_idraw *i);
 
 //movement
-void	movement(t_game *game);
-void	can_move(t_game *game, double fx, double fy, int side);
+void			movement(t_game *game);
+void			can_move(t_game *game, double fx, double fy, int side);
 
 //utils 2
-void	my_mlx_pixel_put(t_img *img, int x, int y, int color);
-double	distance(double x1, double y1, double x2, double y2);
-double	deg_to_rad(double a);
-double	fix_ang(double a);
-void	*put_img(t_game *data, char *path);
+void			my_mlx_pixel_put(t_img *img, int x, int y, int color);
+double			distance(double x1, double y1, double x2, double y2);
+double			deg_to_rad(double a);
+double			fix_ang(double a);
+void			*put_img(t_game *data, char *path);
 unsigned int	get_color(t_img *img, int x, int y);
 
 //end
-void	destroy_sprites(t_game *game);
-int		end_game(t_game *game);
+void			destroy_sprites(t_game *game);
+int				end_game(t_game *game);
 
 //init
-int		init_mlx(t_game *game);
-void	init_player(t_data *data, t_game *game);
-int		init_sprites(t_game *game);
-void	init_data(t_data *data);
+int				init_mlx(t_game *game);
+void			init_player(t_data *data, t_game *game);
+int				init_sprites(t_game *game);
+void			init_data(t_data *data);
 
 //minimap 1 && 2
-void	render_minimap(t_game *game);
-int		in_minimap(double x1, double y1);
-void	draw_entity(t_game *game, int x, int y, unsigned int color);
-double	square_size(void);
-void	draw_square(t_game *game, t_square square);
-void	drawline(t_game *game, t_line l);
+void			render_minimap(t_game *game);
+int				in_minimap(double x1, double y1);
+void			draw_entity(t_game *game, int x, int y, unsigned int color);
+double			square_size(void);
+void			draw_square(t_game *game, t_square square);
+void			drawline(t_game *game, t_line l);
 
 //raycasting/mob
-void	draw_monster(t_game *game);
-int		in_view(t_game *game);
+void			draw_monster(t_game *game);
+int				in_view(t_game *game);
 #endif
