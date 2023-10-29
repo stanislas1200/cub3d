@@ -380,4 +380,14 @@ void			drawline(t_game *game, t_line l);
 //raycasting/mob
 void			draw_monster(t_game *game);
 int				in_view(t_game *game);
+
+//sprites
+void			destroy_sprites(t_game *game);
+void			destroy_sprites2(t_game *game);
+void			set_sprites_null(t_game *game);
+void			mob_put_img2(t_game *game);
+void			mob_put_img3(t_game *game);
+int				sprites_addr(t_game *game);
+int				init_addr_array(t_img **arr, int size);
+
 #endif
