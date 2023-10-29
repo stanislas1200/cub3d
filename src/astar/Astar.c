@@ -6,7 +6,7 @@
 /*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 15:14:10 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/29 19:46:27 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/29 20:34:12 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,6 @@ void	find_path(t_data *data, t_astar *a)
 		if (!check_neighbor(data, a, neighbor))
 			return ;
 	}
-	printf("NO PATH FOUND\n");
 	a->path_count = 0;
 }
 
