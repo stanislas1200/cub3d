@@ -6,7 +6,7 @@
 /*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 18:31:45 by dspilleb          #+#    #+#             */
-/*   Updated: 2023/10/29 19:44:42 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/29 20:11:30 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,10 +101,10 @@ int	init_sprites(t_game *game)
 	game->sprites.wall_i[1] = put_img(game, "./Sprites/walls/wallR1.xpm");
 	game->sprites.wall_i[2] = put_img(game, "./Sprites/walls/wallR2.xpm");
 	game->sprites.wall_i[3] = put_img(game, "./Sprites/walls/wallR1.xpm");
-	game->sprites.wall_m[0] = put_img(game, "./Sprites/walls/wall_m0.1.xpm");
-	game->sprites.wall_m[1] = put_img(game, "./Sprites/walls/wall_m0.2.xpm");
-	game->sprites.wall_m[2] = put_img(game, "./Sprites/walls/wall_m0.3.xpm");
-	game->sprites.wall_m[3] = put_img(game, "./Sprites/walls/wall_m0.4.xpm");
+	game->sprites.wall_m[0] = put_img(game, "./Sprites/walls/wallM0.1.xpm");
+	game->sprites.wall_m[1] = put_img(game, "./Sprites/walls/wallM0.2.xpm");
+	game->sprites.wall_m[2] = put_img(game, "./Sprites/walls/wallM0.3.xpm");
+	game->sprites.wall_m[3] = put_img(game, "./Sprites/walls/wallM0.4.xpm");
 	game->crosshair = put_img(game, "./Sprites/crosshair.xpm");
 	mob_put_img(game);
 	hud_out_img(game);

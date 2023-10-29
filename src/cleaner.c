@@ -6,7 +6,7 @@
 /*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 14:43:45 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/29 13:49:33 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/29 20:08:47 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ void	free_all(t_data *data)
 	free(data->a->nodes);
 	free(data->a->path);
 	free_mob_list(data->mob_list);
-	system("leaks cub3d");
 }
 
 void	e(t_data *data, char *error, char *info)
