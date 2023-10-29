@@ -30,6 +30,7 @@ SRCS = src/main.c\
 			src/astar/Astar_utils.c\
 		src/monster.c\
 		src/abutor.c\
+		src/chubbs_egg.c\
 		src/minimap.c\
 		src/minimap2.c\
 		src/game_logic.c\

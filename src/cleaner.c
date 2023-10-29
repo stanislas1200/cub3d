@@ -6,13 +6,23 @@
 /*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 14:43:45 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/29 13:21:16 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/29 13:49:33 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
 
-void	free_mob_list(t_mob *lst);
+void	free_mob_list(t_mob *lst)
+{
+	t_mob	*current;
+
+	while (lst)
+	{
+		current = lst;
+		lst = lst->next;
+		free(current);
+	}
+}
 
 void	free_map(t_data *data, int height)
 {

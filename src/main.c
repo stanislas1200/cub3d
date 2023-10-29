@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
+
 void	set_event(t_game *game);
 void	stop_sound(void);
 
