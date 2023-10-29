@@ -6,7 +6,7 @@
 /*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 13:32:49 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/29 18:21:06 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/29 18:50:23 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,19 @@ void	check_end(t_game *game)
 	game->mlx_win, game->sprites.loss, 0, 0);
 }
 
+void	player_bar(t_game *game)
+{
+	int	i;
+
+	i = -1;
+	while (++i <= game->player.max_hp)
+	{
+		setup_img(game->sprites.red_b, game, (int[]){WIDTH - WIDTH/4 + i * 32, HEIGHT - 128, 128 , 128}, 0.5);
+		if (i <= game->player.hp)
+			setup_img(game->sprites.green_b, game, (int[]){WIDTH - WIDTH/4 + i * 32, HEIGHT - 128, 128 , 128}, 0.5);
+	}
+}
+
 int	update_frame(t_game *game)
 {
 	if (game->status)
@@ -97,9 +110,7 @@ int	update_frame(t_game *game)
 	update_player(game);
 	draw_rays(game);
 	update_mob(game);
-	game->data->i = -1;
-	while (++game->data->i <= game->player.hp)
-		setup_img(game->sprites.heal1[0], game, (int[]){WIDTH - WIDTH/4 + game->data->i * 32, HEIGHT - 128, 128 , 128}, 0.5);
+	player_bar(game);
 	mlx_put_image_to_window(game->mlx_ptr, \
 	game->mlx_win, game->img.image, 0, 0);
 	game->data->time++;

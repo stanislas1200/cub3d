@@ -6,7 +6,7 @@
 /*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 16:11:38 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/29 18:22:33 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/29 18:36:57 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ void	hud_out_img(t_game *game)
 	game->sprites.heal2[1] = put_img(game, "./Sprites/heal_bar/heall21.xpm");
 	game->sprites.win = put_img(game, "./Sprites/screen/victory_c.xpm");
 	game->sprites.loss = put_img(game, "./Sprites/screen/game_over_c.xpm");
+	game->sprites.red_b = put_img(game, "./Sprites/heal_bar/red_bar.xpm");
+	game->sprites.green_b = put_img(game, "./Sprites/heal_bar/green_bar.xpm");
 }
 
 void	mob_put_img(t_game *game)

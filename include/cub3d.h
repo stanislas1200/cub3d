@@ -126,6 +126,8 @@ typedef struct sprites {
 	t_img	*heal2[2];
 	t_img	*win;
 	t_img	*loss;
+	t_img	*red_b;
+	t_img	*green_b;
 }				t_sprites;
 
 typedef struct wall_drawing {

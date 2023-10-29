@@ -6,7 +6,7 @@
 /*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 15:19:32 by dspilleb          #+#    #+#             */
-/*   Updated: 2023/10/29 16:37:45 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/29 18:47:42 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,6 +144,16 @@ int	sprites_addr(t_game *game)
 		return (destroy_sprites(game), 1);
 	if (init_addr_array(game->sprites.heal2, 2))
 		return (destroy_sprites(game), 1);
+	// if (init_addr_array(&game->sprites.red_b, 1))
+	// 	return (destroy_sprites(game), 1);
+	// if (init_addr_array(&game->sprites.green_b, 1))
+	// 	return (destroy_sprites(game), 1);
+	game->sprites.red_b->addr = mlx_get_data_addr(game->sprites.red_b, \
+&game->sprites.red_b->bits_per_pixel, &game->sprites.red_b->line_length, \
+&game->sprites.red_b->endian);
+	game->sprites.green_b->addr = mlx_get_data_addr(game->sprites.green_b, \
+&game->sprites.green_b->bits_per_pixel, &game->sprites.green_b->line_length, \
+&game->sprites.green_b->endian);
 	if (!game->crosshair || !game->sprites.gun[0] || \
 	!game->sprites.gun[1] || !game->sprites.gun[2] || !game->sprites.gun[3] \
 	|| !game->sprites.win)
