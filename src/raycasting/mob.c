@@ -6,7 +6,7 @@
 /*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 15:09:09 by dspilleb          #+#    #+#             */
-/*   Updated: 2023/10/29 18:58:50 by dspilleb         ###   ########.fr       */
+/*   Updated: 2023/10/29 19:17:19 by dspilleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,9 +76,9 @@ void	draw_monster(t_game *game)
 	angle = acos((b * b + c * c - a * a) / (2 * b * c));
 	angle *= 180 / PI;
 	if (fov_side(game) >= 0)
-		angle = (FOV / 2) - angle;
-	else
 		angle = (FOV / 2) + angle;
+	else
+		angle = (FOV / 2) - angle;
 	init_mob_drawing(game, &d, c, angle * (WIDTH / FOV));
 	render_monster(game, &d, angle * (WIDTH / FOV));
 }
