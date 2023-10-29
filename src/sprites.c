@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sprites.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 15:19:32 by dspilleb          #+#    #+#             */
-/*   Updated: 2023/10/29 16:37:45 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/29 18:32:29 by dspilleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,55 +116,4 @@ void	mob_put_img3(t_game *game)
 	game->sprites.egg_e[1] = put_img(game, "./Sprites/mobs/egg/egg3.xpm");
 	game->sprites.egg_e[2] = put_img(game, "./Sprites/mobs/egg/egg4.xpm");
 	game->sprites.egg_e[3] = put_img(game, "./Sprites/mobs/egg/egg5.xpm");
-}
-
-int	sprites_addr(t_game *game)
-{
-	if (init_addr_array(game->sprites.abutor_w, 4))
-		return (destroy_sprites(game), 1);
-	if (init_addr_array(game->sprites.egg_e, 4))
-		return (destroy_sprites(game), 1);
-	if (init_addr_array(game->sprites.egg, 4))
-		return (destroy_sprites(game), 1);
-	if (init_addr_array(game->sprites.chubb_w, 4))
-		return (destroy_sprites(game), 1);
-	if (init_addr_array(game->sprites.abutor_a, 15))
-		return (destroy_sprites(game), 1);
-	if (init_addr_array(game->sprites.abutor_s, 15))
-		return (destroy_sprites(game), 1);
-	if (init_addr_array(game->sprites.wall, 4))
-		return (destroy_sprites(game), 1);
-	if (init_addr_array(game->sprites.wallI, 4))
-		return (destroy_sprites(game), 1);
-	if (init_addr_array(game->sprites.wallM, 4))
-		return (destroy_sprites(game), 1);
-	if (init_addr_array(game->sprites.heal0, 2))
-		return (destroy_sprites(game), 1);
-	if (init_addr_array(game->sprites.heal1, 2))
-		return (destroy_sprites(game), 1);
-	if (init_addr_array(game->sprites.heal2, 2))
-		return (destroy_sprites(game), 1);
-	if (!game->crosshair || !game->sprites.gun[0] || \
-	!game->sprites.gun[1] || !game->sprites.gun[2] || !game->sprites.gun[3] \
-	|| !game->sprites.win)
-		return (1);
-	return (0);
-}
-
-int	init_addr_array(t_img **arr, int size)
-{
-	int	i;
-
-	i = -1;
-	while (++i < size)
-	{
-		if (!arr[i])
-			return (1);
-		arr[i]->addr = mlx_get_data_addr(arr[i], \
-&arr[i]->bits_per_pixel, &arr[i]->line_length, \
-&arr[i]->endian);
-		if (!arr[i]->addr)
-			return (1);
-	}
-	return (0);
 }

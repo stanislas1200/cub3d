@@ -35,6 +35,7 @@ SRCS = src/main.c\
 		src/minimap2.c\
 		src/game_logic.c\
 		src/sprites.c\
+		src/sprites2.c\
 			src/raycasting/raycasting.c\
 			src/raycasting/rays.c\
 			src/raycasting/mob.c\
