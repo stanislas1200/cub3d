@@ -29,9 +29,9 @@ void	movement(t_game *g)
 		can_move(g, g->player.px + g->player.pdy * g->player.speed / 5, \
 		g->player.py - g->player.pdx * g->player.speed / 5, 90);
 	if (g->keys[2])
-		g->player.pa -= 5.0 * g->player.speed / 2;
+		g->player.pa -= 10.0 * g->player.speed / 2;
 	if (g->keys[3])
-		g->player.pa += 5.0 * g->player.speed / 2;
+		g->player.pa += 10.0 * g->player.speed / 2;
 	g->player.pa = fix_ang(g->player.pa);
 	g->player.pdx = cos(deg_to_rad(g->player.pa)) * 5.0;
 	g->player.pdy = -sin(deg_to_rad(g->player.pa)) * 5.0;
