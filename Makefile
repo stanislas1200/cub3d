@@ -52,6 +52,7 @@ SRCS_BONUS = src/bonus/main_bonus.c\
 		src/bonus/game_logic_bonus.c\
 		src/bonus/sprites_bonus.c\
 		src/bonus/sprites2_bonus.c\
+		src/bonus/sprites3_bonus.c\
 			src/bonus/raycasting/raycasting_bonus.c\
 			src/bonus/raycasting/rays_bonus.c\
 			src/bonus/raycasting/mob_bonus.c\

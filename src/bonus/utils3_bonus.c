@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils3_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 16:05:40 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/30 11:26:46 by dspilleb         ###   ########.fr       */
+/*   Updated: 2023/10/30 12:45:52 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,14 @@ void	put_img(t_game *data, t_img **i, char *path)
 {
 	int	width;
 	int	height;
+
 	*i = mlx_xpm_file_to_image(data->mlx_ptr, \
 				path, &width, &height);
-	(**i).width = width;
-	(**i).height = height;
+	if (*i)
+	{
+		(**i).width = width;
+		(**i).height = height;
+	}
 }
 
 unsigned int	get_color(t_img *img, int x, int y)
