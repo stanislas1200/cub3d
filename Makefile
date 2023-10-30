@@ -62,7 +62,7 @@ SRCS_BONUS = src/bonus/main_bonus.c\
 INCL = include/cub3d.h
 INCL_BONUS = include/cub3d_bonus.h
 
-NAME =  cub3d
+NAME =  cub3D
 
 GCC = gcc -Wall -Wextra -Werror -pthread -finline-functions -fvectorize -fslp-vectorize -ffast-math -falign-functions -funroll-loops -fstrict-aliasing -fomit-frame-pointer -flto -Ofast -O1 -O2 -Os -O3
 
