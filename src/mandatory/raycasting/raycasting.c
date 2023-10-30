@@ -50,7 +50,7 @@ void	init_drawing(t_game *game, t_draw *d, t_ray *ray, double angle)
 		d->tex_x = ray->ry - (((int)ray->ry >> 6) << 6);
 	if ((ray->side == 0 && ray->ra > 180) || \
 	(ray->side == 1 && (ray->ra > 90 && ray->ra < 270)))
-		d->tex_x = 64 - d->tex_x;
+		d->tex_x = (64 - 1) - d->tex_x;
 	d->tex = texture(ray->side, ray->ra);
 	d->line_o = (HEIGHT / 2) - ((int)d->line_h >> 1);
 }
@@ -68,8 +68,11 @@ void	ray_cast(t_game *game, double angle, int s_width)
 		ray = &hray;
 	else
 		ray = &vray;
-	init_drawing(game, &d, ray, angle);
-	draw(game, ray, &d, s_width);
+	if (ray->hit == 1)
+	{
+		init_drawing(game, &d, ray, angle);
+		draw(game, ray, &d, s_width);
+	}
 }
 
 int	texture(int side, double ra)

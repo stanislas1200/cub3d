@@ -36,7 +36,8 @@ void	render_wall(t_game *game, t_draw *d, double x, t_ray *ray)
 			texy = 0;
 		color = get_color(game->sprites.wall[(int)d->tex], \
 		(int)d->tex_x, (int)texy);
-		my_mlx_pixel_put(&game->img, x, start, color);
+		if (x >= 0 && x < WIDTH && start > 0)
+			my_mlx_pixel_put(&game->img, x, start, color);
 		start++;
 	}
 }
