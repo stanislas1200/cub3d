@@ -6,11 +6,14 @@
 /*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 15:19:32 by dspilleb          #+#    #+#             */
-/*   Updated: 2023/10/30 10:51:25 by dspilleb         ###   ########.fr       */
+/*   Updated: 2023/10/30 17:44:52 by dspilleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d_bonus.h"
+
+void	destroy_sprites3(t_game *game);
+void	set_sprites_null2(t_game *game);
 
 void	destroy_sprites(t_game *game)
 {
@@ -43,8 +46,6 @@ void	destroy_sprites2(t_game *game)
 {
 	int	i;
 
-	if (game->crosshair)
-		mlx_destroy_image(game->mlx_ptr, game->crosshair);
 	i = -1;
 	while (++i <= 14)
 	{
@@ -53,6 +54,7 @@ void	destroy_sprites2(t_game *game)
 		if (game->sprites.abutor_s[i])
 			mlx_destroy_image(game->mlx_ptr, game->sprites.abutor_s[i]);
 	}
+	destroy_sprites3(game);
 }
 
 void	set_sprites_null(t_game *game)
@@ -77,9 +79,7 @@ void	set_sprites_null(t_game *game)
 		game->sprites.abutor_a[i] = NULL;
 		game->sprites.abutor_s[i] = NULL;
 	}
-	game->crosshair = NULL;
-	game->mob = NULL;
-	game->sprites.win = NULL;
+	set_sprites_null2(game);
 }
 
 void	mob_put_img2(t_game *g)
