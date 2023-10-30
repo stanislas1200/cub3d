@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   abutor_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 17:38:49 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/30 14:35:01 by dspilleb         ###   ########.fr       */
+/*   Updated: 2023/10/30 18:16:00 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,20 +79,22 @@ void	abutor_attack(t_game *game, t_mob *this)
 void	boss_bar(t_game *g, t_mob *this)
 {
 	int	i;
+	int	bar_w;
 
 	i = 0;
+	bar_w = this->hp * 32;
 	while (++i <= this->hp && \
 	distance(g->player.px, g->player.py, this->x, this->y) < SQUARE * 4)
 	{
 		if (i == 1)
 			setup_img(g->sprites.heal0[this->frame / 2 % 2], \
-			g, (int []){128 + i * 64, 0, 128, 128}, 1);
+			g, (int []){WIDTH/2 - bar_w/2 + ((i - 1)) * 32 - 128, 0}, 1);
 		else if (i == this->max_hp)
 			setup_img(g->sprites.heal2[this->frame / 2 % 2], \
-			g, (int []){128 + (i + 2) * 64, 0, 128, 128}, 1);
+			g, (int []){WIDTH/2 - bar_w/2 + ((i - 1)) * 32 + 64, 0}, 1);
 		else
 			setup_img(g->sprites.heal1[this->frame / 2 % 2], \
-			g, (int []){128 + (i + 1) * 64, 0, 128, 128}, 1);
+			g, (int []){WIDTH/2 - bar_w/2 + ((i - 1)) * 32 - 32, 0}, 1);
 	}
 }
 
@@ -117,7 +119,7 @@ void	execute_abutor(t_game *g, t_mob *this)
 		{
 			this->frame = 0;
 			this->cd = -1;
-			this->attack_type = rand() % 2;
+			this->attack_type = rand() % 3;
 		}
 		this->state = ATTACK;
 	}

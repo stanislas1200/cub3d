@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   monster_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 17:38:26 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/30 14:33:19 by dspilleb         ###   ########.fr       */
+/*   Updated: 2023/10/30 17:52:54 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	set_stats(t_mob *this, int type)
 	}
 	else if (type == ABUTOR)
 	{
-		this->max_hp = 20;
+		this->max_hp = 30;
 		this->cd = 10;
 		this->speed = 13;
 	}

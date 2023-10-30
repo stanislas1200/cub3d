@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game_logic_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 13:32:49 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/30 14:35:04 by dspilleb         ###   ########.fr       */
+/*   Updated: 2023/10/30 18:14:30 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,8 @@ void	player_bar(t_game *game)
 			setup_img(game->sprites.green_b, game, \
 			(int []){WIDTH - WIDTH / 4 + i * 32, HEIGHT - 128}, 0.5);
 	}
+	if (game->player.hp < game->player.max_hp && game->data->time % 200 == 0)
+		game->player.hp++;
 }
 
 int	update_frame(t_game *game)
