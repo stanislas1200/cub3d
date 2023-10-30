@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   abutor_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 17:38:49 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/30 10:28:15 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/30 14:35:01 by dspilleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,10 @@ void	abutor_sp(t_game *game, t_mob *this)
 {
 	game->mob = game->sprites.abutor_s[this->frame / 2 % 15];
 	if (this->frame % 3 == 0)
-		play_sound("data/sound/powering.wav", game);
+		play_sound("data/sound/powering.wav");
 	if (this->frame / 2 % 15 == 14)
 	{
-		play_sound("data/sound/hit.mp3", game);
+		play_sound("data/sound/hit.mp3");
 		game->player.trip = 1;
 		game->player.trip_cd = 50;
 		game->player.hp -= 3;
@@ -60,10 +60,10 @@ void	abutor_attack(t_game *game, t_mob *this)
 		{
 			game->mob = game->sprites.abutor_a[this->frame / 2 % 15];
 			if (this->frame / 2 % 15 == 4)
-				play_sound("data/sound/Ascream.wav", game);
+				play_sound("data/sound/Ascream.wav");
 			if (this->frame / 2 % 15 == 14)
 			{
-				play_sound("data/sound/hit.mp3", game);
+				play_sound("data/sound/hit.mp3");
 				game->player.hurt = 1;
 				game->player.hurt_cd = 10;
 				game->player.hp--;
@@ -102,7 +102,7 @@ void	execute_abutor(t_game *g, t_mob *this)
 	g->mob = g->sprites.abutor_w[this->frame / 4 % 2];
 	if (this->hp <= 0 || this->state == DEAD)
 		return (g->status = 1, this->state = DEAD, \
-		play_sound("data/sound/dying.mp3", g));
+		play_sound("data/sound/dying.mp3"));
 	if (this->state == FOLLOW)
 		mob_track(g, this);
 	else if (this->state == IDLE && \

@@ -6,7 +6,7 @@
 /*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 16:05:40 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/30 12:55:18 by dspilleb         ###   ########.fr       */
+/*   Updated: 2023/10/30 14:18:47 by dspilleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	put_img(t_game *data, t_img **i, char *path)
 
 	*i = mlx_xpm_file_to_image(data->mlx_ptr, \
 				path, &width, &height);
-	if (width != 64 || height != 64 && *i)
+	if ((width != 64 || height != 64) && *i)
 	{
 		mlx_destroy_image(data->mlx_ptr, *i);
 		*i = NULL;

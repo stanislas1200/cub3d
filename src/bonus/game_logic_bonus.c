@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game_logic_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 13:32:49 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/30 14:07:01 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/30 14:35:04 by dspilleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	update_player(t_game *game)
 {
 	if (game->player.hp <= 0)
 	{
-		play_sound("data/sound/game_over.mp3", game);
+		play_sound("data/sound/game_over.mp3");
 		game->status = 2;
 	}
 	if (game->player.trip_cd < 1)
@@ -42,7 +42,7 @@ void	update_mob(t_game *game)
 		game->monster = *current;
 		if (game->data->fired && game->monster.state != DEAD && in_view(game))
 		{
-			play_sound("data/sound/impact.mp3", game);
+			play_sound("data/sound/impact.mp3");
 			current->hp--;
 			game->data->fired = 0;
 		}

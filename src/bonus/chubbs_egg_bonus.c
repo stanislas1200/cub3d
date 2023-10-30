@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   chubbs_egg_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 13:55:57 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/30 10:28:15 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/30 14:35:03 by dspilleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	execute_egg(t_game *game, t_mob *this)
 	else if (this->state != DYING && \
 	distance(this->x, this->y, game->player.px, game->player.py) < 150)
 	{
-		play_sound("data/sound/egg.mp3", game);
+		play_sound("data/sound/egg.mp3");
 		this->frame = 0;
 		this->state = DYING;
 	}
@@ -68,7 +68,7 @@ void	chubbs_attack(t_game *game, t_mob *this)
 {
 	if (this->cd < 1)
 	{
-		play_sound("data/sound/hit.mp3", game);
+		play_sound("data/sound/hit.mp3");
 		game->player.hurt = 1;
 		game->player.hurt_cd = 10;
 		game->player.hp--;
@@ -83,7 +83,7 @@ void	execute_chubbs(t_game *game, t_mob *this)
 	if (this->hp <= 0 || this->state == DEAD)
 	{
 		this->state = DEAD;
-		play_sound("data/sound/chubbs_dead.mp3", game);
+		play_sound("data/sound/chubbs_dead.mp3");
 		return ;
 	}
 	if (this->state == FOLLOW)
@@ -99,7 +99,7 @@ void	execute_chubbs(t_game *game, t_mob *this)
 		this->state = ATTACK;
 	if (distance(this->x, this->y, game->player.px, game->player.py) < 1000 && \
 	rand() % 300 <= 0)
-		play_sound("data/sound/scream.mp3", game);
+		play_sound("data/sound/scream.mp3");
 	if (this->cd > 0)
 		this->cd--;
 }

@@ -73,7 +73,7 @@ void	drawstripes(t_game *game, int x1, int y1, int y2)
 	}
 }
 
-void	render_wall(t_game *game, t_draw *d, double x, t_ray *ray)
+void	render_wall(t_game *game, t_draw *d, double x)
 {
 	unsigned int	color;
 	double			texy;

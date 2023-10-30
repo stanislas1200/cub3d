@@ -16,18 +16,18 @@ void	movement(t_game *g)
 {
 	if (g->keys[0])
 		can_move(g, g->player.px + g->player.pdx * g->player.speed, \
-		g->player.py + g->player.pdy * g->player.speed, 0);
+		g->player.py + g->player.pdy * g->player.speed);
 	if (g->keys[1])
 	{
 		can_move(g, g->player.px - g->player.pdx * g->player.speed / 2, \
-		g->player.py - g->player.pdy * g->player.speed / 2, 180);
+		g->player.py - g->player.pdy * g->player.speed / 2);
 	}
 	if (g->keys[5])
 		can_move(g, g->player.px - g->player.pdy * g->player.speed / 5, \
-		g->player.py + g->player.pdx * g->player.speed / 5, -90);
+		g->player.py + g->player.pdx * g->player.speed / 5);
 	if (g->keys[4])
 		can_move(g, g->player.px + g->player.pdy * g->player.speed / 5, \
-		g->player.py - g->player.pdx * g->player.speed / 5, 90);
+		g->player.py - g->player.pdx * g->player.speed / 5);
 	if (g->keys[2])
 		g->player.pa += 10.0 * g->player.speed / 2;
 	if (g->keys[3])
@@ -37,7 +37,7 @@ void	movement(t_game *g)
 	g->player.pdy = -sin(deg_to_rad(g->player.pa)) * 5.0;
 }
 
-void	can_move(t_game *game, double fx, double fy, int side)
+void	can_move(t_game *game, double fx, double fy)
 {
 	game->player.px = fx;
 	game->player.py = fy;

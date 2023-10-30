@@ -45,15 +45,15 @@ void	make_door(t_data *data)
 			if (i > 2 && i < data->height - 2 && j > 2 \
 			&& j < ft_strlen(data->map[i]) - 2 && data->map[i][j] == 'X')
 			{
-				if ((j < ft_strlen(data->map[i - 1]) \
+				if (((j < ft_strlen(data->map[i - 1]) \
 				&& data->map[i - 1][j] == 'F' \
 				&& data->map[i][j + 1] == 'X' \
 				&& j < ft_strlen(data->map[i + 1]) \
 				&& data->map[i + 1][j] == 'F' \
 				&& data->map[i][j - 1] == 'X') || \
-				data->map[i][j - 1] == 'F' && data->map[i][j + 1] == 'F' \
+				(data->map[i][j - 1] == 'F' && data->map[i][j + 1] == 'F' \
 				&& data->map[i - 1][j] == 'X' \
-				&& data->map[i + 1][j] == 'X' && rand() * 10 <= 1)
+				&& data->map[i + 1][j] == 'X')) && rand() * 10 <= 1)
 					data->map[i][j] = 'D';
 			}
 		}

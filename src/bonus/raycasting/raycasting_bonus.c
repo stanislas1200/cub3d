@@ -12,8 +12,8 @@
 
 #include "../../../include/cub3d_bonus.h"
 
-void	render_wall(t_game *game, t_draw *d, double x, t_ray *ray);
-void	draw(t_game *game, t_ray *ray, t_draw *d, int s_width);
+void	render_wall(t_game *game, t_draw *d, double x);
+void	draw(t_game *game, t_draw *d, int s_width);
 int		create_trgb(int t, int r, int g, int b);
 t_img	*get_wall(t_game *game, t_ray *ray);
 
@@ -72,16 +72,16 @@ void	ray_cast(t_game *game, double angle, int s_width)
 	{
 		game->depths[s_width] = ray->dist;
 		init_drawing(game, &d, ray, angle);
-		draw(game, ray, &d, s_width);
+		draw(game, &d, s_width);
 	}
 }
 
-void	draw(t_game *game, t_ray *ray, t_draw *d, int s_width)
+void	draw(t_game *game, t_draw *d, int s_width)
 {
 	game->color = create_trgb(0, game->data->ceiling[0], \
 	game->data->ceiling[1], game->data->ceiling[2]);
 	drawstripes(game, s_width, 0, d->line_o);
-	render_wall(game, d, (s_width), ray);
+	render_wall(game, d, (s_width));
 	game->color = create_trgb(0, game->data->floor[0], game->data->floor[1], \
 	game->data->floor[2]);
 	drawstripes(game, s_width, d->line_h + d->line_o, HEIGHT);

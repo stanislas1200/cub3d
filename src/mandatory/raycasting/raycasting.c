@@ -12,8 +12,8 @@
 
 #include "../../../include/cub3d.h"
 
-void	render_wall(t_game *game, t_draw *d, double x, t_ray *ray);
-void	draw(t_game *game, t_ray *ray, t_draw *d, int s_width);
+void	render_wall(t_game *game, t_draw *d, double x);
+void	draw(t_game *game, t_draw *d, int s_width);
 int		texture(int side, double ra);
 int		create_trgb(int t, int r, int g, int b);
 
@@ -21,7 +21,6 @@ void	draw_rays(t_game *game)
 {
 	int		i;
 	double	fov;
-	double	angle;
 
 	fov = game->player.pa - (FOV / 2);
 	i = WIDTH;
@@ -71,7 +70,7 @@ void	ray_cast(t_game *game, double angle, int s_width)
 	if (ray->hit == 1)
 	{
 		init_drawing(game, &d, ray, angle);
-		draw(game, ray, &d, s_width);
+		draw(game, &d, s_width);
 	}
 }
 
@@ -83,17 +82,17 @@ int	texture(int side, double ra)
 		return (2);
 	else if (side == 1 && ra > 90 && ra < 270)
 		return (1);
-	else if (side == 1 && ra <= 90 || ra >= 270)
+	else if (side == 1 && (ra <= 90 || ra >= 270))
 		return (3);
 	return (0);
 }
 
-void	draw(t_game *game, t_ray *ray, t_draw *d, int s_width)
+void	draw(t_game *game, t_draw *d, int s_width)
 {
 	game->color = create_trgb(0, game->data->ceiling[0], \
 	game->data->ceiling[1], game->data->ceiling[2]);
 	drawstripes(game, s_width, 0, d->line_o);
-	render_wall(game, d, (s_width), ray);
+	render_wall(game, d, s_width);
 	game->color = create_trgb(0, game->data->floor[0], game->data->floor[1], \
 	game->data->floor[2]);
 	drawstripes(game, s_width, d->line_h + d->line_o, HEIGHT);

@@ -188,7 +188,7 @@ int		update_frame(t_game *game);
 
 //movement
 void	movement(t_game *game);
-void	can_move(t_game *game, double fx, double fy, int side);
+void	can_move(t_game *game, double fx, double fy);
 
 //utils 2
 void	my_mlx_pixel_put(t_img *img, int x, int y, int color);

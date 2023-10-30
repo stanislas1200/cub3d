@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Astar_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 15:14:10 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/30 10:28:30 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/30 14:39:33 by dspilleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	check_neighbor(t_data *data, t_astar *a, t_anode *neighbor)
 			new_y = a->current->y + data->j;
 			if (is_legal(data, new_x, new_y))
 			{
-				neighbor = new_node(a, new_x, new_y);
+				neighbor = new_node(new_x, new_y);
 				if (!neighbor)
 					return (0);
 				if (!do_neighbor(a, neighbor))
@@ -86,6 +86,7 @@ void	find_path(t_data *data, t_astar *a)
 	int		winner;
 	t_anode	*neighbor;
 
+	neighbor = NULL;
 	while (a->open_count > 0 && a->open_count < 5000)
 	{
 		winner = get_lowest_f_node(a);
@@ -103,9 +104,9 @@ void	find_path(t_data *data, t_astar *a)
 
 void	astar(t_data *data, t_astar *a, int start[], int end[])
 {
-	init_astar(data, a);
-	a->start = new_node(a, start[0], start[1]);
-	a->end = new_node(a, end[0], end[1]);
+	init_astar(a);
+	a->start = new_node(start[0], start[1]);
+	a->end = new_node(end[0], end[1]);
 	if (!a->start || !a->end)
 		return (free(a->start), free(a->end));
 	a->open[a->open_count++] = a->start;

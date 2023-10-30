@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   monster_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 17:38:26 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/30 10:28:15 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/30 14:33:19 by dspilleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	generate_monster(t_data *data, int type)
 	t_mob	*current;
 	t_mob	*new;
 
-	if (data->i > data->height / 3 && rand() % 100 < 5 || type == ABUTOR)
+	if ((data->i > data->height / 3 && rand() % 100 < 5) || type == ABUTOR)
 	{
 		new = NULL;
 		current = NULL;

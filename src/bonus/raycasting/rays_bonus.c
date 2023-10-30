@@ -113,7 +113,7 @@ void	check_cell(t_game *game, t_ray *ray, char *cell)
 	if (*cell == '0' && (ray->dist * \
 cos(deg_to_rad(fix_ang(game->player.pa - ray->ra)))) > 175.0)
 	{
-		play_sound("data/sound/door.mp3", game);
+		play_sound("data/sound/door.mp3");
 		*cell = 'D';
 	}
 	if (*cell == 'X' || *cell == 'D')
@@ -123,7 +123,7 @@ cos(deg_to_rad(fix_ang(game->player.pa - ray->ra)))) > 175.0)
 cos(deg_to_rad(fix_ang(game->player.pa - ray->ra)))) <= 75.0)
 		{
 			*cell = '0';
-			play_sound("data/sound/door.mp3", game);
+			play_sound("data/sound/door.mp3");
 		}
 	}
 	else

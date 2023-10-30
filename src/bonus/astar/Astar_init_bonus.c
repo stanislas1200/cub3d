@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Astar_init_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 11:52:26 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/30 10:28:30 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/30 14:32:42 by dspilleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_anode	*copy_node(t_anode *node)
 	return (new_node);
 }
 
-t_anode	*new_node(t_astar *a, int x, int y)
+t_anode	*new_node(int x, int y)
 {
 	t_anode	*node;
 
@@ -60,7 +60,7 @@ void	setup_astar_wall(t_data *d, t_astar *a)
 			if (d->i >= 0 && d->i < d->height && d->j >= 0 && \
 			d->j < ft_strlen(d->map[d->i]) && d->map[d->i][d->j] == 'X')
 			{
-				a->nodes[d->i][d->j] = new_node(a, d->i, d->j);
+				a->nodes[d->i][d->j] = new_node(d->i, d->j);
 				if (!a->nodes[d->i][d->j])
 					return (e(d, "Malloc error\n" RESET, NULL));
 			}
@@ -88,7 +88,7 @@ void	setup_astar(t_data *d, t_astar *a)
 	setup_astar_wall(d, a);
 }
 
-void	init_astar(t_data *data, t_astar *a)
+void	init_astar(t_astar *a)
 {
 	int	i;
 	int	j;

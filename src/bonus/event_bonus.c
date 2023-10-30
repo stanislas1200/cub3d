@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   event_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 13:17:49 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/30 13:51:36 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/30 14:35:03 by dspilleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	*embient_sound(void *nop);
 
 int	event_hook(int x, int y, t_game *game)
 {
+	(void)y;
 	game->player.pa -= (x - game->old_x);
 	game->player.pa = fix_ang(game->player.pa);
 	game->player.pdx = cos(deg_to_rad(game->player.pa)) * 5.0;
@@ -26,10 +27,13 @@ int	event_hook(int x, int y, t_game *game)
 
 int	gun_fire(int button, int x, int y, t_game *game)
 {
+	(void)button;
+	(void)x;
+	(void)y;
 	if (game->data->g_time > 1)
 		return (0);
 	game->data->g_time = 1;
-	play_sound("data/sound/gun.wav", game);
+	play_sound("data/sound/gun.wav");
 	game->data->fired = 1;
 	return (0);
 }

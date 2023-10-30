@@ -324,17 +324,17 @@ int				ft_strncmp(const char *s1, const char *s2, size_t n);
 void			free_all(t_data *data);
 void			get_wall_texture_path(char **dest, \
 				char *str, char *str2, t_data *d);
-void			play_sound(char *sound, t_game *game);
+void			play_sound(char *sound);
 void			free_nodes(t_data *data, t_astar *a);
 void			remove_arr(t_anode *arr[], t_anode *node, int size);
 void			mob_move(t_game *game, t_mob *this);
 
 //A*
-void			init_astar(t_data *data, t_astar *a);
+void			init_astar(t_astar *a);
 void			setup_astar(t_data *data, t_astar *a);
 void			astar(t_data *data, t_astar *a, int start[], int end[]);
 void			free_list(t_anode *arr[], int size);
-t_anode			*new_node(t_astar *a, int x, int y);
+t_anode			*new_node(int x, int y);
 t_anode			*copy_node(t_anode *node);
 
 //Monster
