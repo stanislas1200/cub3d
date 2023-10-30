@@ -80,7 +80,7 @@ void	check_map(t_data *d)
 				|| !d->map[i + 1] || j >= ft_strlen(d->map[i + 1]) \
 				|| d->map[i + 1][j] == ' '
 				)
-					return (e(d, "Map error : ", "map not close\n"));
+					return (e(d, "Map error : ", "map not closed\n"));
 			}
 		}
 	}
