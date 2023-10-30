@@ -6,7 +6,7 @@
 /*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 17:38:49 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/30 18:16:00 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/30 18:49:23 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,13 +88,13 @@ void	boss_bar(t_game *g, t_mob *this)
 	{
 		if (i == 1)
 			setup_img(g->sprites.heal0[this->frame / 2 % 2], \
-			g, (int []){WIDTH/2 - bar_w/2 + ((i - 1)) * 32 - 128, 0}, 1);
+			g, (int []){WIDTH / 2 - bar_w / 2 + ((i - 1)) * 32 - 128, 0}, 1);
 		else if (i == this->max_hp)
 			setup_img(g->sprites.heal2[this->frame / 2 % 2], \
-			g, (int []){WIDTH/2 - bar_w/2 + ((i - 1)) * 32 + 64, 0}, 1);
+			g, (int []){WIDTH / 2 - bar_w / 2 + ((i - 1)) * 32 + 64, 0}, 1);
 		else
 			setup_img(g->sprites.heal1[this->frame / 2 % 2], \
-			g, (int []){WIDTH/2 - bar_w/2 + ((i - 1)) * 32 - 32, 0}, 1);
+			g, (int []){WIDTH / 2 - bar_w / 2 + ((i - 1)) * 32 - 32, 0}, 1);
 	}
 }
 
