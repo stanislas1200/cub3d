@@ -6,7 +6,7 @@
 /*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 13:03:47 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/30 10:28:15 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/30 14:22:28 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	read_file(int fd, t_data *data)
 	{
 		read_bytes = read(fd, buff, 1);
 		if (read_bytes == -1)
-			return (e(data, strerror(errno), NULL));
+			return (e(data, strerror(errno), "\n"));
 		buff[read_bytes] = '\0';
 		tmp = data->all_line;
 		data->all_line = ft_strjoin(data->all_line, buff);

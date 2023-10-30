@@ -83,7 +83,7 @@ void	read_file(int fd, t_data *data)
 	{
 		read_bytes = read(fd, buff, 1);
 		if (read_bytes == -1)
-			return (e(data, strerror(errno), NULL));
+			return (e(data, strerror(errno), "\n"));
 		buff[read_bytes] = '\0';
 		tmp = data->all_line;
 		data->all_line = ft_strjoin(data->all_line, buff);
@@ -113,7 +113,7 @@ void	check_map(t_data *d)
 				|| !d->map[i + 1] || j >= ft_strlen(d->map[i + 1]) \
 				|| d->map[i + 1][j] == ' '
 				)
-					return (e(d, "Map error : ", "map not close"));
+					return (e(d, "Map error : ", "map not close\n"));
 			}
 		}
 	}
