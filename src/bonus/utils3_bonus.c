@@ -3,22 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   utils3_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 16:05:40 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/30 10:28:15 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/30 11:26:46 by dspilleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d_bonus.h"
 
-void	*put_img(t_game *data, char *path)
+void	put_img(t_game *data, t_img **i, char *path)
 {
-	int	img_width;
-	int	img_height;
-
-	return (mlx_xpm_file_to_image(data->mlx_ptr, \
-				path, &img_width, &img_height));
+	int	width;
+	int	height;
+	*i = mlx_xpm_file_to_image(data->mlx_ptr, \
+				path, &width, &height);
+	(**i).width = width;
+	(**i).height = height;
 }
 
 unsigned int	get_color(t_img *img, int x, int y)

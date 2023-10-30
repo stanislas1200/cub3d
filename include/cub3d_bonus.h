@@ -106,6 +106,8 @@ typedef struct s_img {
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
+	int		width;
+	int		height;
 }				t_img;
 
 typedef struct sprites {
@@ -131,6 +133,7 @@ typedef struct sprites {
 }				t_sprites;
 
 typedef struct wall_drawing {
+	t_img	*i;
 	double	line_h;
 	double	line_o;
 	double	ty_offset;
@@ -364,7 +367,7 @@ void			my_mlx_pixel_put(t_img *img, int x, int y, int color);
 double			distance(double x1, double y1, double x2, double y2);
 double			deg_to_rad(double a);
 double			fix_ang(double a);
-void			*put_img(t_game *data, char *path);
+void 			put_img(t_game *data, t_img **i, char *path);
 unsigned int	get_color(t_img *img, int x, int y);
 
 //end

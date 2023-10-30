@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mob_bonus.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 15:09:09 by dspilleb          #+#    #+#             */
-/*   Updated: 2023/10/30 10:28:30 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/30 12:21:43 by dspilleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,8 +102,8 @@ void	init_mob_drawing(t_game *game, t_mdraw *d, double dist, double screenx)
 	d->ty_offset = 0;
 	d->dist = dist;
 	d->line_h = ((SQUARE * HEIGHT) / dist);
-	d->stepy = (1104 / d->line_h);
-	d->stepx = (720 / d->line_h);
+	d->stepy = (game->mob->height / d->line_h);
+	d->stepx = (game->mob->width / d->line_h);
 	d->fog = d->dist / 400;
 	d->endx = screenx + d->line_h / 2;
 	d->startx = screenx - d->line_h / 2;

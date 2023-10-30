@@ -86,15 +86,7 @@ void	render_wall(t_game *game, t_draw *d, double x, t_ray *ray)
 	while (++start < (d->line_o + d->line_h) && start < HEIGHT)
 	{
 		texy += d->step;
-		color = get_color(game->sprites.wall
-			[(game->data->time / 10) % 4], (int)d->tex_x, (int)texy % 64);
-		if (ray->my > game->data->height / 3)
-			color = get_color(game->sprites.wall_i
-				[(game->data->time / 10) % 4], (int)d->tex_x, (int)texy % 64);
-		else if (ray->my <= game->data->height / 3 \
-		&& ray->my >= game->data->height / 3 - 1)
-			color = get_color(game->sprites.wall_m
-				[(game->data->time / 10) % 4], (int)d->tex_x, (int)texy % 64);
+		color = get_color(d->i, (int)d->tex_x, (int)texy % d->i->height);
 		color = darken_color(game, color, fog);
 		color = darken_color(game, color, in_circle(x, start));
 		if (x >= 0 && x < WIDTH && start >= 0)
@@ -114,7 +106,7 @@ void	render_monster(t_game *game, t_mdraw *d, double x)
 		while (d->startx >= 0 && y < (d->line_o + d->line_h) && y < HEIGHT)
 		{
 			color = get_color(game->mob, \
-			(int)d->tex_x % 720, (int)d->tex_y % 1104);
+			(int)d->tex_x % game->mob->width, (int)d->tex_y % game->mob->height);
 			if (color != 0xFF000000)
 			{
 				color = darken_color(game, color, d->fog);

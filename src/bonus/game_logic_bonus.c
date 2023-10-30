@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game_logic_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 13:32:49 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/30 10:28:15 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/30 12:35:52 by dspilleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,11 @@ void	update_mob(t_game *game)
 void	check_end(t_game *game)
 {
 	if (game->status == 1)
-		mlx_put_image_to_window(game->mlx_ptr, \
-	game->mlx_win, game->sprites.win, 0, 0);
+		setup_img (game->sprites.win, game, (int []){0, 0}, 1);
 	else if (game->status == 2)
-		mlx_put_image_to_window(game->mlx_ptr, \
-	game->mlx_win, game->sprites.loss, 0, 0);
+		setup_img (game->sprites.loss, game, (int []){0, 0}, 1);
+	mlx_put_image_to_window(game->mlx_ptr, \
+	game->mlx_win, game->img.image, 0, 0);
 }
 
 void	player_bar(t_game *game)
@@ -76,10 +76,10 @@ void	player_bar(t_game *game)
 	while (++i <= game->player.max_hp)
 	{
 		setup_img(game->sprites.red_b, game, \
-		(int []){WIDTH - WIDTH / 4 + i * 32, HEIGHT - 128, 128, 128}, 0.5);
+		(int []){WIDTH - WIDTH / 4 + i * 32, HEIGHT - 128}, 0.5);
 		if (i <= game->player.hp)
 			setup_img(game->sprites.green_b, game, \
-			(int []){WIDTH - WIDTH / 4 + i * 32, HEIGHT - 128, 128, 128}, 0.5);
+			(int []){WIDTH - WIDTH / 4 + i * 32, HEIGHT - 128}, 0.5);
 	}
 }
 
@@ -93,15 +93,13 @@ int	update_frame(t_game *game)
 	draw_rays(game);
 	update_mob(game);
 	player_bar(game);
+	setup_img(game->crosshair, game, (int []){(WIDTH / 2), (HEIGHT / 2) - SQUARE}, 1.5);
+	setup_img(game->sprites.gun[(game->data->g_time) % 4], game, (int []){(WIDTH / 2), HEIGHT - GUN_H}, 1);
 	mlx_put_image_to_window(game->mlx_ptr, \
 	game->mlx_win, game->img.image, 0, 0);
 	game->data->time++;
 	if (game->data->g_time > 4)
 		game->data->g_time = 0;
-	mlx_put_image_to_window(game->mlx_ptr, game->mlx_win, \
-	game->crosshair, (WIDTH / 2), (HEIGHT / 2) - SQUARE);
-	mlx_put_image_to_window(game->mlx_ptr, game->mlx_win, \
-	game->sprites.gun[(game->data->g_time) % 4], (WIDTH / 2), HEIGHT - GUN_H);
 	render_minimap(game);
 	if (game->data->g_time > 0) 
 		game->data->g_time++;

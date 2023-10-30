@@ -15,6 +15,7 @@
 void	render_wall(t_game *game, t_draw *d, double x, t_ray *ray);
 void	draw(t_game *game, t_ray *ray, t_draw *d, int s_width);
 int		create_trgb(int t, int r, int g, int b);
+t_img	*get_wall(t_game *game, t_ray *ray);;
 
 void	draw_rays(t_game *game)
 {
@@ -34,22 +35,23 @@ void	draw_rays(t_game *game)
 
 void	init_drawing(t_game *game, t_draw *d, t_ray *ray, double angle)
 {
+	d->i = get_wall(game, ray);
 	d->ty_offset = 0;
 	d->realdist = ray->dist;
 	ray->dist *= cos(deg_to_rad(fix_ang(game->player.pa - angle)));
 	d->line_h = (SQUARE * HEIGHT) / ray->dist;
-	d->step = (SQUARE / d->line_h);
+	d->step = ((d->i->height / 2) / d->line_h);
 	if (d->line_h > HEIGHT)
 	{
 		d->ty_offset = (d->line_h - HEIGHT) / 2.0;
 		d->line_h = HEIGHT;
 	}
 	if (ray->side == 0)
-		d->tex_x = (int)ray->rx % 256;
+		d->tex_x = (int)ray->rx % d->i->width;
 	else
-		d->tex_x = (int)ray->ry % 256;
+		d->tex_x = (int)ray->ry % d->i->width;
 	if ((ray->side == 0 && ray->ra < 180) || ray->side == 1)
-		d->tex_x = (256 - 1) - d->tex_x;
+		d->tex_x = (d->i->width - 1) - d->tex_x;
 	d->line_o = (HEIGHT / 2) - ((int)d->line_h >> 1);
 }
 
