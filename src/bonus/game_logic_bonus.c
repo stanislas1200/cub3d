@@ -6,7 +6,7 @@
 /*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 13:32:49 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/30 18:14:30 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/30 18:35:22 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,12 +102,12 @@ int	update_frame(t_game *game)
 	(game->crosshair->width * (1 + 0.7 * game->keys[6]))) / 2), \
 	((HEIGHT - game->crosshair->width * (1 + 0.7 * game->keys[6])) / 2) - \
 	SQUARE}, 1 + 0.7 * game->keys[6]);
-	setup_img(game->sprites.gun[(game->data->g_time) % 4], game, \
+	setup_img(game->sprites.gun[(int)fmin(game->data->g_time, 4) % 4], game, \
 	(int []){(WIDTH / 2), HEIGHT - GUN_H}, 1);
 	mlx_put_image_to_window(game->mlx_ptr, \
 	game->mlx_win, game->img.image, 0, 0);
 	game->data->time++;
-	if (game->data->g_time > 3)
+	if (game->data->g_time > 6)
 		game->data->g_time = 0;
 	render_minimap(game);
 	if (game->data->g_time > 0) 
