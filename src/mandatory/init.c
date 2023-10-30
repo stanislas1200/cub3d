@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 16:11:38 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/30 10:18:16 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/30 12:43:27 by dspilleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,10 @@ int	init_sprites(t_game *game)
 	i = -1;
 	while (++i <= 3)
 		game->sprites.wall[i] = NULL;
-	game->sprites.wall[NO] = put_img(game, game->data->no);
-	game->sprites.wall[SO] = put_img(game, game->data->so);
-	game->sprites.wall[WE] = put_img(game, game->data->we);
-	game->sprites.wall[EA] = put_img(game, game->data->ea);
+	put_img(game, &game->sprites.wall[NO], game->data->no);
+	put_img(game, &game->sprites.wall[SO], game->data->so);
+	put_img(game, &game->sprites.wall[WE], game->data->we);
+	put_img(game, &game->sprites.wall[EA], game->data->ea);
 	if (!game->sprites.wall[NO] || !game->sprites.wall[SO] \
 	|| !game->sprites.wall[WE] || !game->sprites.wall[EA])
 		return (destroy_sprites(game), 1);
