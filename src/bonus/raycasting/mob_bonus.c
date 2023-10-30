@@ -6,7 +6,7 @@
 /*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 15:09:09 by dspilleb          #+#    #+#             */
-/*   Updated: 2023/10/30 12:21:43 by dspilleb         ###   ########.fr       */
+/*   Updated: 2023/10/30 17:49:54 by dspilleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	check_bullet_wall(t_game *game, double angle, double dist)
 		ray = &hray;
 	else
 		ray = &vray;
-	return (dist < ray->dist);
+	return (dist < ray->dist && dist < 500);
 }
 
 void	draw_monster(t_game *game)
