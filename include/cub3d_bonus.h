@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
+/*   cub3d_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUB3D_H
-# define CUB3D_H
+#ifndef CUB3D_BONUS_H
+# define CUB3D_BONUS_H
 
 # include <stdio.h>
 # include <unistd.h>
@@ -367,7 +367,7 @@ void			my_mlx_pixel_put(t_img *img, int x, int y, int color);
 double			distance(double x1, double y1, double x2, double y2);
 double			deg_to_rad(double a);
 double			fix_ang(double a);
-void 			put_img(t_game *data, t_img **i, char *path);
+void			put_img(t_game *data, t_img **i, char *path);
 unsigned int	get_color(t_img *img, int x, int y);
 
 //end
