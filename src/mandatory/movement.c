@@ -39,19 +39,6 @@ void	movement(t_game *g)
 
 void	can_move(t_game *game, double fx, double fy, int side)
 {
-	t_ray	hray;
-	t_ray	vray;
-	t_ray	*ray;
-
-	init_ray(&hray, game, game->player.pa + side, 'H');
-	init_ray(&vray, game, game->player.pa + side, 'V');
-	if (hray.dist < vray.dist)
-		ray = &hray;
-	else
-		ray = &vray;
-	if (ray->dist > distance(game->player.px, game->player.py, fx, fy) + 10)
-	{
-		game->player.px = fx;
-		game->player.py = fy;
-	}
+	game->player.px = fx;
+	game->player.py = fy;
 }

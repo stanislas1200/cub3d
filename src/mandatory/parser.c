@@ -51,8 +51,8 @@ void	get_element(char *str, t_data *d)
 		!ft_strncmp(&str[d->i], "EA", 2))
 		{
 			get_wall_texture_path(&d->no, str, "NO", d);
-			get_wall_texture_path(&d->so, str, "SO", d);
-			get_wall_texture_path(&d->we, str, "WE", d);
+			get_wall_texture_path(&d->we, str, "SO", d);
+			get_wall_texture_path(&d->so, str, "WE", d);
 			get_wall_texture_path(&d->ea, str, "EA", d);
 		}
 		get_rgb(d->floor, 'F', str, d);
