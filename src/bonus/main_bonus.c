@@ -25,6 +25,7 @@ int	end_game(t_game *game)
 	if (pthread_join(game->t_id, NULL))
 		return (e(game->data, "thread join failed\n", NULL), 1);
 	free_all(game->data);
+	mlx_destroy_window(game->mlx_ptr, game->mlx_win);
 	return (exit(0), 0);
 }
 
