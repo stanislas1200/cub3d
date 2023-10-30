@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game_logic_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 13:32:49 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/30 12:35:52 by dspilleb         ###   ########.fr       */
+/*   Updated: 2023/10/30 13:07:37 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,8 +93,10 @@ int	update_frame(t_game *game)
 	draw_rays(game);
 	update_mob(game);
 	player_bar(game);
-	setup_img(game->crosshair, game, (int []){(WIDTH / 2), (HEIGHT / 2) - SQUARE}, 1.5);
-	setup_img(game->sprites.gun[(game->data->g_time) % 4], game, (int []){(WIDTH / 2), HEIGHT - GUN_H}, 1);
+	setup_img(game->crosshair, game, (int []){(WIDTH / 2), \
+	(HEIGHT / 2) - SQUARE}, 1.5);
+	setup_img(game->sprites.gun[(game->data->g_time) % 4], game, \
+	(int []){(WIDTH / 2), HEIGHT - GUN_H}, 1);
 	mlx_put_image_to_window(game->mlx_ptr, \
 	game->mlx_win, game->img.image, 0, 0);
 	game->data->time++;

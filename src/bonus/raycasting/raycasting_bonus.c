@@ -15,7 +15,7 @@
 void	render_wall(t_game *game, t_draw *d, double x, t_ray *ray);
 void	draw(t_game *game, t_ray *ray, t_draw *d, int s_width);
 int		create_trgb(int t, int r, int g, int b);
-t_img	*get_wall(t_game *game, t_ray *ray);;
+t_img	*get_wall(t_game *game, t_ray *ray);
 
 void	draw_rays(t_game *game)
 {

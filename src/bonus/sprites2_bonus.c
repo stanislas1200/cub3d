@@ -3,14 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   sprites2_bonus.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 18:31:45 by dspilleb          #+#    #+#             */
-/*   Updated: 2023/10/30 12:38:05 by dspilleb         ###   ########.fr       */
+/*   Updated: 2023/10/30 13:06:01 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d_bonus.h"
+
+int	sprites_addr2(t_game *game)
+{
+	if (init_addr_array((t_img *[]){game->crosshair}, 1) || \
+	init_addr_array(game->sprites.gun, 4) 
+	|| init_addr_array((t_img *[]){game->sprites.win, \
+	game->sprites.loss}, 2))
+		return (destroy_sprites(game), 1);
+	return (0);
+}
 
 int	sprites_addr(t_game *game)
 {
@@ -34,11 +44,8 @@ int	sprites_addr(t_game *game)
 	init_addr_array((t_img *[]){game->sprites.red_b, \
 	game->sprites.green_b}, 2))
 		return (destroy_sprites(game), 1);
-	if (init_addr_array((t_img *[]){game->crosshair}, 1) || \
-	init_addr_array(game->sprites.gun, 4) 
-	|| init_addr_array((t_img *[]){game->sprites.win, \
-	game->sprites.loss}, 2))
-		return (destroy_sprites(game), 1);
+	if (sprites_addr2(game))
+		return (1);
 	return (0);
 }
 
@@ -110,18 +117,4 @@ int	init_sprites(t_game *game)
 	mob_put_img(game);
 	hud_out_img(game);
 	return (sprites_addr(game));
-}
-
-void	hud_out_img(t_game *game)
-{
-	put_img(game, &game->sprites.heal0[0],  "./Sprites/heal_bar/heall00.xpm");
-	put_img(game, &game->sprites.heal1[0],  "./Sprites/heal_bar/heall10.xpm");
-	put_img(game, &game->sprites.heal2[0],  "./Sprites/heal_bar/heall20.xpm");
-	put_img(game, &game->sprites.heal0[1],  "./Sprites/heal_bar/heall01.xpm");
-	put_img(game, &game->sprites.heal1[1],  "./Sprites/heal_bar/heall11.xpm");
-	put_img(game, &game->sprites.heal2[1],  "./Sprites/heal_bar/heall21.xpm");
-	put_img(game, &game->sprites.win,  "./Sprites/screen/victory_c.xpm");
-	put_img(game, &game->sprites.loss,  "./Sprites/screen/game_over_c.xpm");
-	put_img(game, &game->sprites.red_b,  "./Sprites/heal_bar/red_bar.xpm");
-	put_img(game, &game->sprites.green_b,  "./Sprites/heal_bar/green_bar.xpm");
 }
