@@ -295,7 +295,7 @@ typedef struct game
 	t_data		*data;
 	t_sprites	sprites;
 	float		old_x;
-	int			keys[6];
+	int			keys[7];
 	pthread_t	t_id;
 	t_img		map;
 	int			color;

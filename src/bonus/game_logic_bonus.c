@@ -6,13 +6,14 @@
 /*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 13:32:49 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/30 13:07:37 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/30 14:07:01 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d_bonus.h"
 
 void	delete_monster(t_mob **list, t_mob *mob);
+int		gun_fire(int button, int x, int y, t_game *game);
 
 void	update_player(t_game *game)
 {
@@ -89,18 +90,22 @@ int	update_frame(t_game *game)
 		return (check_end(game), 1);
 	if (game->data->time >= 1000)
 		game->data->time = 0;
+	if (game->keys[6])
+		gun_fire(0, 0, 0, game);
 	update_player(game);
 	draw_rays(game);
 	update_mob(game);
 	player_bar(game);
-	setup_img(game->crosshair, game, (int []){(WIDTH / 2), \
-	(HEIGHT / 2) - SQUARE}, 1.5);
+	setup_img(game->crosshair, game, (int []){((WIDTH - \
+	(game->crosshair->width * (1 + 0.7 * game->keys[6]))) / 2), \
+	((HEIGHT - game->crosshair->width * (1 + 0.7 * game->keys[6])) / 2) - \
+	SQUARE}, 1 + 0.7 * game->keys[6]);
 	setup_img(game->sprites.gun[(game->data->g_time) % 4], game, \
 	(int []){(WIDTH / 2), HEIGHT - GUN_H}, 1);
 	mlx_put_image_to_window(game->mlx_ptr, \
 	game->mlx_win, game->img.image, 0, 0);
 	game->data->time++;
-	if (game->data->g_time > 4)
+	if (game->data->g_time > 3)
 		game->data->g_time = 0;
 	render_minimap(game);
 	if (game->data->g_time > 0) 

@@ -6,7 +6,7 @@
 /*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 13:17:49 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/30 10:28:15 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/10/30 13:51:36 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,6 @@ int	key_pressed(int key, t_game *game)
 {
 	game->data->player.speed = 0.5;
 	game->data->fade_cd = 0.5;
-	if (key == SPACE)
-		gun_fire(0, 0, 0, game);
 	if (key == Z)
 		game->keys[0] = 1;
 	if (key == S)
@@ -54,6 +52,8 @@ int	key_pressed(int key, t_game *game)
 		game->keys[5] = 1;
 	if (key == ESC)
 		end_game(game);
+	if (key == SPACE)
+		game->keys[6] = 1;
 	return (0);
 }
 
@@ -71,6 +71,8 @@ int	key_released(int key, t_game *game)
 		game->keys[4] = 0;
 	if (key == D)
 		game->keys[5] = 0;
+	if (key == SPACE)
+		game->keys[6] = 0;
 	return (0);
 }
 
