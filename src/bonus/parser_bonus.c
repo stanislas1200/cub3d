@@ -11,12 +11,10 @@
 /* ************************************************************************** */
 
 #include "../../include/cub3d_bonus.h"
-#define E_M "Invalid map"
-#define P "Only one player is allowed\n"
-#define C "Invalid character in map\n"
 
-int	is_d(char c);
-int	is_el(char *str, t_data *d);
+int		is_d(char c);
+int		is_el(char *str, t_data *d);
+void	check_element(t_data *d);
 
 void	get_rgb(int dest[3], char c, char *s, t_data *d)
 {
@@ -31,19 +29,19 @@ void	get_rgb(int dest[3], char c, char *s, t_data *d)
 			while (is_d(s[d->i + 2]))
 				d->i++;
 			if (s[d->i + 2] != ',' || !is_d(s[d->i + 3]))
-				return (e(d, E_M RESET ": ", \
-				"Invalid floor color\n"));
+				return (e(d, E_M RESET ": ", F));
 			dest[1] = ft_atoi(&s[++d->i + 2]);
 			while (is_d(s[d->i + 2]))
 				d->i++;
 			if (s[d->i + 2] != ',' || !is_d(s[d->i + 3]))
-				return (e(d, E_M RESET ": ", \
-				"Invalid floor color\n"));
+				return (e(d, E_M RESET ": ", F));
 			dest[2] = ft_atoi(&s[++d->i + 2]);
+			while (is_d(s[d->i + 2]))
+				d->i++;
 			d->i += 2;
 		}
 		else
-			return (e(d, E_M RESET ": ", "Invalid floor color\n"));
+			return (e(d, E_M RESET ": ", F));
 	}
 }
 
@@ -52,6 +50,9 @@ void	get_element(char *str, t_data *d)
 	d->i = -1;
 	while (d->i < ft_strlen(str) && str[++d->i])
 	{
+		if (d->i - 1 >= 0 && str[d->i - 1] != '\n' && str[d->i] != 'C' \
+		&& str[d->i] != 'F' && str[d->i] != '\n' && !is_el(str, d))
+			return (e(d, E_M RESET ": ", "Invalid character\n"));
 		while ((d->i == 0 || str[d->i - 1] == '\n') \
 		&& (is_el(str, d) || str[d->i] == 'F' || str[d->i] == 'C' ))
 		{
@@ -66,12 +67,7 @@ void	get_element(char *str, t_data *d)
 		&& (str[d->i + 1] == ' ' || str[d->i + 1] == '1'))
 			break ;
 	}
-	if (!d->no || !d->so || !d->we || !d->ea)
-		return (e(d, E_M RESET ": ", "Missing Texture path\n"));
-	if (d->floor[0] == -1 || d->floor[1] == -1 || d->floor[2] == -1)
-		return (e(d, E_M RESET ": ", "Missing floor color\n"));
-	if (d->ceiling[0] == -1 || d->ceiling[1] == -1 || d->ceiling[2] == -1)
-		return (e(d, E_M RESET ": ", "Missing ceiling color\n"));
+	check_element(d);
 }
 
 void	read_map2(t_data *d, char *str, int tot, int l)
