@@ -17,7 +17,7 @@
 
 void	get_rgb(int dest[3], char c, char *str, t_data *data)
 {
-	if (str[data->i] == c)
+	if ((data->i == 0 || str[data->i - 1] == '\n') && str[data->i] == c)
 	{
 		if (str[data->i + 1] == ' ' && \
 		str[data->i + 2] >= '0' && str[data->i + 2] <= '9')
@@ -49,7 +49,7 @@ void	get_element(char *str, t_data *d)
 	d->i = -1;
 	while (d->i < ft_strlen(str) && str[++d->i])
 	{
-		while ((d->i == 0 || str[d->i - 1] == '\n') && (str[d->i + 2] == ' ' || \
+		while ((str[d->i + 2] == ' ' || \
 		str[d->i + 2] == '	') && (!ft_strncmp(&str[d->i], "NO", 2) || \
 		!ft_strncmp(&str[d->i], "SO", 2) || !ft_strncmp(&str[d->i], "WE", 2) || \
 		!ft_strncmp(&str[d->i], "EA", 2)))

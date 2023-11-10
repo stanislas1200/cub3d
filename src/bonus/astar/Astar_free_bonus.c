@@ -6,7 +6,7 @@
 /*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 11:38:23 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/30 10:28:30 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/11/10 14:01:17 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	free_list(t_anode *arr[], int size)
 	int	i;
 
 	i = -1;
-	while (++i < size)
+	while (arr && ++i < size)
 	{
 		if (arr[i] != NULL)
 		{

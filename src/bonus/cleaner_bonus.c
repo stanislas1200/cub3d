@@ -6,7 +6,7 @@
 /*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 14:43:45 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/30 10:28:15 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/11/10 14:31:10 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ void	e(t_data *data, char *error, char *info)
 void	get_wall_texture_path(char **dest, char *str, char *str2, t_data *d)
 {
 	d->j = 0;
+	if (d->i != 0 && str[d->i - 1] != '\n')
+		return ;
 	if (!ft_strncmp(&str[d->i], str2, 2))
 	{
 		if (*dest)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Astar_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 15:14:10 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/30 14:39:33 by dspilleb         ###   ########.fr       */
+/*   Updated: 2023/11/10 14:08:35 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void	find_path(t_data *data, t_astar *a)
 	t_anode	*neighbor;
 
 	neighbor = NULL;
-	while (a->open_count > 0 && a->open_count < 5000)
+	while (a->open_count > 0 && a->open_count < 1000 && a->closed_count < 1000)
 	{
 		winner = get_lowest_f_node(a);
 		a->current = a->open[winner];
