@@ -18,32 +18,32 @@
 int	is_d(char c);
 int	is_el(char *str, t_data *d);
 
-void	get_rgb(int dest[3], char c, char *str, t_data *data)
+void	get_rgb(int dest[3], char c, char *s, t_data *d)
 {
-	if ((data->i == 0 || str[data->i - 1] == '\n') && str[data->i] == c)
+	if ((d->i == 0 || s[d->i - 1] == '\n') && s[d->i] == c)
 	{
-		while (str[data->i + 2] == ' ' || str[data->i + 2] == '\t')
-			data->i++;
-		if ((str[data->i + 1] == ' ' || str[data->i + 1] == '\t') \
-		&& is_d(str[data->i + 2]))
+		while ((s[d->i + 2] == ' ' || s[d->i + 2] == '\t') \
+		&& (s[d->i + 1] == ' ' || s[d->i + 1] == '\t'))
+			d->i++;
+		if ((s[d->i + 1] == ' ' || s[d->i + 1] == '\t') && is_d(s[d->i + 2]))
 		{
-			dest[0] = ft_atoi(&str[data->i + 2]);
-			while (is_d(str[data->i + 2]))
-				data->i++;
-			if (str[data->i + 2] != ',' || !is_d(str[data->i + 3]))
-				return (e(data, E_M RESET ": ", \
+			dest[0] = ft_atoi(&s[d->i + 2]);
+			while (is_d(s[d->i + 2]))
+				d->i++;
+			if (s[d->i + 2] != ',' || !is_d(s[d->i + 3]))
+				return (e(d, E_M RESET ": ", \
 				"Invalid floor color\n"));
-			dest[1] = ft_atoi(&str[++data->i + 2]);
-			while (is_d(str[data->i + 2]))
-				data->i++;
-			if (str[data->i + 2] != ',' || !is_d(str[data->i + 3]))
-				return (e(data, E_M RESET ": ", \
+			dest[1] = ft_atoi(&s[++d->i + 2]);
+			while (is_d(s[d->i + 2]))
+				d->i++;
+			if (s[d->i + 2] != ',' || !is_d(s[d->i + 3]))
+				return (e(d, E_M RESET ": ", \
 				"Invalid floor color\n"));
-			dest[2] = ft_atoi(&str[++data->i + 2]);
-			data->i += 2;
+			dest[2] = ft_atoi(&s[++d->i + 2]);
+			d->i += 2;
 		}
 		else
-			return (e(data, E_M RESET ": ", "Invalid floor color\n"));
+			return (e(d, E_M RESET ": ", "Invalid floor color\n"));
 	}
 }
 
@@ -52,8 +52,8 @@ void	get_element(char *str, t_data *d)
 	d->i = -1;
 	while (d->i < ft_strlen(str) && str[++d->i])
 	{
-		while ((d->i == 0 || str[d->i - 1] == '\n') && (is_el(str, d) || str[d->i] == 'F' \
-		|| str[d->i] == 'C' ))
+		while ((d->i == 0 || str[d->i - 1] == '\n') \
+		&& (is_el(str, d) || str[d->i] == 'F' || str[d->i] == 'C' ))
 		{
 			get_wall_texture_path(&d->no, str, "NO", d);
 			get_wall_texture_path(&d->so, str, "SO", d);
