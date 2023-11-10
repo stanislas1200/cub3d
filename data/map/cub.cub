@@ -1,21 +1,9 @@
+F 	         		               13,8,41
 NO            ./Sprites/bluestone.xpm
 SO 		./Sprites/redstone.xpm
 WE          		            ./Sprites/greenstone.xpm
-
-
-
-          
-
-
-         		              
-
-
-EA ./Sprites/yellowstone.xpm
-
-F 	         		               13,8,41
 C          		              255,255,255
-
-
+EA ./Sprites/yellowstone.xpm
 
 
         1111111111111111111111111

@@ -21,6 +21,7 @@ SRCS = src/mandatory/main.c\
 		src/mandatory/cleaner.c\
 		src/mandatory/end.c\
 		src/mandatory/init.c\
+		src/mandatory/is.c\
 		src/mandatory/movement.c\
 			src/mandatory/raycasting/raycasting.c\
 			src/mandatory/raycasting/rays.c\
@@ -39,6 +40,7 @@ SRCS_BONUS = src/bonus/main_bonus.c\
 		src/bonus/sound_bonus.c\
 		src/bonus/cleaner_bonus.c\
 		src/bonus/init_bonus.c\
+		src/bonus/is_bonus.c\
 		src/bonus/movement_bonus.c\
 			src/bonus/astar/Astar_bonus.c\
 			src/bonus/astar/Astar_init_bonus.c\

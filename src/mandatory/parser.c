@@ -11,33 +11,39 @@
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
+#define E_M "Invalid map"
+#define P "Only one player is allowed\n"
+#define C "Invalid character in map\n"
+
+int	is_d(char c);
+int	is_el(char *str, t_data *d);
 
 void	get_rgb(int dest[3], char c, char *str, t_data *data)
 {
-	if (str[data->i] == c)
+	if ((data->i == 0 || str[data->i - 1] == '\n') && str[data->i] == c)
 	{
-		if (str[data->i + 1] == ' ' && \
-		str[data->i + 2] >= '0' && str[data->i + 2] <= '9')
+		while (str[data->i + 2] == ' ' || str[data->i + 2] == '\t')
+			data->i++;
+		if ((str[data->i + 1] == ' ' || str[data->i + 1] == '\t') \
+		&& is_d(str[data->i + 2]))
 		{
 			dest[0] = ft_atoi(&str[data->i + 2]);
-			while (str[data->i + 2] >= '0' && str[data->i + 2] <= '9')
+			while (is_d(str[data->i + 2]))
 				data->i++;
-			if (str[data->i + 2] != ',' || \
-			str[data->i + 3] < '0' || str[data->i + 3] > '9')
-				return (e(data, "Invalid map" RESET ": ", \
+			if (str[data->i + 2] != ',' || !is_d(str[data->i + 3]))
+				return (e(data, E_M RESET ": ", \
 				"Invalid floor color\n"));
 			dest[1] = ft_atoi(&str[++data->i + 2]);
-			while (str[data->i + 2] >= '0' && str[data->i + 2] <= '9')
+			while (is_d(str[data->i + 2]))
 				data->i++;
-			if (str[data->i + 2] != ',' || \
-			str[data->i + 3] < '0' || str[data->i + 3] > '9')
-				return (e(data, "Invalid map" RESET ": ", \
+			if (str[data->i + 2] != ',' || !is_d(str[data->i + 3]))
+				return (e(data, E_M RESET ": ", \
 				"Invalid floor color\n"));
 			dest[2] = ft_atoi(&str[++data->i + 2]);
 			data->i += 2;
 		}
 		else
-			return (e(data, "Invalid map" RESET ": ", "Invalid floor color\n"));
+			return (e(data, E_M RESET ": ", "Invalid floor color\n"));
 	}
 }
 
@@ -47,27 +53,26 @@ void	get_element(char *str, t_data *d)
 	while (d->i < ft_strlen(str) && str[++d->i])
 	{
 		while ((d->i == 0 || str[d->i - 1] == '\n') && (str[d->i + 2] == ' ' || \
-		str[d->i + 2] == '	') && (!ft_strncmp(&str[d->i], "NO", 2) || \
-		!ft_strncmp(&str[d->i], "SO", 2) || !ft_strncmp(&str[d->i], "WE", 2) || \
-		!ft_strncmp(&str[d->i], "EA", 2)))
+		str[d->i + 2] == '	') && (is_el(str, d) || str[d->i] == 'F' \
+		|| str[d->i] == 'C' ))
 		{
 			get_wall_texture_path(&d->no, str, "NO", d);
-			get_wall_texture_path(&d->we, str, "SO", d);
-			get_wall_texture_path(&d->so, str, "WE", d);
+			get_wall_texture_path(&d->so, str, "SO", d);
+			get_wall_texture_path(&d->we, str, "WE", d);
 			get_wall_texture_path(&d->ea, str, "EA", d);
+			get_rgb(d->floor, 'F', str, d);
+			get_rgb(d->ceiling, 'C', str, d);
 		}
-		get_rgb(d->floor, 'F', str, d);
-		get_rgb(d->ceiling, 'C', str, d);
 		if (str[d->i] && (str[d->i] == '\n') \
 		&& (str[d->i + 1] == ' ' || str[d->i + 1] == '1'))
 			break ;
 	}
 	if (!d->no || !d->so || !d->we || !d->ea)
-		return (e(d, "Invalid map" RESET ": ", "Missing Texture path\n"));
+		return (e(d, E_M RESET ": ", "Missing Texture path\n"));
 	if (d->floor[0] == -1 || d->floor[1] == -1 || d->floor[2] == -1)
-		return (e(d, "Invalid map" RESET ": ", "Missing floor color\n"));
+		return (e(d, E_M RESET ": ", "Missing floor color\n"));
 	if (d->ceiling[0] == -1 || d->ceiling[1] == -1 || d->ceiling[2] == -1)
-		return (e(d, "Invalid map" RESET ": ", "Missing ceiling color\n"));
+		return (e(d, E_M RESET ": ", "Missing ceiling color\n"));
 }
 
 void	read_map2(t_data *d, char *str, int tot, int l)

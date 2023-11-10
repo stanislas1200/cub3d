@@ -15,10 +15,8 @@
 #define P "Only one player is allowed\n"
 #define C "Invalid character in map\n"
 
-int	is_d(char c)
-{
-	return (c >= '0' && c <= '9');
-}
+int	is_d(char c);
+int	is_el(char *str, t_data *d);
 
 void	get_rgb(int dest[3], char c, char *str, t_data *data)
 {
@@ -55,17 +53,16 @@ void	get_element(char *str, t_data *d)
 	while (d->i < ft_strlen(str) && str[++d->i])
 	{
 		while ((d->i == 0 || str[d->i - 1] == '\n') && (str[d->i + 2] == ' ' || \
-		str[d->i + 2] == '	') && (!ft_strncmp(&str[d->i], "NO", 2) || \
-		!ft_strncmp(&str[d->i], "SO", 2) || !ft_strncmp(&str[d->i], "WE", 2) || \
-		!ft_strncmp(&str[d->i], "EA", 2)))
+		str[d->i + 2] == '	') && (is_el(str, d) || str[d->i] == 'F' \
+		|| str[d->i] == 'C' ))
 		{
 			get_wall_texture_path(&d->no, str, "NO", d);
 			get_wall_texture_path(&d->so, str, "SO", d);
 			get_wall_texture_path(&d->we, str, "WE", d);
 			get_wall_texture_path(&d->ea, str, "EA", d);
+			get_rgb(d->floor, 'F', str, d);
+			get_rgb(d->ceiling, 'C', str, d);
 		}
-		get_rgb(d->floor, 'F', str, d);
-		get_rgb(d->ceiling, 'C', str, d);
 		if (str[d->i] && (str[d->i] == '\n') \
 		&& (str[d->i + 1] == ' ' || str[d->i + 1] == '1'))
 			break ;
