@@ -52,8 +52,8 @@ void	get_element(char *str, t_data *d)
 	d->i = -1;
 	while (d->i < ft_strlen(str) && str[++d->i])
 	{
-		while ((d->i == 0 || str[d->i - 1] == '\n') && (is_el(str, d) || str[d->i] == 'F' \
-		|| str[d->i] == 'C' ))
+		while ((d->i == 0 || str[d->i - 1] == '\n') \
+		&& (is_el(str, d) || str[d->i] == 'F' || str[d->i] == 'C' ))
 		{
 			get_wall_texture_path(&d->no, str, "NO", d);
 			get_wall_texture_path(&d->so, str, "SO", d);
