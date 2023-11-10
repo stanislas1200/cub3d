@@ -15,25 +15,30 @@
 #define P "Only one player is allowed\n"
 #define C "Invalid character in map\n"
 
+int	is_d(char c)
+{
+	return (c >= '0' && c <= '9');
+}
+
 void	get_rgb(int dest[3], char c, char *str, t_data *data)
 {
 	if ((data->i == 0 || str[data->i - 1] == '\n') && str[data->i] == c)
 	{
-		if (str[data->i + 1] == ' ' && \
-		str[data->i + 2] >= '0' && str[data->i + 2] <= '9')
+		while (str[data->i + 2] == ' ' || str[++data->i + 2] == '	')
+			data->i++;
+		if ((str[--data->i + 1] == ' ' || str[data->i + 1] == '	') \
+		&& is_d(str[data->i + 2]))
 		{
 			dest[0] = ft_atoi(&str[data->i + 2]);
-			while (str[data->i + 2] >= '0' && str[data->i + 2] <= '9')
+			while (is_d(str[data->i + 2]))
 				data->i++;
-			if (str[data->i + 2] != ',' || \
-			str[data->i + 3] < '0' || str[data->i + 3] > '9')
+			if (str[data->i + 2] != ',' || !is_d(str[data->i + 3]))
 				return (e(data, E_M RESET ": ", \
 				"Invalid floor color\n"));
 			dest[1] = ft_atoi(&str[++data->i + 2]);
-			while (str[data->i + 2] >= '0' && str[data->i + 2] <= '9')
+			while (is_d(str[data->i + 2]))
 				data->i++;
-			if (str[data->i + 2] != ',' || \
-			str[data->i + 3] < '0' || str[data->i + 3] > '9')
+			if (str[data->i + 2] != ',' || !is_d(str[data->i + 3]))
 				return (e(data, E_M RESET ": ", \
 				"Invalid floor color\n"));
 			dest[2] = ft_atoi(&str[++data->i + 2]);
