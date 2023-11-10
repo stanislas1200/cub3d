@@ -45,10 +45,10 @@
 # define WE 2
 # define EA 3
 
-#define E_M "Invalid map"
-#define P "Only one player is allowed\n"
-#define C "Invalid character in map\n"
-#define F "Invalid floor color\n"
+# define E_M "Invalid map"
+# define P "Only one player is allowed\n"
+# define C "Invalid character in map\n"
+# define F "Invalid floor color\n"
 
 // keys
 
