@@ -6,7 +6,7 @@
 /*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 15:50:55 by sgodin            #+#    #+#             */
-/*   Updated: 2023/11/10 15:53:36 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/11/10 16:02:02 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ int	is_d(char c)
 
 int	is_el(char *str, t_data *d)
 {
-	return (!ft_strncmp(&str[d->i], "NO", 2) || \
+	return ((str[d->i + 2] == ' ' || \
+		str[d->i + 2] == '	') && (!ft_strncmp(&str[d->i], "NO", 2) || \
 		!ft_strncmp(&str[d->i], "SO", 2) || !ft_strncmp(&str[d->i], "WE", 2) || \
-		!ft_strncmp(&str[d->i], "EA", 2));
+		!ft_strncmp(&str[d->i], "EA", 2)));
 }

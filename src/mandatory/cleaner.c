@@ -6,7 +6,7 @@
 /*   By: sgodin <sgodin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 14:43:45 by sgodin            #+#    #+#             */
-/*   Updated: 2023/10/30 10:18:16 by sgodin           ###   ########.fr       */
+/*   Updated: 2023/11/10 16:00:24 by sgodin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,7 @@ void	get_wall_texture_path(char **dest, char *str, char *str2, t_data *d)
 		ft_strlcpy(*dest, &str[d->i + 3], d->j);
 		(*dest)[d->j] = '\0';
 		d->i += d->j + 2;
-		while (str[d->i] == ' ' || str[d->i] == '\t' \
-		|| str[d->i] == '\n' || str[d->i] == '\r')
+		while (str[d->i] == ' ' || str[d->i] == '\t')
 			d->i++;
 	}
 }
