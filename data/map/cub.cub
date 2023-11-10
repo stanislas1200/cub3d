@@ -12,18 +12,8 @@ WE          		            ./Sprites/greenstone.xpm
 
 EA ./Sprites/yellowstone.xpm
 
-F 13,8,41
-
-
-
-
-
-
-
-
-
-
-C 255,255,255
+F 	         		               13,8,41
+C          		              255,255,255
 
 
 

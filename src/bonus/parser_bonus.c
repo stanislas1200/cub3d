@@ -24,9 +24,9 @@ void	get_rgb(int dest[3], char c, char *str, t_data *data)
 {
 	if ((data->i == 0 || str[data->i - 1] == '\n') && str[data->i] == c)
 	{
-		while (str[data->i + 2] == ' ' || str[++data->i + 2] == '	')
+		while (str[data->i + 2] == ' ' || str[data->i + 2] == '\t')
 			data->i++;
-		if ((str[--data->i + 1] == ' ' || str[data->i + 1] == '	') \
+		if ((str[data->i + 1] == ' ' || str[data->i + 1] == '\t') \
 		&& is_d(str[data->i + 2]))
 		{
 			dest[0] = ft_atoi(&str[data->i + 2]);
